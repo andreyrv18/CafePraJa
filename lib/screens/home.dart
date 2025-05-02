@@ -1,6 +1,6 @@
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:cafe_pra_ja/widgets/bottom_navigation_bar_cafe.dart';
-import 'package:cafe_pra_ja/widgets/cafe_list_view.dart';
+import 'package:cafe_pra_ja/widgets/list_view_cafe.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
