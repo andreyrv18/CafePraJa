@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ultra_coffee/screens/bemvindo.dart';
-import 'package:ultra_coffee/screens/home.dart';
+import 'package:cafe_pra_ja/screens/bemvindo.dart';
+import 'package:cafe_pra_ja/screens/home.dart';
 
 void main() {
   runApp(
