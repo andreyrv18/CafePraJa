@@ -31,7 +31,7 @@ class _BottomNavigationBarState extends State<BottomNavigationBarCafe> {
           children: <Widget>[
             IconButton(
               icon: const Icon(Icons.home_outlined, color: Color(0xffB7B7B7)),
-              tooltip: "Pagína Inicial",
+              tooltip: "Pagína Home",
               onPressed: () {},
             ),
             IconButton(
