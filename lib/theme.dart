@@ -279,6 +279,7 @@ class MaterialTheme {
   ThemeData darkMediumContrast() {
     return theme(darkMediumContrastScheme());
   }
+  
 
   static ColorScheme darkHighContrastScheme() {
     return const ColorScheme(
