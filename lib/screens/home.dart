@@ -1,7 +1,69 @@
 import 'package:cafe_pra_ja/theme.dart';
 import 'package:flutter/material.dart';
 
-List<String> items = ["cafe", "capuchinno", "cha", "mocha"];
+class CafeListView extends StatefulWidget {
+  const CafeListView({super.key});
+
+  @override
+  State<CafeListView> createState() => _CafeListViewState();
+}
+
+class _CafeListViewState extends State<CafeListView> {
+  final List<String> items = [
+    "cafe",
+    "capuchinno",
+    "cha",
+    "mocha",
+    "cafe Frio",
+    "gelado",
+    "cha amargo",
+    "mochazão",
+  ];
+
+  int selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.only(left: 8),
+      itemCount: items.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        final isSelected = index == selectedIndex;
+        final item = items[index];
+
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+
+          child: Container(
+            width: 120,
+            decoration: BoxDecoration(
+              color: isSelected ? Color(0xffC67C4E) : Colors.transparent,
+              border: Border.all(color: Colors.black12),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 8),
+            child: Center(
+              child: Text(
+                item,
+                style:
+                    isSelected
+                        ? cafePraJaTheme.textTheme.titleMedium?.copyWith(
+                          color: Colors.white,
+                        )
+                        : cafePraJaTheme.textTheme.titleMedium,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,7 +72,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Café Pra Já',
-
       theme: cafePraJaTheme,
       home: const MyHomePage(title: 'Home'),
     );
@@ -28,47 +89,6 @@ class MyHomePage extends StatelessWidget {
       backgroundColor: cafePraJaTheme.bottomNavigationBarTheme.backgroundColor,
       appBar: appBar(),
       body: corpo(),
-    );
-  }
-
-  Column corpo() {
-    return Column(
-      children: [
-        Center(
-          child: SizedBox(
-            width: 315,
-
-            child: TextField(
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: "Encontre seu café favorito",
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 13),
-        SizedBox(
-          height: 55,
-          child: ListView.builder(
-            itemCount: items.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    item,
-                    style: cafePraJaTheme.textTheme.titleMedium,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        Expanded(child: SizedBox(child: Text("Fim"))),
-      ],
     );
   }
 
@@ -132,6 +152,28 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Column corpo() {
+    return Column(
+      children: [
+        Center(
+          child: SizedBox(
+            width: 315,
+
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: "Encontre seu café favorito",
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 13),
+        SizedBox(height: 25, child: CafeListView()),
+        Expanded(child: SizedBox(child: Text("Fim"))),
+      ],
     );
   }
 }
