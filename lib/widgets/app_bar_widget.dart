@@ -52,12 +52,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 SizedBox(
                   height: 44,
                   width: 44,
-
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Icon(
                       Icons.account_circle,
-                      color: Colors.white,
+                      color: Color(0xffB7B7B7),
                       size: 44,
                     ),
                   ),
