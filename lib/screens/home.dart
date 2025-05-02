@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
           child: SizedBox(
             child: Text(
               "Click Aqui",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
         ),
