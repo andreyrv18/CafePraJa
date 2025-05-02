@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Bemvindo extends StatelessWidget {
-  const Bemvindo({super.key});
-
+  const Bemvindo({super.key, required this.title});
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
