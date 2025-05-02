@@ -7,7 +7,6 @@ class BottomNavigationBarCafe extends StatefulWidget {
 }
 
 class _BottomNavigationBarState extends State<BottomNavigationBarCafe> {
-  int _selectedIndex = 0;
   static const TextStyle optionStyle = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.bold,
@@ -18,12 +17,7 @@ class _BottomNavigationBarState extends State<BottomNavigationBarCafe> {
     Text('Index 2: School', style: optionStyle),
     Text('Index 3: Settings', style: optionStyle),
   ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
+  int _selectedIndex = 0;
   //  backgroundColor: Color(0xFFFFF1E8),
   //       selectedItemColor: Color(0xffC67C4E),
   //       unselectedItemColor: Color(0xffB7B7B7),
@@ -52,6 +46,12 @@ class _BottomNavigationBarState extends State<BottomNavigationBarCafe> {
         ),
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
 
