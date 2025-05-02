@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:cafe_pra_ja/screens/bemvindo.dart';
 import 'package:cafe_pra_ja/screens/home.dart';
-import 'util.dart';
+import 'package:flutter/material.dart';
+
 import 'theme.dart';
+import 'util.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +34,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  Widget build(BuildContext context) {
+    return const Bemvindo(title: 'Bem vindo');
+  }
+
+  @override
   void initState() {
     super.initState();
     _navigateToHome();
@@ -48,10 +54,5 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Bemvindo(title: 'Bem vindo');
   }
 }
