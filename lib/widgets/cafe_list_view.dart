@@ -37,11 +37,13 @@ class _CafeListViewState extends State<CafeListView> {
               selectedIndex = index;
             });
           },
-
           child: Container(
             width: 120,
             decoration: BoxDecoration(
-              color: isSelected ? Color(0xffC67C4E) : Colors.transparent,
+              color:
+                  isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surfaceDim,
               border: Border.all(color: Colors.black12),
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
@@ -51,8 +53,12 @@ class _CafeListViewState extends State<CafeListView> {
                 item,
                 style:
                     isSelected
-                        ? TextStyle(color: Colors.white)
-                        : TextStyle(color: Color(0xff2F4B4E)),
+                        ? TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        )
+                        : TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
               ),
             ),
           ),
