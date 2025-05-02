@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/// ============================================================
+/// Não usar esse arquivo. Será modifico por um tema conscistente
+/// ============================================================
+
+
 final ThemeData cafePraJaTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme(
@@ -10,8 +15,8 @@ final ThemeData cafePraJaTheme = ThemeData(
     onSecondary: Colors.black,
     error: Colors.red.shade700,
     onError: Colors.white,
-    surface: Color(0xFFFFFFFF),
-    onSurface: Color(0xFF3B2E2A),
+    surface: Color(0xffFFF5EE),
+    onSurface: Color(0xFF696562),
   ),
   textTheme: TextTheme(
     titleMedium: TextStyle(color: Color(0xff2F4B4E), fontFamily: "Serif"),
@@ -67,5 +72,9 @@ final ThemeData cafePraJaTheme = ThemeData(
     selectedItemColor: Color(0xffC67C4E),
     unselectedItemColor: Color(0xffB7B7B7),
     selectedIconTheme: IconThemeData(size: 38),
+  ),
+  bottomAppBarTheme: BottomAppBarTheme(
+    color: Color(0xffFFF5EE),
+    shape: CircularNotchedRectangle(),
   ),
 );
