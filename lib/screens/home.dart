@@ -1,7 +1,6 @@
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:cafe_pra_ja/theme.dart';
-import 'package:cafe_pra_ja/widgets/cafe_bottom_navigation_bar.dart';
+import 'package:cafe_pra_ja/widgets/bottom_navigation_bar_cafe.dart';
 import 'package:cafe_pra_ja/widgets/cafe_list_view.dart';
 
 class MyApp extends StatelessWidget {
@@ -11,7 +10,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Café Pra Já',
-      theme: cafePraJaTheme,
       home: const MyHomePage(title: 'Home'),
     );
   }
@@ -25,10 +23,10 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cafePraJaTheme.bottomNavigationBarTheme.backgroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBarWidget(),
       body: corpo(),
-      bottomNavigationBar: CafeBottomNavigationBar(),
+      bottomNavigationBar: BottomNavigationBarCafe(),
     );
   }
 
