@@ -1,14 +1,15 @@
+import 'package:cafe_pra_ja/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class Bemvindo extends StatelessWidget {
   const Bemvindo({super.key, required this.title});
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF5C3A2E),
+      backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       body: Column(
-        spacing: 16,
         children: [
           SizedBox(
             height: 508,
@@ -18,55 +19,62 @@ class Bemvindo extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Column(
-                spacing: 16,
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
+                      "Hora de uma parada para o café",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 24.0,
                         fontFamily: "Sora",
                       ),
-                      "Hora de uma parada para o café",
                       textAlign: TextAlign.start,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
+                      "Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 17,
                         fontFamily: "Roboto",
                         fontWeight: FontWeight.w300,
                       ),
-                      "Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!",
                       textAlign: TextAlign.start,
                     ),
                   ),
+                  SizedBox(height: 16), // Espaçamento entre os widgets
                   SizedBox(
                     width: 315,
                     height: 50,
-
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(
-                          Color(0xffE27D19),
+                          Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      onPressed: () => Navigator.pushNamed(context, "home"),
+
+                      onPressed:
+                          () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                                      const MyHomePage(title: 'Página Inicial'),
+                            ),
+                          ),
                       child: Text(
+                        "Vamos lá!",
                         style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "Sora",
+                          color: Theme.of(context).colorScheme.onPrimary,
                           fontSize: 16,
+
                           fontWeight: FontWeight.w600,
                         ),
-                        "Vamos lá!",
                       ),
                     ),
                   ),
