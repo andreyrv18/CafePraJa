@@ -1,12 +1,12 @@
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:cafe_pra_ja/widgets/bottom_navigation_bar_cafe.dart';
 import 'package:cafe_pra_ja/widgets/cafe_list_view.dart';
+import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
   final String title;
+
+  const MyHomePage({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
