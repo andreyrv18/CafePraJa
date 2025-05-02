@@ -1,4 +1,3 @@
-import 'package:cafe_pra_ja/theme.dart';
 import 'package:flutter/material.dart';
 
 class CafeListView extends StatefulWidget {
@@ -52,10 +51,8 @@ class _CafeListViewState extends State<CafeListView> {
                 item,
                 style:
                     isSelected
-                        ? cafePraJaTheme.textTheme.titleMedium?.copyWith(
-                          color: Colors.white,
-                        )
-                        : cafePraJaTheme.textTheme.titleMedium,
+                        ? TextStyle(color: Colors.white)
+                        : TextStyle(color: Color(0xff2F4B4E)),
               ),
             ),
           ),
