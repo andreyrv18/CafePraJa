@@ -12,7 +12,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            // colors: [Color(0xFF313131), Color(0xFF131313)],
             colors: [
               Theme.of(context).colorScheme.secondary,
               Theme.of(context).colorScheme.onSurface,
@@ -37,18 +36,14 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   children: [
                     Text(
                       "localização",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: "Sora",
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     Text(
                       "Pinhais, Paraná",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontFamily: "Sora",
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                   ],
@@ -60,7 +55,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: Icon(
                       Icons.account_circle,
-                      color: Color(0xffB7B7B7),
+                      color: Theme.of(context).colorScheme.primary,
                       size: 44,
                     ),
                   ),
