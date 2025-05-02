@@ -6,7 +6,7 @@ class Bemvindo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Color(0xFF5C3A2E),
       body: Column(
         spacing: 16,
         children: [
