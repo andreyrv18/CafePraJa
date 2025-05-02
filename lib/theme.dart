@@ -64,8 +64,8 @@ final ThemeData cafePraJaTheme = ThemeData(
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color(0xFFFFF1E8),
-    selectedItemColor: Color(0xFF5C3A2E),
-    unselectedItemColor: Colors.brown.shade200,
-    selectedIconTheme: IconThemeData(size: 28),
+    selectedItemColor: Color(0xffC67C4E),
+    unselectedItemColor: Color(0xffB7B7B7),
+    selectedIconTheme: IconThemeData(size: 38),
   ),
 );
