@@ -2,8 +2,8 @@ import 'package:cafe_pra_ja/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class Bemvindo extends StatelessWidget {
-  const Bemvindo({super.key, required this.title});
   final String title;
+  const Bemvindo({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
