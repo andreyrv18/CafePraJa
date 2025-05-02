@@ -1,6 +1,8 @@
 import 'package:cafe_pra_ja/theme.dart';
 import 'package:flutter/material.dart';
 
+List<String> items = ["cafe", "capuchinno", "cha", "mocha"];
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -23,12 +25,50 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: cafePraJaTheme.bottomNavigationBarTheme.backgroundColor,
       appBar: appBar(),
-      body: Column(
-        children: [
-          Transform.translate(offset: const Offset(0, -25), child: TextField()),
-        ],
-      ),
+      body: corpo(),
+    );
+  }
+
+  Column corpo() {
+    return Column(
+      children: [
+        Center(
+          child: SizedBox(
+            width: 315,
+
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: "Encontre seu café favorito",
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 13),
+        SizedBox(
+          height: 55,
+          child: ListView.builder(
+            itemCount: items.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    item,
+                    style: cafePraJaTheme.textTheme.titleMedium,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(child: SizedBox(child: Text("Fim"))),
+      ],
     );
   }
 
@@ -44,9 +84,9 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(30.0),
+        preferredSize: const Size.fromHeight(20.0),
         child: Transform.translate(
-          offset: const Offset(0, -25), // Move o conteúdo 25 pixels para cima
+          offset: const Offset(0, -10), // Move o conteúdo 25 pixels para cima
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
@@ -56,19 +96,35 @@ class MyHomePage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("localização", style: TextStyle(color: Colors.white)),
+                    Text(
+                      "localização",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: "Sora",
+                      ),
+                    ),
                     Text(
                       "Pinhais, Paraná",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: "Sora",
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: 44,
                   width: 44,
-                  child: Image.asset(
-                    fit: BoxFit.cover,
-                    "assets/images/bemvindo.jpg",
+
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Icon(
+                      Icons.account_circle,
+                      color: Colors.white,
+                      size: 44,
+                    ),
                   ),
                 ),
               ],
