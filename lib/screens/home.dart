@@ -3,18 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cafe_pra_ja/widgets/bottom_navigation_bar_cafe.dart';
 import 'package:cafe_pra_ja/widgets/cafe_list_view.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Café Pra Já',
-      home: const MyHomePage(title: 'Home'),
-    );
-  }
-}
-
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -23,14 +11,14 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBarWidget(),
-      body: corpo(),
+      body: corpo(context),
       bottomNavigationBar: BottomNavigationBarCafe(),
     );
   }
 
-  Column corpo() {
+  Column corpo(context) {
     return Column(
       children: [
         Center(
@@ -39,6 +27,7 @@ class MyHomePage extends StatelessWidget {
 
             child: TextField(
               decoration: InputDecoration(
+                hintStyle: Theme.of(context).textTheme.labelMedium,
                 prefixIcon: Icon(Icons.search),
                 hintText: "Encontre seu café favorito",
               ),
@@ -47,7 +36,14 @@ class MyHomePage extends StatelessWidget {
         ),
         SizedBox(height: 13),
         SizedBox(height: 25, child: CafeListView()),
-        Expanded(child: SizedBox(child: Text("Cards Aqui"))),
+        Expanded(
+          child: SizedBox(
+            child: Text(
+              "Cards Aqui",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+        ),
       ],
     );
   }
