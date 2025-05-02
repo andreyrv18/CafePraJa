@@ -39,7 +39,7 @@ class MyHomePage extends StatelessWidget {
         Expanded(
           child: SizedBox(
             child: Text(
-              "Cards Aqui",
+              "Click Aqui",
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
