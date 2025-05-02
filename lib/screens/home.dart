@@ -22,6 +22,29 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("main"));
+    return Scaffold(
+      appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(20.0),
+          child: Row(
+            children: [
+              Column(children: [Text("localização"), Text("Pinhais, Paraná")]),
+              SizedBox(
+                height: 44,
+                width: 44,
+                child: Image.asset(
+                  fit: BoxFit.cover,
+                  "assets/images/bemvindo.jpg",
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      body: Column(children: [
+
+    ],),
+    );
   }
 }
