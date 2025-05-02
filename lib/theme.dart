@@ -14,6 +14,7 @@ final ThemeData cafePraJaTheme = ThemeData(
     onSurface: Color(0xFF3B2E2A),
   ),
   textTheme: TextTheme(
+    titleMedium: TextStyle(color: Color(0xff2F4B4E), fontFamily: "Serif"),
     headlineLarge: TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.bold,
@@ -54,12 +55,12 @@ final ThemeData cafePraJaTheme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: Color(0xFFF5EDE6),
+    fillColor: Colors.white,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
       borderSide: BorderSide.none,
     ),
-    hintStyle: TextStyle(color: Colors.brown.shade300),
+    hintStyle: TextStyle(color: Color(0xff989898)),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color(0xFFFFF1E8),
