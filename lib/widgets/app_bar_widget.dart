@@ -12,7 +12,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF313131), Color(0xFF131313)],
+            // colors: [Color(0xFF313131), Color(0xFF131313)],
+            colors: [
+              Theme.of(context).colorScheme.secondary,
+              Theme.of(context).colorScheme.onSurface,
+            ],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
