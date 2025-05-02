@@ -24,7 +24,6 @@ class MyHomePage extends StatelessWidget {
         Center(
           child: SizedBox(
             width: 315,
-
             child: TextField(
               decoration: InputDecoration(
                 hintStyle: Theme.of(context).textTheme.labelMedium,
@@ -38,9 +37,14 @@ class MyHomePage extends StatelessWidget {
         SizedBox(height: 25, child: CafeListView()),
         Expanded(
           child: SizedBox(
-            child: Text(
-              "Cards Aqui",
-              style: Theme.of(context).textTheme.bodyLarge,
+            child: Card(
+              color: Theme.of(context).colorScheme.surface,
+              child: Text(
+                "Cards Aqui",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
             ),
           ),
         ),
