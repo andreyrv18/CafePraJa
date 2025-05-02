@@ -47,7 +47,7 @@ class MyHomePage extends StatelessWidget {
         ),
         SizedBox(height: 13),
         SizedBox(height: 25, child: CafeListView()),
-        Expanded(child: SizedBox(child: Text("Fim"))),
+        Expanded(child: SizedBox(child: Text("Cards Aqui"))),
       ],
     );
   }
