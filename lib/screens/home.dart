@@ -27,8 +27,12 @@ class MyHomePage extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(20.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Column(children: [Text("localização"), Text("Pinhais, Paraná")]),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text("localização"), Text("Pinhais, Paraná")],
+              ),
               SizedBox(
                 height: 44,
                 width: 44,
@@ -41,10 +45,7 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
-
-      body: Column(children: [
-
-    ],),
+      body: Column(children: [TextField()]),
     );
   }
 }
