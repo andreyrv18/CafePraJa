@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class Bemvindo extends StatelessWidget {
@@ -17,7 +17,7 @@ class Bemvindo extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -62,9 +62,7 @@ class Bemvindo extends StatelessWidget {
                           () => Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                      const MyHomePage(title: 'Página Inicial'),
+                              builder: (context) => const NavigationBottomBar(),
                             ),
                           ),
                       child: Text(
