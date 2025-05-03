@@ -1,5 +1,5 @@
 import 'package:cafe_pra_ja/screens/bemvindo.dart';
-import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'theme.dart';
@@ -47,11 +47,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigateToHome() async {
     await Future.delayed(const Duration(seconds: 14));
     if (mounted) {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: 'Página Inicial'),
-        ),
+        MaterialPageRoute(builder: (context) => const NavigationBottomBar()),
       );
     }
   }
