@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class NavigationBottomBar extends StatefulWidget {
@@ -12,65 +13,46 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   int currentPageIndex = 0;
 
   final List<Widget> pages = [
-    MyHomePage(title: "Home"),
-    Center(child: Text("Notifications Page", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Messages Page", style: TextStyle(fontSize: 24))),
+    Scaffold(appBar: AppBarWidget(), body: MyHomePage(title: "Home")),
+    Scaffold(
+      appBar: AppBar(title: const Text("Notificações")),
+      body: const Center(child: Text("Página de Notificações")),
+    ),
+    Scaffold(
+      appBar: AppBar(title: const Text("Mensagens")),
+      body: const Center(child: Text("Página de Mensagens")),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: pages[currentPageIndex], // Exibe a página correspondente
-        ),
-        NavigationBar(
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index; // Atualiza o índice da página
-            });
-          },
-          indicatorColor: theme.colorScheme.secondaryContainer,
-          selectedIndex: currentPageIndex,
-          destinations: <Widget>[
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.home_sharp,
-                color: theme.colorScheme.onSecondaryContainer,
-              ),
-              icon: Icon(
-                Icons.home_outlined,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              label: "Home",
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.notifications_sharp,
-                color: theme.colorScheme.onSecondaryContainer,
-              ),
-              icon: Icon(
-                Icons.notifications_outlined,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              label: "Notifications",
-            ),
-            NavigationDestination(
-              selectedIcon: Icon(
-                Icons.messenger_sharp,
-                color: theme.colorScheme.onSecondaryContainer,
-              ),
-              icon: Icon(
-                Icons.messenger_outline,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              label: "Messages",
-            ),
-          ],
-        ),
-      ],
+    return Scaffold(
+      body: pages[currentPageIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentPageIndex,
+        onTap: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home_sharp),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_outlined),
+            activeIcon: Icon(Icons.notifications_sharp),
+            label: "Notificações",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.messenger_outline),
+            activeIcon: Icon(Icons.messenger_sharp),
+            label: "Mensagens",
+          ),
+        ],
+      ),
     );
   }
 }
