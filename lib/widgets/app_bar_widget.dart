@@ -21,48 +21,50 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(20.0),
-        child: Transform.translate(
-          offset: const Offset(0, -10), // Move o conteúdo 25 pixels para cima
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
+      actions: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: SizedBox(
+            height: 44,
+            width: 44,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Icon(
+                Icons.account_circle,
+                color: Theme.of(context).colorScheme.primary,
+                size: 44,
+              ),
+            ),
+          ),
+        ),
+      ],
+      title: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "localização",
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ),
-                    Text(
-                      "Pinhais, Paraná",
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ),
-                  ],
+                Text(
+                  "localização",
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
-                SizedBox(
-                  height: 44,
-                  width: 44,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Icon(
-                      Icons.account_circle,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 44,
-                    ),
+                Text(
+                  "Pinhais, Paraná",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
