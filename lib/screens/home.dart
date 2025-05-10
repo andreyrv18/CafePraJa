@@ -1,5 +1,3 @@
-import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
-import 'package:cafe_pra_ja/widgets/bottom_navigation_bar_cafe.dart';
 import 'package:cafe_pra_ja/widgets/list_view_cafe.dart';
 import 'package:flutter/material.dart';
 
@@ -12,19 +10,16 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBarWidget(),
       body: corpo(context),
-      bottomNavigationBar: BottomNavigationBarCafe(),
     );
   }
 
-  Column corpo(context) {
+  Column corpo(BuildContext context) {
     return Column(
       children: [
         Center(
           child: SizedBox(
             width: 315,
-
             child: TextField(
               decoration: InputDecoration(
                 hintStyle: Theme.of(context).textTheme.labelMedium,
@@ -34,13 +29,18 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 13),
-        SizedBox(height: 25, child: CafeListView()),
+        SizedBox(height: 12),
+        SizedBox(height: 24, child: CafeListView()),
         Expanded(
           child: SizedBox(
-            child: Text(
-              "Click Aqui",
-              style: Theme.of(context).textTheme.bodySmall,
+            child: Card(
+              color: Theme.of(context).colorScheme.surface,
+              child: Text(
+                "Cards Aqui",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
             ),
           ),
         ),
