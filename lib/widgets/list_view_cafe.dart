@@ -23,7 +23,7 @@ class _CafeListViewState extends State<CafeListView> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final ColorScheme theme = Theme.of(context).colorScheme;
     return ListView.builder(
       padding: EdgeInsets.only(left: 8),
       itemCount: items.length,
@@ -41,10 +41,7 @@ class _CafeListViewState extends State<CafeListView> {
           child: Container(
             width: 115,
             decoration: BoxDecoration(
-              color:
-                  isSelected
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.surfaceDim,
+              color: isSelected ? theme.primary : theme.surfaceDim,
               border: Border.all(color: Colors.black12),
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
@@ -54,8 +51,8 @@ class _CafeListViewState extends State<CafeListView> {
                 item,
                 style:
                     isSelected
-                        ? TextStyle(color: theme.colorScheme.onPrimary)
-                        : TextStyle(color: theme.colorScheme.onSurface),
+                        ? TextStyle(color: theme.onPrimary)
+                        : TextStyle(color: theme.onSurface),
               ),
             ),
           ),

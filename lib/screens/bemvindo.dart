@@ -12,9 +12,10 @@ class Bemvindo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: theme.colorScheme.onSurfaceVariant,
+      backgroundColor: theme.onSurfaceVariant,
       body: Column(
         children: [
           SizedBox(
@@ -33,8 +34,8 @@ class Bemvindo extends StatelessWidget {
                     child: Text(
                       "Hora de uma parada para o café",
                       style: TextStyle(
-                        color: theme.colorScheme.onPrimary,
-                        fontSize: theme.textTheme.titleLarge?.fontSize,
+                        color: theme.onPrimary,
+                        fontSize: textTheme.titleLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -44,8 +45,8 @@ class Bemvindo extends StatelessWidget {
                     child: Text(
                       "Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!",
                       style: TextStyle(
-                        color: theme.colorScheme.onPrimary,
-                        fontSize: theme.textTheme.bodyLarge?.fontSize,
+                        color: theme.onPrimary,
+                        fontSize: textTheme.bodyLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -56,16 +57,14 @@ class Bemvindo extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(
-                          theme.colorScheme.primary,
-                        ),
+                        backgroundColor: WidgetStateProperty.all(theme.primary),
                       ),
                       onPressed: () => _onPressedItem(context),
                       child: Text(
                         "Vamos lá!",
                         style: TextStyle(
-                          color: theme.colorScheme.onPrimary,
-                          fontSize: theme.textTheme.titleLarge?.fontSize,
+                          color: theme.onPrimary,
+                          fontSize: textTheme.titleLarge?.fontSize,
                         ),
                       ),
                     ),

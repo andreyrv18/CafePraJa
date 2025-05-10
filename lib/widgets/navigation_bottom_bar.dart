@@ -34,7 +34,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final ColorScheme theme = Theme.of(context).colorScheme;
     return Scaffold(
       body: pages[currentPageIndex],
 
@@ -46,7 +46,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home_filled),
             label: "Home",
-            backgroundColor: theme.colorScheme.primary,
+            backgroundColor: theme.primary,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_outlined),
@@ -64,7 +64,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             label: "Perfil",
           ),
         ],
-        selectedIconTheme: IconThemeData(color: theme.colorScheme.onPrimary),
+        selectedIconTheme: IconThemeData(color: theme.onPrimary),
       ),
     );
   }

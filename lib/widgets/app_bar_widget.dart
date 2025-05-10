@@ -8,12 +8,13 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return AppBar(
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [theme.colorScheme.secondary, theme.colorScheme.onSurface],
+            colors: [theme.secondary, theme.onSurface],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
@@ -23,7 +24,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: Icon(Icons.account_circle),
           onPressed: () {},
-          color: theme.colorScheme.onSecondary,
+          color: theme.onSecondary,
           iconSize: 44,
           alignment: Alignment.center,
         ),
@@ -38,14 +39,14 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Text(
                 "localização",
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: theme.colorScheme.onPrimary,
+                style: textTheme.titleSmall?.copyWith(
+                  color: theme.onPrimary,
                 ),
               ),
               Text(
                 "Pinhais, Paraná",
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.onPrimary,
+                style: textTheme.titleMedium?.copyWith(
+                  color: theme.onPrimary,
                 ),
               ),
             ],

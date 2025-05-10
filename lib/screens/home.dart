@@ -15,7 +15,8 @@ class MyHomePage extends StatelessWidget {
   }
 
   Column corpo(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
         Center(
@@ -23,11 +24,8 @@ class MyHomePage extends StatelessWidget {
             width: 315,
             child: TextField(
               decoration: InputDecoration(
-                hintStyle: theme.textTheme.labelMedium,
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: theme.colorScheme.onSurface,
-                ),
+                hintStyle: textTheme.labelMedium,
+                prefixIcon: Icon(Icons.search, color: theme.onSurface),
                 hintText: "Encontre seu café favorito",
               ),
             ),
@@ -35,20 +33,18 @@ class MyHomePage extends StatelessWidget {
         ),
         SizedBox(height: 12),
         SizedBox(height: 24, child: CafeListView()),
-        Expanded(
-          child: SizedBox(
-            child: Card(
-              color: theme.colorScheme.surface,
-              child: Text(
-                "Cards Aqui",
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: theme.colorScheme.onSurface,
-                ),
-              ),
-            ),
-          ),
-        ),
+        list(theme, textTheme),
       ],
+    );
+  }
+
+  Card list(ColorScheme theme, TextTheme textTheme) {
+    return Card(
+      color: theme.surface,
+      child: Text(
+        "Cards Aqui",
+        style: textTheme.titleLarge?.copyWith(color: theme.onSurface),
+      ),
     );
   }
 }
