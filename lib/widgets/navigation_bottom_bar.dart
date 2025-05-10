@@ -23,7 +23,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       appBar: AppBar(title: const Text("Mensagens")),
       body: const Center(child: Text("Página de Mensagens")),
     ),
-    Scaffold(appBar: AppBar(title: const Text("Perfil")), body: Perfil()),
+    Scaffold(appBar: AppBar(title: const Text("Perfil")),
+    body: Perfil()),
   ];
 
   @override
