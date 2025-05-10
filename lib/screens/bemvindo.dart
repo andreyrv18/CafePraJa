@@ -14,7 +14,7 @@ class Bemvindo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+      backgroundColor: theme.colorScheme.onSurfaceVariant,
       body: Column(
         children: [
           SizedBox(
@@ -44,7 +44,7 @@ class Bemvindo extends StatelessWidget {
                     child: Text(
                       "Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        color: theme.colorScheme.onPrimary,
                         fontSize: theme.textTheme.bodyLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
