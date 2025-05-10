@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key});
+  AppBarWidget({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(80.0);
-
+  double? scrolledUnderElevation;
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AppBar(
+      scrolledUnderElevation: scrolledUnderElevation,
+      shadowColor: theme.shadow,
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -39,15 +41,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Text(
                 "localização",
-                style: textTheme.titleSmall?.copyWith(
-                  color: theme.onPrimary,
-                ),
+                style: textTheme.titleSmall?.copyWith(color: theme.onPrimary),
               ),
               Text(
                 "Pinhais, Paraná",
-                style: textTheme.titleMedium?.copyWith(
-                  color: theme.onPrimary,
-                ),
+                style: textTheme.titleMedium?.copyWith(color: theme.onPrimary),
               ),
             ],
           ),
