@@ -46,7 +46,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home_filled),
             label: "Home",
-            backgroundColor: theme.primary,
+            backgroundColor: theme.surfaceDim,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_outlined),
@@ -54,7 +54,10 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             label: "Checkout",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
+            icon: Icon(
+              Icons.notifications_outlined,
+              // color: theme.onSurfaceVariant,
+            ),
             activeIcon: Icon(Icons.notifications_active_rounded),
             label: "Notificações",
           ),
