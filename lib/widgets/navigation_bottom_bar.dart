@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -22,10 +23,12 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       appBar: AppBar(title: const Text("Mensagens")),
       body: const Center(child: Text("Página de Mensagens")),
     ),
+    Scaffold(appBar: AppBar(title: const Text("Perfil")), body: Perfil()),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: pages[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -35,11 +38,12 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             currentPageIndex = index;
           });
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home_sharp),
             label: "Home",
+            backgroundColor: theme.colorScheme.primary,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications_outlined),
@@ -50,6 +54,11 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             icon: Icon(Icons.messenger_outline),
             activeIcon: Icon(Icons.messenger_sharp),
             label: "Mensagens",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            activeIcon: Icon(Icons.person_sharp),
+            label: "Perfil",
           ),
         ],
       ),
