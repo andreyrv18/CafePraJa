@@ -5,8 +5,14 @@ class Bemvindo extends StatelessWidget {
   final String title;
   const Bemvindo({super.key, required this.title});
 
+  void _onPressedItem(context) => Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => const NavigationBottomBar()),
+  );
+
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       body: Column(
@@ -19,7 +25,7 @@ class Bemvindo extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
@@ -27,9 +33,8 @@ class Bemvindo extends StatelessWidget {
                     child: Text(
                       "Hora de uma parada para o café",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 24.0,
-                        fontFamily: "Sora",
+                        color: theme.colorScheme.onPrimary,
+                        fontSize: theme.textTheme.titleLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -40,9 +45,7 @@ class Bemvindo extends StatelessWidget {
                       "Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 17,
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w300,
+                        fontSize: theme.textTheme.bodyLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -54,24 +57,15 @@ class Bemvindo extends StatelessWidget {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(
-                          Theme.of(context).colorScheme.primary,
+                          theme.colorScheme.primary,
                         ),
                       ),
-
-                      onPressed:
-                          () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NavigationBottomBar(),
-                            ),
-                          ),
+                      onPressed: () => _onPressedItem(context),
                       child: Text(
                         "Vamos lá!",
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontSize: 16,
-
-                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onPrimary,
+                          fontSize: theme.textTheme.titleLarge?.fontSize,
                         ),
                       ),
                     ),
