@@ -15,6 +15,7 @@ class MyHomePage extends StatelessWidget {
   }
 
   Column corpo(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Column(
       children: [
         Center(
@@ -22,8 +23,11 @@ class MyHomePage extends StatelessWidget {
             width: 315,
             child: TextField(
               decoration: InputDecoration(
-                hintStyle: Theme.of(context).textTheme.labelMedium,
-                prefixIcon: Icon(Icons.search),
+                hintStyle: theme.textTheme.labelMedium,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: theme.colorScheme.onSurface,
+                ),
                 hintText: "Encontre seu café favorito",
               ),
             ),
@@ -34,11 +38,11 @@ class MyHomePage extends StatelessWidget {
         Expanded(
           child: SizedBox(
             child: Card(
-              color: Theme.of(context).colorScheme.surface,
+              color: theme.colorScheme.surface,
               child: Text(
                 "Cards Aqui",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
             ),
