@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -22,10 +23,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       appBar: AppBar(title: const Text("Mensagens")),
       body: const Center(child: Text("Página de Mensagens")),
     ),
-    Scaffold(
-      appBar: AppBar(title: const Text("Perfil")),
-      body: const Center(child: Text("Página de Perfil")),
-    ),
+    Scaffold(appBar: AppBar(title: const Text("Perfil")), body: Perfil()),
   ];
 
   @override
@@ -58,8 +56,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             label: "Mensagens",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.messenger_outline),
-            activeIcon: Icon(Icons.messenger_sharp),
+            icon: Icon(Icons.person),
+            activeIcon: Icon(Icons.person_sharp),
             label: "Perfil",
           ),
         ],
