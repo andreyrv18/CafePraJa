@@ -42,7 +42,7 @@ class _CafeListViewState extends State<CafeListView> {
             width: 115,
             decoration: BoxDecoration(
               color: isSelected ? theme.primary : theme.surfaceDim,
-              border: Border.all(color: Colors.black12),
+              border: Border.all(color: theme.onSurface),
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             margin: EdgeInsets.symmetric(horizontal: 8),
