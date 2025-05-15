@@ -45,23 +45,19 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined, color: theme.onSurface),
-            activeIcon: Icon(Icons.home_filled),
+            activeIcon: Icon(Icons.home_sharp),
             label: "Home",
             backgroundColor: theme.surfaceDim,
             tooltip: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined, color: theme.onSurface),
-            activeIcon: Icon(Icons.shopping_cart_checkout_outlined),
+            icon: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
+            activeIcon: Icon(Icons.shopping_bag_sharp),
             label: "Checkout",
             tooltip: "Checkout",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: theme.onSurface,
-              // color: theme.onSurfaceVariant,
-            ),
+            icon: Icon(Icons.notifications_outlined, color: theme.onSurface),
             activeIcon: Icon(Icons.notifications_active_rounded),
             label: "Notificações",
             tooltip: "Notificações",
