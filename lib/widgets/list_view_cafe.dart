@@ -48,7 +48,7 @@ class _CafeListViewState extends State<CafeListView> {
         final isSelected = index == selectedIndex;
         final item = items[index];
 
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             setState(() {
               selectedIndex = index;
