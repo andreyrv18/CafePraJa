@@ -39,35 +39,43 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       body: pages[currentPageIndex],
 
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: currentPageIndex,
         onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home_outlined, color: theme.onSurface),
             activeIcon: Icon(Icons.home_filled),
             label: "Home",
             backgroundColor: theme.surfaceDim,
+            tooltip: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
+            icon: Icon(Icons.shopping_cart_outlined, color: theme.onSurface),
             activeIcon: Icon(Icons.shopping_cart_checkout_outlined),
             label: "Checkout",
+            tooltip: "Checkout",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.notifications_outlined,
+              color: theme.onSurface,
               // color: theme.onSurfaceVariant,
             ),
             activeIcon: Icon(Icons.notifications_active_rounded),
             label: "Notificações",
+            tooltip: "Notificações",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person_4_sharp),
+            icon: Icon(Icons.person_outlined, color: theme.onSurface),
+            activeIcon: Icon(Icons.person_sharp),
             label: "Perfil",
+            tooltip: "Perfil",
           ),
         ],
-        selectedIconTheme: IconThemeData(color: theme.onPrimary),
+        selectedIconTheme: IconThemeData(color: theme.onSurfaceVariant),
+        selectedItemColor: theme.onSurface,
+        unselectedIconTheme: IconThemeData(color: theme.onSurface),
       ),
     );
   }
