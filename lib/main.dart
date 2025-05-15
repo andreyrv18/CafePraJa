@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Café Pra Já',
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-      home: const SplashScreen(),
+      home: const NavigationBottomBar(),
     );
   }
 }
