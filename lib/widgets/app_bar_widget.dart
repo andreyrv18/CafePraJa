@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  AppBarWidget({super.key});
+  final double? scrolledUnderElevation;
+  const AppBarWidget({super.key, this.scrolledUnderElevation});
 
   @override
   Size get preferredSize => const Size.fromHeight(80.0);
-  double? scrolledUnderElevation;
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
@@ -29,6 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           color: theme.onSecondary,
           iconSize: 44,
           alignment: Alignment.center,
+          tooltip: "Perfil",
         ),
       ],
       title: Row(
@@ -42,6 +43,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               Text(
                 "localização",
                 style: textTheme.titleSmall?.copyWith(color: theme.onPrimary),
+                
               ),
               Text(
                 "Pinhais, Paraná",
