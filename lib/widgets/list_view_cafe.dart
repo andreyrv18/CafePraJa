@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class CafeListView extends StatefulWidget {
   const CafeListView({super.key});
@@ -8,22 +10,36 @@ class CafeListView extends StatefulWidget {
 }
 
 class _CafeListViewState extends State<CafeListView> {
-  final List<String> items = [
-    "cafe",
-    "capuchinno",
-    "cha",
-    "mocha",
-    "cafe Frio",
-    "gelado",
-    "cha amargo",
-    "mochazão",
-  ];
+  Map<String, dynamic>? cardapio;
 
   int selectedIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    loadCardapio();
+  }
+
+  Future<void> loadCardapio() async {
+    final String jsonString = await rootBundle.loadString(
+      "assets/cardapio.json",
+    );
+    final Map<String, dynamic> jsonMap = json.decode(jsonString);
+    setState(() {
+      cardapio = jsonMap['cardapio'];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
+
+    if (cardapio == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    final List<String> items = cardapio!.keys.toList();
+
     return ListView.builder(
       padding: EdgeInsets.only(left: 8),
       itemCount: items.length,
@@ -39,7 +55,8 @@ class _CafeListViewState extends State<CafeListView> {
             });
           },
           child: Container(
-            width: 115,
+            width: 160,
+            height: 40,
             decoration: BoxDecoration(
               color: isSelected ? theme.primary : theme.surfaceDim,
               border: Border.all(color: theme.onSurface),
