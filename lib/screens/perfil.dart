@@ -11,17 +11,18 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
       body: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(27),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF4B2E1D), // marrom escuro
-              Color(0xFFBFA082), // bege quente
+              theme.colorScheme.primary,
+              theme.colorScheme.onSurface, // bege quente
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -30,18 +31,19 @@ class _PerfilState extends State<Perfil> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Icon(Icons.coffee_sharp, size: 150.0),
             const SizedBox(height: 30),
-            const Text(
+            Text(
               "Digite os dados de acesso nos campos abaixo.",
-              style: TextStyle(color: Color(0xFFF5E1C2)), // creme
+              style: TextStyle(color: theme.colorScheme.onPrimary), // creme
             ),
             const SizedBox(height: 30),
-            const CupertinoTextField(
+            CupertinoTextField(
               cursorColor: Color(0xFF7B4F2F), // marrom médio
               padding: EdgeInsets.all(15),
               placeholder: "Digite o seu e-mail",
               placeholderStyle: TextStyle(
-                color: Color(0xFFD2BBA0),
+                color: theme.colorScheme.onPrimary,
                 fontSize: 14,
               ), // bege claro
               style: TextStyle(color: Colors.white, fontSize: 14),
@@ -51,13 +53,13 @@ class _PerfilState extends State<Perfil> {
               ),
             ),
             const SizedBox(height: 5),
-            const CupertinoTextField(
+            CupertinoTextField(
               padding: EdgeInsets.all(15),
               cursorColor: Color(0xFF8B5E3C),
               placeholder: "Digite sua senha",
               obscureText: true,
               placeholderStyle: TextStyle(
-                color: Color(0xFFD2BBA0),
+                color: theme.colorScheme.onPrimary,
                 fontSize: 14,
               ),
               style: TextStyle(color: Colors.white, fontSize: 14),
@@ -71,11 +73,11 @@ class _PerfilState extends State<Perfil> {
               width: double.infinity,
               child: CupertinoButton(
                 padding: const EdgeInsets.all(17),
-                color: Color(0xFF6E3B1E), // marrom café com leite
-                child: const Text(
+                color: theme.colorScheme.primary, // marrom café com leite
+                child: Text(
                   "Acessar",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: theme.colorScheme.onPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -87,14 +89,17 @@ class _PerfilState extends State<Perfil> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFFF5E1C2), width: 0.8),
+                border: Border.all(
+                  color: theme.colorScheme.onPrimary,
+                  width: 0.8,
+                ),
                 borderRadius: BorderRadius.circular(7),
               ),
               child: CupertinoButton(
-                child: const Text(
+                child: Text(
                   "Crie sua conta",
                   style: TextStyle(
-                    color: Color(0xFFF5E1C2),
+                    color: theme.colorScheme.onPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
