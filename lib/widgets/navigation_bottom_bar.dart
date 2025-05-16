@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/screens/cupons.dart';
 import 'package:cafe_pra_ja/screens/checkout.dart';
 import 'package:cafe_pra_ja/screens/home.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
@@ -20,11 +21,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       appBar: AppBarWidget(),
       body:  Checkout(),
     ),
-    Scaffold(
-      appBar: AppBar(title: const Text("Notificações")),
-      body: const Center(child: Text("Página de Notificações")),
-    ),
-    Scaffold(appBar: AppBar(title: const Text("Perfil")), body: Perfil()),
+    Scaffold(appBar: AppBarWidget(), body: PaginaCupons()),
+    Scaffold(body: Perfil()),
   ];
 
   void _onItemTapped(int index) {
@@ -61,13 +59,19 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             icon: Icon(Icons.notifications_outlined, color: theme.onSurface),
             activeIcon: Icon(Icons.notifications_active_rounded),
             label: "Notificações",
-            tooltip: "Notificações",
+            backgroundColor: theme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined, color: theme.onSurface),
+            icon: Icon(Icons.local_activity_outlined),
+            activeIcon: Icon(Icons.local_activity),
+            label: "Cupons %",
+            backgroundColor: theme.primary,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
             activeIcon: Icon(Icons.person_sharp),
             label: "Perfil",
-            tooltip: "Perfil",
+            backgroundColor: theme.primary,
           ),
         ],
         selectedIconTheme: IconThemeData(color: theme.onSurfaceVariant),
