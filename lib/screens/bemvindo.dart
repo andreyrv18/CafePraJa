@@ -1,14 +1,21 @@
-import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class Bemvindo extends StatelessWidget {
   final String title;
   const Bemvindo({super.key, required this.title});
 
+  void _onPressedItem(context) => Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => const NavigationBottomBar()),
+  );
+
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+      backgroundColor: theme.onSurfaceVariant,
       body: Column(
         children: [
           SizedBox(
@@ -17,9 +24,9 @@ class Bemvindo extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
@@ -27,9 +34,8 @@ class Bemvindo extends StatelessWidget {
                     child: Text(
                       "Hora de uma parada para o café",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 24.0,
-                        fontFamily: "Sora",
+                        color: theme.onPrimary,
+                        fontSize: textTheme.titleLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -39,10 +45,8 @@ class Bemvindo extends StatelessWidget {
                     child: Text(
                       "Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 17,
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w300,
+                        color: theme.onPrimary,
+                        fontSize: textTheme.bodyLarge?.fontSize,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -53,27 +57,14 @@ class Bemvindo extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(
-                          Theme.of(context).colorScheme.primary,
-                        ),
+                        backgroundColor: WidgetStateProperty.all(theme.primary),
                       ),
-
-                      onPressed:
-                          () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                      const MyHomePage(title: 'Página Inicial'),
-                            ),
-                          ),
+                      onPressed: () => _onPressedItem(context),
                       child: Text(
                         "Vamos lá!",
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontSize: 16,
-
-                          fontWeight: FontWeight.w600,
+                          color: theme.onPrimary,
+                          fontSize: textTheme.titleLarge?.fontSize,
                         ),
                       ),
                     ),
