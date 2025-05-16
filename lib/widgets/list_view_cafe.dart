@@ -8,21 +8,11 @@ class CafeListView extends StatefulWidget {
 }
 
 class _CafeListViewState extends State<CafeListView> {
-  final List<String> items = [
-    "cafe",
-    "capuchinno",
-    "cha",
-    "mocha",
-    "cafe Frio",
-    "gelado",
-    "cha amargo",
-    "mochazão",
-  ];
-
   int selectedIndex = 0;
-
+  List items = [1, 2.3];
   @override
   Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
     return ListView.builder(
       padding: EdgeInsets.only(left: 8),
       itemCount: items.length,
@@ -31,34 +21,28 @@ class _CafeListViewState extends State<CafeListView> {
         final isSelected = index == selectedIndex;
         final item = items[index];
 
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             setState(() {
               selectedIndex = index;
             });
           },
           child: Container(
-            width: 115,
+            width: 160,
+            height: 40,
             decoration: BoxDecoration(
-              color:
-                  isSelected
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.surfaceDim,
-              border: Border.all(color: Colors.black12),
+              color: isSelected ? theme.primary : theme.surfaceDim,
+              border: Border.all(color: theme.onSurface),
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             margin: EdgeInsets.symmetric(horizontal: 8),
             child: Center(
               child: Text(
-                item,
+                "item",
                 style:
                     isSelected
-                        ? TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        )
-                        : TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                        ? TextStyle(color: theme.onPrimary)
+                        : TextStyle(color: theme.onSurface),
               ),
             ),
           ),
