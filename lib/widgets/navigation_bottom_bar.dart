@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/screens/cupons.dart';
 import 'package:cafe_pra_ja/screens/home.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
@@ -19,12 +20,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       appBar: AppBar(title: const Text("Notificações")),
       body: const Center(child: Text("Página de Notificações")),
     ),
-    Scaffold(
-      appBar: AppBar(title: const Text("Mensagens")),
-      body: const Center(child: Text("Página de Mensagens")),
-    ),
-    Scaffold(appBar: AppBar(title: const Text("Perfil")),
-    body: Perfil()),
+    Scaffold(appBar: AppBarWidget(), body: PaginaCupons()),
+    Scaffold(body: Perfil()),
   ];
 
   @override
@@ -53,9 +50,9 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             backgroundColor: theme.colorScheme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.messenger_outline),
-            activeIcon: Icon(Icons.messenger_sharp),
-            label: "Mensagens",
+            icon: Icon(Icons.local_activity_outlined),
+            activeIcon: Icon(Icons.local_activity),
+            label: "Cupons %",
             backgroundColor: theme.colorScheme.primary,
           ),
           BottomNavigationBarItem(
