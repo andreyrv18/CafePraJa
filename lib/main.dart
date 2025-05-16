@@ -1,7 +1,6 @@
 import 'package:cafe_pra_ja/screens/bemvindo.dart';
 import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
-
 import 'theme.dart';
 import 'util.dart';
 
