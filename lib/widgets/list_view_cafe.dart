@@ -19,7 +19,7 @@ class _CafeListViewState extends State<CafeListView> {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         final isSelected = index == selectedIndex;
-        final item = items[index];
+      //  final item = items[index];
 
         return InkWell(
           onTap: () {
