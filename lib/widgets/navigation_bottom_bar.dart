@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/screens/checkout.dart';
 import 'package:cafe_pra_ja/screens/home.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
@@ -16,8 +17,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   final List<Widget> pages = [
     Scaffold(appBar: AppBarWidget(), body: MyHomePage(title: "Home")),
     Scaffold(
-      appBar: AppBar(title: const Text("Checkout")),
-      body: const Center(child: Text("Página de Checkout")),
+      appBar: AppBarWidget(),
+      body:  Checkout(),
     ),
     Scaffold(
       appBar: AppBar(title: const Text("Notificações")),
