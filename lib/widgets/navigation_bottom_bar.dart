@@ -56,12 +56,6 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             tooltip: "Checkout",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined, color: theme.onSurface),
-            activeIcon: Icon(Icons.notifications_active_rounded),
-            label: "Notificações",
-            backgroundColor: theme.primary,
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.local_activity_outlined),
             activeIcon: Icon(Icons.local_activity),
             label: "Cupons %",
