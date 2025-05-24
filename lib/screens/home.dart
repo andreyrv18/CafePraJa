@@ -27,7 +27,7 @@ class MyHomePage extends StatelessWidget {
               decoration: InputDecoration(
                 hintStyle: textTheme.labelMedium,
                 prefixIcon: Icon(Icons.search, color: theme.onSurface),
-                hintText: "Encontre seu café favorito",
+                hintText: "Encontre seu café favorito!",
               ),
             ),
           ),
