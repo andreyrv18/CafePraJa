@@ -1,6 +1,6 @@
 import 'package:cafe_pra_ja/screens/cupons.dart';
 import 'package:cafe_pra_ja/screens/checkout.dart';
-import 'package:cafe_pra_ja/screens/home.dart';
+import 'package:cafe_pra_ja/screens/home/home.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
   final List<Widget> pages = [
     Scaffold(appBar: AppBarWidget(), body: MyHomePage(title: "Home")),
-    Scaffold(
-      appBar: AppBarWidget(),
-      body:  Checkout(),
-    ),
+    Scaffold(appBar: AppBarWidget(), body: Checkout()),
     Scaffold(appBar: AppBarWidget(), body: PaginaCupons()),
     Scaffold(body: Perfil()),
   ];
