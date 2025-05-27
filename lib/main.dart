@@ -1,16 +1,19 @@
-import 'package:cafe_pra_ja/screens/bemvindo.dart';
 import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 import 'app_state.dart';
 import 'theme.dart';
 import 'util.dart';
-import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
-      builder: ((context, child) => const MyApp()),
+      child: MyApp(),
     ),
   );
 }
@@ -28,35 +31,5 @@ class MyApp extends StatelessWidget {
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
       home: const NavigationBottomBar(),
     );
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return const Bemvindo(title: 'Bem vindo');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _navigateToHome();
-  }
-
-  Future<void> _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 14));
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const NavigationBottomBar()),
-      );
-    }
   }
 }
