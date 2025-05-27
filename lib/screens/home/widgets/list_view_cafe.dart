@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/firestore/database_service.dart';
 import 'package:flutter/material.dart';
 
 class CafeListView extends StatefulWidget {
@@ -9,43 +10,68 @@ class CafeListView extends StatefulWidget {
 
 class _CafeListViewState extends State<CafeListView> {
   int selectedIndex = 0;
-  List items = [1, 2.3];
+
+  final DatabaseService _dbService = DatabaseService();
+  late Future<List<Map<String, dynamic>>> _cardapioFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCardapioData();
+  }
+
+  void _fetchCardapioData() async {
+    setState(() {
+      _cardapioFuture = _dbService.getCardapio();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    return ListView.builder(
-      padding: EdgeInsets.only(left: 8),
-      itemCount: items.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        final isSelected = index == selectedIndex;
-      //  final item = items[index];
+    return FutureBuilder(
+      future: _cardapioFuture,
+      builder: (context, snapshot) {
+        final cardapioItens = snapshot.data!;
 
-        return InkWell(
-          onTap: () {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          child: Container(
-            width: 160,
-            height: 40,
-            decoration: BoxDecoration(
-              color: isSelected ? theme.primary : theme.surfaceDim,
-              border: Border.all(color: theme.onSurface),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            child: Center(
-              child: Text(
-                "item",
-                style:
-                    isSelected
-                        ? TextStyle(color: theme.onPrimary)
-                        : TextStyle(color: theme.onSurface),
+        return ListView.builder(
+          padding: EdgeInsets.only(left: 8),
+          itemCount: cardapioItens.length,
+
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            final isSelected = index == selectedIndex;
+
+            final item = cardapioItens[index];
+
+            final String nome = item["nome"]?.toString() ?? "sem nome";
+            return InkWell(
+              onTap: () {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              child: Container(
+                width: 160,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: isSelected ? theme.primary : theme.surfaceDim,
+                  border: Border.all(color: theme.onSurface),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                child: Center(
+                  child: Text(
+                    nome,
+                    style:
+                        isSelected
+                            ? TextStyle(color: theme.onPrimary)
+                            : TextStyle(color: theme.onSurface),
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
