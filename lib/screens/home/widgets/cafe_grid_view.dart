@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:cafe_pra_ja/app_state.dart';
 import 'package:provider/provider.dart';
@@ -12,14 +13,12 @@ class CafeGridView extends StatefulWidget {
 class _CafeGridViewState extends State<CafeGridView> {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<ApplicationState>();
-
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return GridView.builder(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
-      itemCount: 6,
+      itemCount: 20,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1,
@@ -27,7 +26,6 @@ class _CafeGridViewState extends State<CafeGridView> {
         crossAxisSpacing: 10.0,
       ),
       itemBuilder: (BuildContext context, int index) {
-        final cartItem = appState.cartItems[index];
         return Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -53,7 +51,7 @@ class _CafeGridViewState extends State<CafeGridView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  'appState.homeItems[index] as String',
+                  'nme',
                   style: TextStyle(
                     color: theme.onPrimaryContainer,
                     fontSize: textTheme.bodyLarge?.fontSize,
@@ -74,9 +72,7 @@ class _CafeGridViewState extends State<CafeGridView> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        appState.toggleCheckout(cartItem);
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.secondary,
                       ),
@@ -92,3 +88,6 @@ class _CafeGridViewState extends State<CafeGridView> {
     );
   }
 }
+
+
+*/
