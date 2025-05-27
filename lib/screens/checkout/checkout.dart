@@ -1,48 +1,28 @@
+import 'package:cafe_pra_ja/firestore/database_service.dart';
 import 'package:flutter/material.dart';
 
-class Checkout extends StatelessWidget {
+class Checkout extends StatefulWidget {
   const Checkout({super.key});
 
+  @override
+  State<Checkout> createState() => _CheckoutState();
+}
+
+class _CheckoutState extends State<Checkout> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
+
     return Column(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(),
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Image.asset(
-              width: 100,
-              height: 100,
-              "assets/images/list.jpg",
-              fit: BoxFit.cover,
-            ),
+        Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              await DatabaseService().received();
+            },
+            child: Text("Ler cardapio"),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "R\$ 22",
-                style: TextStyle(
-                  color: theme.onPrimaryContainer,
-                  fontSize: textTheme.titleLarge?.fontSize,
-                ),
-              ),
-            ],
-          ),
-        ),
-        FloatingActionButton(
-          tooltip: "Finalizar Compra",
-          elevation: 2,
-          onPressed: () {},
-          backgroundColor: theme.secondary,
-          child: Icon(Icons.add, color: theme.onSecondary),
         ),
       ],
     );
