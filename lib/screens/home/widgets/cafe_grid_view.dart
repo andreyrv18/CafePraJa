@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cafe_pra_ja/app_state.dart';
+import 'package:provider/provider.dart';
 
 class CafeGridView extends StatefulWidget {
   const CafeGridView({super.key});
@@ -10,6 +12,8 @@ class CafeGridView extends StatefulWidget {
 class _CafeGridViewState extends State<CafeGridView> {
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<ApplicationState>();
+
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
@@ -23,6 +27,7 @@ class _CafeGridViewState extends State<CafeGridView> {
         crossAxisSpacing: 10.0,
       ),
       itemBuilder: (BuildContext context, int index) {
+        final cartItem = appState.cartItems[index];
         return Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -48,7 +53,7 @@ class _CafeGridViewState extends State<CafeGridView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  "nome",
+                  'appState.homeItems[index] as String',
                   style: TextStyle(
                     color: theme.onPrimaryContainer,
                     fontSize: textTheme.bodyLarge?.fontSize,
@@ -69,7 +74,9 @@ class _CafeGridViewState extends State<CafeGridView> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        appState.toggleCheckout(cartItem);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.secondary,
                       ),
