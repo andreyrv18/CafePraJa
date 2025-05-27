@@ -1,12 +1,18 @@
 import 'package:cafe_pra_ja/screens/bemvindo.dart';
 import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'app_state.dart';
 import 'theme.dart';
 import 'util.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ApplicationState(),
+      builder: ((context, child) => const MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,12 +23,10 @@ class MyApp extends StatelessWidget {
     final brightness = View.of(context).platformDispatcher.platformBrightness;
     TextTheme textTheme = createTextTheme(context, "Noto Sans", "Noto Sans");
     MaterialTheme theme = MaterialTheme(textTheme);
-    return ChangeNotifierProvider(
-      child: MaterialApp(
-        title: 'Café Pra Já',
-        theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-        home: const NavigationBottomBar(),
-      ),
+    return MaterialApp(
+      title: 'Café Pra Já',
+      theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+      home: const NavigationBottomBar(),
     );
   }
 }
