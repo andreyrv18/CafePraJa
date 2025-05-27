@@ -1,5 +1,5 @@
 import 'package:cafe_pra_ja/screens/cupons.dart';
-import 'package:cafe_pra_ja/screens/checkout.dart';
+import 'package:cafe_pra_ja/screens/checkout/checkout.dart';
 import 'package:cafe_pra_ja/screens/home/home.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
