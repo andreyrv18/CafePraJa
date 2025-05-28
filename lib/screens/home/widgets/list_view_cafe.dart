@@ -69,7 +69,7 @@ class _CafeListViewState extends State<CafeListView> {
               },
               child: Container(
                 width: 160,
-                height: 40,
+
                 decoration: BoxDecoration(
                   color: isSelected ? theme.primary : theme.surfaceDim,
                   border: Border.all(color: theme.onSurface),
