@@ -1,5 +1,4 @@
 import 'package:cafe_pra_ja/screens/home/widgets/cafe_grid_view.dart';
-import 'package:cafe_pra_ja/screens/home/widgets/cardapio.dart';
 import 'package:cafe_pra_ja/screens/home/widgets/list_view_cafe.dart';
 import 'package:flutter/material.dart';
 
