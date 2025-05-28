@@ -73,14 +73,14 @@ class _CafeGridViewState extends State<CafeGridView> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              color: theme.surfaceContainerHighest,
+              color: theme.surfaceContainer,
               clipBehavior: Clip.antiAlias,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Placeholder(
-                    fallbackHeight: 100,
+                    fallbackHeight: 120,
                     color: theme.secondaryContainer,
                   ),
                   Padding(
@@ -88,47 +88,45 @@ class _CafeGridViewState extends State<CafeGridView> {
                     child: Text(
                       nomeItem,
                       textAlign: TextAlign.center,
-                      style: textTheme.titleSmall?.copyWith(
-                        color:
-                            theme
-                                .onSurfaceVariant, // Cor ajustada para contraste
+                      style: textTheme.titleMedium?.copyWith(
+                        color: theme.onSurface,
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 2, // Limita o nome a 2 linhas
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      "R\$ ${precoItem.toStringAsFixed(2)}",
-                      style: TextStyle(
-                        color: theme.onPrimaryContainer,
-                        fontSize: textTheme.bodyLarge?.fontSize,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                          "R\$ ${precoItem.toStringAsFixed(2)}",
+                          style: TextStyle(
+                            color: theme.onSurfaceVariant,
+                            fontSize: textTheme.titleLarge?.fontSize,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const Spacer(),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      print("Adicionar ${nomeItem}");
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.tertiary,
-                      foregroundColor: theme.onTertiary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                      IconButton(
+                        onPressed: () {
+                          print("Adicionar ${nomeItem}");
+                        },
+                        style: IconButton.styleFrom(
+                          backgroundColor: theme.tertiary,
+                          foregroundColor: theme.onTertiary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        icon: const Icon(
+                          Icons.add_shopping_cart_outlined,
+                          size: 20,
+                        ),
                       ),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    icon: const Icon(
-                      Icons.add_shopping_cart_outlined,
-                      size: 18,
-                    ),
-                    label: const Text(
-                      "Adicionar",
-                      style: TextStyle(fontSize: 14),
-                    ),
+                    ],
                   ),
                 ],
               ),
