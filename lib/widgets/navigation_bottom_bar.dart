@@ -17,11 +17,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
   final List<Widget> pages = [
     Scaffold(appBar: AppBarWidget(), body: MyHomePage(title: "Home")),
-    Scaffold(
-      appBar: AppBarWidget(),
-      body:  Checkout(),
-    ),
-    Scaffold(appBar: AppBarWidget(), body: PaginaCupons()),
+    Scaffold(appBar: AppBarWidget(), body: Checkout()),
+    Scaffold(body: PaginaCupons()),
     Scaffold(body: Perfil()),
   ];
 
@@ -56,19 +53,13 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             tooltip: "Checkout",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined, color: theme.onSurface),
-            activeIcon: Icon(Icons.notifications_active_rounded),
-            label: "Notificações",
-            backgroundColor: theme.primary,
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.local_activity_outlined),
             activeIcon: Icon(Icons.local_activity),
             label: "Cupons %",
             backgroundColor: theme.primary,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person_2_outlined),
             activeIcon: Icon(Icons.person_sharp),
             label: "Perfil",
             backgroundColor: theme.primary,
