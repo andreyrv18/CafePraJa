@@ -44,4 +44,16 @@ class DatabaseService {
     print(cardapioCompleto);
     return cardapioCompleto;
   }
+
+  Future createCart() async {
+    var item = "café";
+    var lista = {"produto": item};
+    _db
+        .collection("usuario")
+        .doc("lista compra")
+        .set(lista)
+        .onError(
+          (handleError, _) => print("Error writing document: $handleError"),
+        );
+  }
 }

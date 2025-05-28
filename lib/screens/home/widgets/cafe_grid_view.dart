@@ -1,5 +1,7 @@
+import 'package:cafe_pra_ja/app_state.dart';
 import 'package:cafe_pra_ja/database_firestore/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CafeGridView extends StatefulWidget {
   const CafeGridView({super.key});
@@ -21,7 +23,7 @@ class _CafeGridViewState extends State<CafeGridView> {
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
-
+    var appState = context.watch<ApplicationState>();
     return FutureBuilder(
       future: _cardapioFuture,
       builder: (context, snapshot) {
@@ -111,7 +113,7 @@ class _CafeGridViewState extends State<CafeGridView> {
                       ),
                       IconButton(
                         onPressed: () {
-                          print("Adicionar ${nomeItem}");
+                          appState.shoppingCart(item);
                         },
                         style: IconButton.styleFrom(
                           backgroundColor: theme.tertiary,
