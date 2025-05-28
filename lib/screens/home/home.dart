@@ -1,4 +1,5 @@
-import 'package:cafe_pra_ja/firestore/cardapio.dart';
+import 'package:cafe_pra_ja/screens/home/widgets/cafe_grid_view.dart';
+import 'package:cafe_pra_ja/screens/home/widgets/cardapio.dart';
 import 'package:cafe_pra_ja/screens/home/widgets/list_view_cafe.dart';
 import 'package:flutter/material.dart';
 
@@ -11,9 +12,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Column(
+    return Container(
+      color: Theme.of(context).colorScheme.surface,
+      child: Column(
         children: [
           Center(
             child: SizedBox(
@@ -30,7 +31,7 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height: 12),
           SizedBox(height: 24, child: CafeListView()),
           SizedBox(height: 12),
-          Expanded(child: Cardapio()),
+          Expanded(child: CafeGridView()),
         ],
       ),
     );
