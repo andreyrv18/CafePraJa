@@ -1,5 +1,5 @@
-import 'package:cafe_pra_ja/firestore/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:cafe_pra_ja/database_firestore/database_service.dart';
 
 class Checkout extends StatefulWidget {
   const Checkout({super.key});
@@ -19,7 +19,7 @@ class _CheckoutState extends State<Checkout> {
         Center(
           child: ElevatedButton(
             onPressed: () async {
-              await DatabaseService().received();
+              await DatabaseService().getCardapioCompleto();
             },
             child: Text("Ler cardapio"),
           ),
