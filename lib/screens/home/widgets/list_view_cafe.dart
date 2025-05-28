@@ -32,6 +32,22 @@ class _CafeListViewState extends State<CafeListView> {
     return FutureBuilder(
       future: _cardapioFuture,
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: (CircularProgressIndicator(
+              backgroundColor: theme.secondaryContainer,
+            )),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text("Erro ao carregar: ${snapshot.error}"));
+        }
+        if (!snapshot.hasData ||
+            snapshot.data == null ||
+            snapshot.data!.isEmpty) {
+          return const Center(child: Text("Nenhum Item no Cardápio"));
+        }
+
         final cardapioItens = snapshot.data!;
 
         return ListView.builder(
@@ -61,12 +77,15 @@ class _CafeListViewState extends State<CafeListView> {
                 ),
                 margin: EdgeInsets.symmetric(horizontal: 8),
                 child: Center(
-                  child: Text(
-                    nome,
-                    style:
-                        isSelected
-                            ? TextStyle(color: theme.onPrimary)
-                            : TextStyle(color: theme.onSurface),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      nome,
+                      style:
+                          isSelected
+                              ? TextStyle(color: theme.onPrimary)
+                              : TextStyle(color: theme.onSurface),
+                    ),
                   ),
                 ),
               ),
