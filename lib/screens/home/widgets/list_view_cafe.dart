@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/firestore/database_service.dart';
+import 'package:cafe_pra_ja/database_firestore/database_service.dart';
 import 'package:flutter/material.dart';
 
 class CafeListView extends StatefulWidget {
@@ -22,7 +22,7 @@ class _CafeListViewState extends State<CafeListView> {
 
   void _fetchCardapioData() async {
     setState(() {
-      _cardapioFuture = _dbService.getCardapio();
+      _cardapioFuture = _dbService.getCategorias();
     });
   }
 
