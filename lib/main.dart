@@ -24,8 +24,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final brightness = View.of(context).platformDispatcher.platformBrightness;
-    TextTheme textTheme = createTextTheme(context, "Noto Sans", "Noto Sans");
+
+    // Retrieves the default theme for the platform
+    //TextTheme textTheme = Theme.of(context).textTheme;
+
+    // Use with Google Fonts package to use downloadable fonts
+    TextTheme textTheme = createTextTheme(
+      context,
+      "Noto Sans Adlam",
+      "Noto Sans",
+    );
+
     MaterialTheme theme = MaterialTheme(textTheme);
+
     return MaterialApp(
       title: 'Café Pra Já',
       theme: brightness == Brightness.light ? theme.light() : theme.dark(),
