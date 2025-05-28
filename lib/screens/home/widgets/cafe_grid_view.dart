@@ -1,7 +1,5 @@
-/*
+import 'package:cafe_pra_ja/database_firestore/database_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cafe_pra_ja/app_state.dart';
-import 'package:provider/provider.dart';
 
 class CafeGridView extends StatefulWidget {
   const CafeGridView({super.key});
@@ -11,83 +9,133 @@ class CafeGridView extends StatefulWidget {
 }
 
 class _CafeGridViewState extends State<CafeGridView> {
+  final DatabaseService _dbService = DatabaseService();
+  late Future<List<Map<String, dynamic>>> _cardapioFuture;
+  @override
+  void initState() {
+    super.initState();
+    _cardapioFuture = _dbService.getCardapioCompleto();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
-      itemCount: 20,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: theme.surfaceContainerHighest,
+    return FutureBuilder(
+      future: _cardapioFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text("Erro ao carregar: ${snapshot.error}"));
+        }
+        if (!snapshot.hasData ||
+            snapshot.data == null ||
+            snapshot.data!.isEmpty) {
+          return const Center(child: Text("Nenhum Item no Cardápio"));
+        }
+        final cardapioComCategorias = snapshot.data!;
+        List<Map<String, dynamic>> todosOsItens = [];
+        for (var categoria in cardapioComCategorias) {
+          final List<dynamic> itensDaCategoriaDynamic =
+              categoria["itens"] as List<dynamic>? ?? [];
+          final List<Map<String, dynamic>> itensDaCategoria =
+              itensDaCategoriaDynamic
+                  .whereType<Map<String, dynamic>>()
+                  .toList();
+          todosOsItens.addAll(itensDaCategoria);
+        }
+
+        if (todosOsItens.isEmpty) {
+          return const Center(
+            child: Text("Nenhum item disponível no cardápio."),
+          );
+        }
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemCount: todosOsItens.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.80,
+            mainAxisSpacing: 8.0,
+            crossAxisSpacing: 8.0,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.asset(
-                    "assets/images/list.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ),
+          itemBuilder: (BuildContext context, index) {
+            final Map<String, dynamic> item = todosOsItens[index];
+
+            final String nomeItem = item['nome'] as String? ?? "Item sem nome";
+            final double precoItem = (item['preco'] as num?)?.toDouble() ?? 0.0;
+
+            return Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  'nme',
-                  style: TextStyle(
-                    color: theme.onPrimaryContainer,
-                    fontSize: textTheme.bodyLarge?.fontSize,
+              color: theme.surfaceContainerHighest,
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                children: [
+                  Placeholder(
+                    fallbackHeight: 100,
+                    color: theme.secondaryContainer,
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "R\$ 22",
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      nomeItem,
+                      textAlign: TextAlign.center,
+                      style: textTheme.titleSmall?.copyWith(
+                        color:
+                            theme
+                                .onSurfaceVariant, // Cor ajustada para contraste
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2, // Limita o nome a 2 linhas
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      "R\$ ${precoItem.toStringAsFixed(2)}",
                       style: TextStyle(
                         color: theme.onPrimaryContainer,
-                        fontSize: textTheme.titleLarge?.fontSize,
+                        fontSize: textTheme.bodyLarge?.fontSize,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.secondary,
+                  ),
+                  const Spacer(),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      print("Adicionar ${nomeItem}");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.tertiary,
+                      foregroundColor: theme.onTertiary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: Icon(Icons.add, color: theme.onSecondary),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                  ],
-                ),
+                    icon: const Icon(
+                      Icons.add_shopping_cart_outlined,
+                      size: 18,
+                    ),
+                    label: const Text(
+                      "Adicionar",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
   }
 }
-
-
-*/
