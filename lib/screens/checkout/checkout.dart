@@ -21,7 +21,7 @@ class _CheckoutState extends State<Checkout> {
             onPressed: () async {
               await DatabaseService().getCardapioCompleto();
             },
-            child: Text("Ler cardapio"),
+            child: Text("Ler banco de dados"),
           ),
         ),
       ],
