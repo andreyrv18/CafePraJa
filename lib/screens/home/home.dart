@@ -29,7 +29,7 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          SizedBox(height: 48, child: CafeListView()),
+          SizedBox(height: 40, child: CafeListView()),
           SizedBox(height: 12),
           Expanded(child: CafeGridView()),
         ],
