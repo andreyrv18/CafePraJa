@@ -12,11 +12,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AppBar(
       scrolledUnderElevation: scrolledUnderElevation,
-      shadowColor: theme.shadow,
+      backgroundColor: theme.inversePrimary,
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [theme.secondary, theme.onSurface],
+            colors: [theme.secondary, theme.primary],
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
@@ -43,7 +43,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               Text(
                 "localização",
                 style: textTheme.titleSmall?.copyWith(color: theme.onPrimary),
-                
               ),
               Text(
                 "Pinhais, Paraná",
