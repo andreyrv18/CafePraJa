@@ -16,20 +16,21 @@ class MyHomePage extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
-          Center(
-            child: SizedBox(
-              width: 315,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintStyle: textTheme.labelMedium,
-                  prefixIcon: Icon(Icons.search, color: theme.onSurface),
-                  hintText: "Encontre seu café favorito!",
-                ),
+          SizedBox(height: 8),
+          Padding(
+            padding: EdgeInsets.all(8),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("Encontre seu café favorito!"),
+                hintStyle: textTheme.labelMedium,
+                hint: Text("Ex: Espresso, Cappuccino, Arábica..."),
+                prefixIcon: Icon(Icons.search, color: theme.onSurface),
               ),
             ),
           ),
-          SizedBox(height: 12),
-          SizedBox(height: 24, child: CafeListView()),
+          SizedBox(height: 8),
+          SizedBox(height: 48, child: CafeListView()),
           SizedBox(height: 12),
           Expanded(child: CafeGridView()),
         ],
