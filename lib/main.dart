@@ -29,11 +29,7 @@ class MyApp extends StatelessWidget {
     //TextTheme textTheme = Theme.of(context).textTheme;
 
     // Use with Google Fonts package to use downloadable fonts
-    TextTheme textTheme = createTextTheme(
-      context,
-      "Noto Sans Adlam",
-      "Noto Sans",
-    );
+    TextTheme textTheme = createTextTheme(context, "Roboto", "Noto Sans");
 
     MaterialTheme theme = MaterialTheme(textTheme);
 
