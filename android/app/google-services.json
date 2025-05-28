@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1073563434029",
+    "project_id": "cafe-pra-ja",
+    "storage_bucket": "cafe-pra-ja.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073563434029:android:3a591b3e49b44f3c3a4ca4",
+        "android_client_info": {
+          "package_name": "com.example.cafe_pra_ja"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFcC5drVqPQ1S_N-g8tjfz0w9ADuM0HY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
