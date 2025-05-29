@@ -1,4 +1,3 @@
-import 'package:cafe_pra_ja/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/models/menu_item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';

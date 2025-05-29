@@ -1,4 +1,3 @@
-import 'package:cafe_pra_ja/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/models/menu_item_model.dart';
 import 'package:cafe_pra_ja/providers/cart_provider.dart';
 import 'package:cafe_pra_ja/providers/menu_provider.dart';

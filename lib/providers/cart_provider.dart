@@ -1,5 +1,4 @@
 import 'package:cafe_pra_ja/models/cart_item_model.dart';
-import 'package:cafe_pra_ja/models/menu_item_model.dart';
 import 'package:cafe_pra_ja/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/foundation.dart';
 class CartProvider with ChangeNotifier {
   late DatabaseService _dbService;
   static const String _testeUidFixo = "dqoFBe79WG5ZUv1qC6i3";
-  final DatabaseService _databaseService = DatabaseService();
 
   CartProvider() {
     _dbService = DatabaseService(uid: _testeUidFixo);
