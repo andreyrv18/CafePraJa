@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/database_firestore/database_service.dart';
+import 'package:cafe_pra_ja/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 class CafeListView extends StatefulWidget {
