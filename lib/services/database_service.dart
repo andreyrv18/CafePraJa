@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/models/cart_item_model.dart';
+import 'package:cafe_pra_ja/models/menu_item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 
@@ -46,6 +47,35 @@ class DatabaseService {
     }
 
     return cardapioCompleto;
+  }
+
+  /// Alternativa: Busca todos os itens do cardápio como uma única lista (sem agrupar por categoria no retorno).
+  Future<List<MenuItemModel>> getTodosOsItensDoCardapio() async {
+    List<MenuItemModel> todosOsItens = [];
+    try {
+      QuerySnapshot<Map<String, dynamic>> categoriasSnapshot =
+          await _db.collection('cardapio').get();
+
+      for (QueryDocumentSnapshot<Map<String, dynamic>> categoriaDoc
+          in categoriasSnapshot.docs) {
+        String categoriaId = categoriaDoc.id;
+        QuerySnapshot<Map<String, dynamic>> itensSnapshot =
+            await _db
+                .collection('cardapio')
+                .doc(categoriaId)
+                .collection('itens')
+                .get();
+
+        for (QueryDocumentSnapshot<Map<String, dynamic>> itemDoc
+            in itensSnapshot.docs) {
+          todosOsItens.add(MenuItemModel.fromFirestore(itemDoc, categoriaId));
+        }
+      }
+    } catch (e) {
+      print("Erro ao buscar todos os itens do cardápio: $e");
+      throw Exception("Não foi possível carregar os itens do cardápio: $e");
+    }
+    return todosOsItens;
   }
 
   Future createCart(IdDoProduto, nomeProduto, precoUnitario, imagemUrl) async {
@@ -101,23 +131,14 @@ class DatabaseService {
     });
   }
 
-  Stream<List<CartItemModel>> getCartItemsStream() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getCartItemsStream() {
     if (uid == null) return Stream.empty();
 
     return _db
         .collection('usuarios')
         .doc(uid)
         .collection("carrinhoItens")
-        .snapshots()
-        .map((snapshot) {
-          return snapshot.docs
-              .map(
-                (doc) => CartItemModel.fromFirestore(
-                  doc as DocumentSnapshot<Map<String, dynamic>>,
-                ),
-              )
-              .toList();
-        });
+        .snapshots();
   }
 
   Future<void> deleteProduto(idDoProduto) async {
@@ -150,7 +171,7 @@ class DatabaseService {
       itemRef.delete();
     } else {
       await itemRef.update({
-        'quantidade': FieldValue.increment(novaQuantidade),
+        'quantidade': novaQuantidade,
         'adicionadoEm': FieldValue.serverTimestamp(),
       });
     }
