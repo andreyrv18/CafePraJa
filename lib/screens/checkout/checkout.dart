@@ -32,54 +32,65 @@ class Checkout extends StatelessWidget {
                   ListTile(
                     title: Text(
                       nomeProduto,
-                      style: textTheme.titleMedium?.copyWith(
+                      style: textTheme.titleLarge?.copyWith(
                         color: theme.onSurface,
                       ),
                     ),
-                    subtitle: Text('Qtd: $quantidade x R\$ $precoUnitario'),
+                    subtitle: Text(
+                      'Qtd: $quantidade x R\$ $precoUnitario',
+                      style: textTheme.bodyLarge,
+                    ),
                     trailing: Text(
                       'R\$ ${(precoUnitario * quantidade).toStringAsFixed(2)}',
-                      style: textTheme.titleSmall?.copyWith(
+                      style: textTheme.titleLarge?.copyWith(
                         color: theme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+
                     children: [
-                      IconButton(
-                        style: IconButton.styleFrom(
-                          backgroundColor: theme.tertiary,
-                          foregroundColor: theme.onTertiary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          style: IconButton.styleFrom(
+                            backgroundColor: theme.tertiaryContainer,
+                            foregroundColor: theme.onTertiaryContainer,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            maisItem.atualizarQuantidade(
+                              item.id,
+                              item.quantidade + 1,
+                            );
+                          },
+                          icon: Icon(Icons.add),
                         ),
-                        onPressed: () {
-                          maisItem.atualizarQuantidade(
-                            item.id,
-                            item.quantidade + 1,
-                          );
-                        },
-                        icon: Icon(Icons.add),
                       ),
-                      IconButton(
-                        style: IconButton.styleFrom(
-                          backgroundColor: theme.tertiary,
-                          foregroundColor: theme.onTertiary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          style: IconButton.styleFrom(
+                            backgroundColor: theme.errorContainer,
+                            foregroundColor: theme.onErrorContainer,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            maisItem.atualizarQuantidade(
+                              item.id,
+                              item.quantidade - 1,
+                            );
+                          },
+                          icon: Icon(Icons.remove),
                         ),
-                        onPressed: () {
-                          maisItem.atualizarQuantidade(
-                            item.id,
-                            item.quantidade - 1,
-                          );
-                        },
-                        icon: Icon(Icons.remove),
                       ),
                     ],
                   ),
