@@ -19,13 +19,12 @@ class CartItemModel {
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) {
     Map<String, dynamic> data = doc.data()!;
-
     return CartItemModel(
       id: doc.id,
-      nomeProduto: data['nomeProduto'] ?? 'Produto Desconhecido',
-      quantidade: (data['quantidade'] ?? 0).toInt(),
+      nomeProduto: data['nomeProduto'] ?? 'Nome Indisponível',
       precoUnitario: (data['precoUnitario'] ?? 0.0).toDouble(),
-      imagemUrl: data['imagemUrl'],
+      quantidade: data['quantidade'] ?? 0,
+      // imagemUrl: data['imagemUrl'],
     );
   }
 }
