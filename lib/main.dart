@@ -1,4 +1,6 @@
+import 'package:cafe_pra_ja/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/providers/cart_provider.dart';
+import 'package:cafe_pra_ja/providers/menu_provider.dart';
 import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,7 +13,30 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    ChangeNotifierProvider(create: (context) => CartProvider(), child: MyApp()),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        // Este StreamProvider depende da instância de CartProvider criada acima.
+        // Ele fornecerá a List<CartItemModel> emitida pelo stream para seus descendentes.
+        StreamProvider<List<CartItemModel>>(
+          create:
+              (context) =>
+                  context.read<CartProvider>().getItensDoCarrinhoStream(),
+          initialData:
+              const [], // Crucial para evitar erros antes do primeiro snapshot
+        ),
+        ChangeNotifierProvider(
+          create: (_) {
+            // Se você quiser que os itens carreguem assim que o app iniciar:
+            // return MenuProvider()..carregarItensDoCardapio();
+
+            // Se você prefere chamar carregarItensDoCardapio() manualmente de uma tela:
+            return MenuProvider();
+          },
+        ),
+      ],
+      child: MyApp(),
+    ),
   );
 }
 
