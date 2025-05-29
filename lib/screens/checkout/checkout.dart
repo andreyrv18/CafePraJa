@@ -48,6 +48,14 @@ class Checkout extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: theme.tertiary,
+                          foregroundColor: theme.onTertiary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
                         onPressed: () {
                           maisItem.atualizarQuantidade(
                             item.id,
@@ -57,6 +65,14 @@ class Checkout extends StatelessWidget {
                         icon: Icon(Icons.add),
                       ),
                       IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: theme.tertiary,
+                          foregroundColor: theme.onTertiary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
                         onPressed: () {
                           maisItem.atualizarQuantidade(
                             item.id,
