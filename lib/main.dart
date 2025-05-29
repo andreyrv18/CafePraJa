@@ -1,9 +1,9 @@
+import 'package:cafe_pra_ja/providers/cart_provider.dart';
 import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'app_state.dart';
 import 'theme.dart';
 import 'util.dart';
 
@@ -11,10 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ApplicationState(),
-      child: MyApp(),
-    ),
+    ChangeNotifierProvider(create: (context) => CartProvider(), child: MyApp()),
   );
 }
 
