@@ -51,6 +51,7 @@ class _CafeGridViewState extends State<CafeGridView> {
         ),
       );
     }
+
     return Column(
       children: [
         Expanded(

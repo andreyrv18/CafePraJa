@@ -11,7 +11,8 @@ class Checkout extends StatelessWidget {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
     final List<CartItemModel> cartItems = context.watch<List<CartItemModel>>();
-    final maisItem = context.watch<CartProvider>();
+    final adicionarItem = context.watch<CartProvider>();
+
     if (cartItems.isEmpty) {
       return Center(
         child: Column(children: [const Text("Seu carrinho está vazio.")]),
@@ -71,7 +72,7 @@ class Checkout extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        maisItem.atualizarQuantidade(
+                        adicionarItem.atualizarQuantidade(
                           item.id,
                           item.quantidade + 1,
                         );
@@ -87,7 +88,7 @@ class Checkout extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        maisItem.atualizarQuantidade(
+                        adicionarItem.atualizarQuantidade(
                           item.id,
                           item.quantidade - 1,
                         );

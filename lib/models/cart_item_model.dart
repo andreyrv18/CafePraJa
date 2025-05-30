@@ -19,6 +19,7 @@ class CartItemModel {
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) {
     Map<String, dynamic> data = doc.data()!;
+
     return CartItemModel(
       id: doc.id,
       nomeProduto: data['nomeProduto'] ?? 'Nome Indisponível',
