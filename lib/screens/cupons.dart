@@ -10,6 +10,7 @@ class PaginaCupons extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<CuponsItemModel> cupons = context.watch<List<CuponsItemModel>>();
     final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
     if (cupons.isEmpty) {
       return Center(
         child: Padding(
@@ -24,6 +25,7 @@ class PaginaCupons extends StatelessWidget {
 
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: theme.outlineVariant,
         body: ListView.builder(
           itemCount: cupons.length,
           itemBuilder: (context, index) {
@@ -43,19 +45,21 @@ class PaginaCupons extends StatelessWidget {
                   ),
                 ),
                 subtitle: Text(
-                  "cupom.descricao",
-                  style: Theme.of(context).textTheme.titleSmall,
+                  cupom.descricao,
+                  style: TextStyle(
+                    fontSize: textTheme.titleSmall?.fontSize,
+                    color: theme.onSurfaceVariant,
+                  ),
                 ),
                 trailing: Text(
                   '${cupom.porcentagem}% OFF',
                   style: TextStyle(
                     color: theme.tertiary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: textTheme.bodyLarge?.fontSize,
                   ),
                 ),
                 onTap: () {
-                  print("Apresentar cupom: ${cupom.codigo}");
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text("Cupom ${cupom.codigo} selecionado!"),

@@ -49,6 +49,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       body: pages[currentPageIndex],
 
       bottomNavigationBar: NavigationBar(
+        elevation: 5,
         indicatorColor: theme.tertiaryContainer,
         selectedIndex: currentPageIndex,
         backgroundColor: theme.surfaceContainerHigh,
