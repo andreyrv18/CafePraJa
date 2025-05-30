@@ -18,37 +18,6 @@ class DatabaseService {
     return allData;
   }
 
-  Future<List<Map<String, dynamic>>> getCardapioCompleto() async {
-    List<Map<String, dynamic>> cardapioCompleto = [];
-
-    QuerySnapshot cardapioSnapshot = await _db.collection("cardapio").get();
-    for (QueryDocumentSnapshot cardapioDoc in cardapioSnapshot.docs) {
-      Map<String, dynamic> categoriaData =
-          cardapioDoc.data() as Map<String, dynamic>;
-      categoriaData["id"] = cardapioDoc.id;
-      List<Map<String, dynamic>> itensDaCategoria = [];
-
-      QuerySnapshot itensSnapshot =
-          await _db
-              .collection("cardapio")
-              .doc(cardapioDoc.id)
-              .collection("itens")
-              .get();
-      for (QueryDocumentSnapshot itemDoc in itensSnapshot.docs) {
-        Map<String, dynamic> itemData = itemDoc.data() as Map<String, dynamic>;
-        itemData['id'] = itemDoc.id;
-        itensDaCategoria.add(itemData);
-      }
-
-      categoriaData['itens'] = itensDaCategoria;
-
-      cardapioCompleto.add(categoriaData);
-    }
-
-    return cardapioCompleto;
-  }
-
-  /// Alternativa: Busca todos os itens do cardápio como uma única lista (sem agrupar por categoria no retorno).
   Future<List<MenuItemModel>> getTodosOsItensDoCardapio() async {
     List<MenuItemModel> todosOsItens = [];
     try {
@@ -174,5 +143,12 @@ class DatabaseService {
         'adicionadoEm': FieldValue.serverTimestamp(),
       });
     }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getTodosOsCuponsStream() {
+    Stream<QuerySnapshot<Map<String, dynamic>>> cuponsStream =
+        _db.collection("cupons").snapshots();
+    print("🗝️ Assinando o stream de cupons...");
+    return cuponsStream;
   }
 }

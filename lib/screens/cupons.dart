@@ -1,58 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Cupom {
-  final String nome;
-  final String codigo;
-  final String descricao;
-  final DateTime dataValidade;
-
-  Cupom({
-    required this.nome,
-    required this.codigo,
-    required this.descricao,
-    required this.dataValidade,
-  });
-}
+import '../models/cupons_item_model.dart';
 
 class PaginaCupons extends StatelessWidget {
-  final List<Cupom> cupons = [
-    Cupom(
-      nome: "Desconto de 10%",
-      codigo: "DESCONTO10",
-      descricao: "10% de desconto em toda a loja",
-      dataValidade: DateTime(2025, 5, 31),
-    ),
-    Cupom(
-      nome: "Frete Grátis",
-      codigo: "FRETEGRATIS",
-      descricao: "Frete grátis para compras acima de R\$100",
-      dataValidade: DateTime(2025, 6, 30),
-    ),
-  ];
+  const PaginaCupons({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(title: Text("Cupons")),
-        body: ListView.builder(
-          itemCount: cupons.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: Text(cupons[index].nome),
-                subtitle: Text(cupons[index].descricao),
-                trailing: Text(cupons[index].codigo),
-                onTap: () {
-                  // Implementar a lógica para apresentar o cupom
-                  print("Apresentar cupom: ${cupons[index].codigo}");
-                },
-              ),
-            );
-          },
+    final List<CuponsItemModel> cupons = context.watch<List<CuponsItemModel>>();
+    final ColorScheme theme = Theme.of(context).colorScheme;
+
+    if (cupons.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "Nenhum cupom disponível no momento.",
+            style: TextStyle(color: theme.onSurfaceVariant),
+          ),
         ),
-      ),
+      );
+    }
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: cupons.length,
+            itemBuilder: (context, index) {
+              final CuponsItemModel cupom = cupons[index];
+
+              return Card(
+                elevation: 2,
+                color: theme.surfaceContainerHighest,
+
+                child: ListTile(
+                  leading: Icon(Icons.local_offer, color: theme.primary),
+                  title: Text(
+                    cupom.codigo,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: theme.onSurface,
+                    ),
+                  ),
+
+                  trailing: Text(
+                    '${cupom.porcentagem}% OFF',
+                    style: TextStyle(
+                      color: theme.tertiary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onTap: () {
+                    print('Cupom selecionado: ${cupom.codigo} (${cupom.id})');
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
