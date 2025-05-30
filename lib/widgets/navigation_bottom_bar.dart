@@ -35,7 +35,6 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    final TextTheme textTheme = Theme.of(context).textTheme;
     final List<CartItemModel> cartItens = context.watch<List<CartItemModel>>();
     final quantidade = cartItens.fold(
       0,
@@ -94,9 +93,6 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             label: "Perfil",
           ),
         ],
-        // selectedIconTheme: IconThemeData(color: theme.onSurfaceVariant),
-        // selectedItemColor: theme.onSurface,
-        // unselectedIconTheme: IconThemeData(color: theme.onSurface),
       ),
     );
   }
