@@ -3,9 +3,8 @@ import 'package:cafe_pra_ja/screens/home/widgets/list_view_cafe.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  final String title;
-
   const MyHomePage({super.key, required this.title});
+  final String title;
 
   @override
   Widget build(BuildContext context) {
