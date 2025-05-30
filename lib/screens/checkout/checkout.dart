@@ -17,89 +17,90 @@ class Checkout extends StatelessWidget {
         child: Column(children: [const Text("Seu carrinho está vazio.")]),
       );
     }
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: cartItems.length,
-            itemBuilder: (context, index) {
-              final item = cartItems[index]; // Pega o item atual
-              final nomeProduto = item.nomeProduto;
-              final precoUnitario = item.precoUnitario;
-              final quantidade = item.quantidade;
-              return Column(
-                children: [
-                  ListTile(
-                    title: Text(
+    return ListView.builder(
+      itemCount: cartItems.length,
+      itemBuilder: (context, index) {
+        final item = cartItems[index]; // Pega o item atual
+        final nomeProduto = item.nomeProduto;
+        final precoUnitario = item.precoUnitario;
+        final quantidade = item.quantidade;
+        return Card(
+          margin: EdgeInsets.all(8),
+          elevation: 2,
+          color: theme.surfaceContainerHighest,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
                       nomeProduto,
                       style: textTheme.titleLarge?.copyWith(
                         color: theme.onSurface,
                       ),
                     ),
-                    subtitle: Text(
+
+                    Text(
                       'Qtd: $quantidade x R\$ $precoUnitario',
                       style: textTheme.bodyLarge,
                     ),
-                    trailing: Text(
+                    Text(
                       'R\$ ${(precoUnitario * quantidade).toStringAsFixed(2)}',
                       style: textTheme.titleLarge?.copyWith(
                         color: theme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          style: IconButton.styleFrom(
-                            backgroundColor: theme.tertiaryContainer,
-                            foregroundColor: theme.onTertiaryContainer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            maisItem.atualizarQuantidade(
-                              item.id,
-                              item.quantidade + 1,
-                            );
-                          },
-                          icon: Icon(Icons.add),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: theme.tertiaryContainer,
+                        foregroundColor: theme.onTertiaryContainer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          style: IconButton.styleFrom(
-                            backgroundColor: theme.errorContainer,
-                            foregroundColor: theme.onErrorContainer,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            maisItem.atualizarQuantidade(
-                              item.id,
-                              item.quantidade - 1,
-                            );
-                          },
-                          icon: Icon(Icons.remove),
+                      onPressed: () {
+                        maisItem.atualizarQuantidade(
+                          item.id,
+                          item.quantidade + 1,
+                        );
+                      },
+                      icon: Icon(Icons.add_shopping_cart),
+                    ),
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: theme.errorContainer,
+                        foregroundColor: theme.onErrorContainer,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              );
-            },
+                      onPressed: () {
+                        maisItem.atualizarQuantidade(
+                          item.id,
+                          item.quantidade - 1,
+                        );
+                      },
+                      icon: Icon(Icons.remove_shopping_cart_rounded),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
