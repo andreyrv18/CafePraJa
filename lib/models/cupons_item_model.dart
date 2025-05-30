@@ -15,10 +15,11 @@ class CuponsItemModel {
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) {
     Map<String, dynamic> data = doc.data()!;
+
     return CuponsItemModel(
       id: doc.id,
       codigo: data['codigo'] as String? ?? 'CÓDIGO INVÁLIDO',
-      porcentagem: (data['porcentagem'] as num? ?? 0).toInt(),
+      porcentagem: data['porcentagem'],
     );
   }
 }
