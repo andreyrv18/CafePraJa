@@ -35,7 +35,7 @@ class DetalhesProduto extends StatelessWidget {
               child: Icon(
                 Icons.local_cafe_outlined, // Ícone de placeholder
                 size: 100,
-                color: theme.onSecondaryContainer.withOpacity(0.7),
+                color: theme.onSecondaryContainer.withValues(alpha: 0.7),
               ),
             ),
 
