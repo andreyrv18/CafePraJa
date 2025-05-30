@@ -1,5 +1,5 @@
 import 'package:cafe_pra_ja/providers/menu_provider.dart';
-import 'package:cafe_pra_ja/screens/home/widgets/cardapio.dart';
+import 'package:cafe_pra_ja/screens/home/widgets/cardapio_grid.dart';
 import 'package:cafe_pra_ja/screens/home/widgets/categorias.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,9 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           SizedBox(height: 8),
-          SizedBox(height: 40, child: const CafeListView()),
+          SizedBox(height: 40, child: const CategoriasList()),
           SizedBox(height: 12),
-          Expanded(child: const CafeGridView()),
+          Expanded(child: const CardapioGrid()),
         ],
       ),
     );

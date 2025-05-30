@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class MenuItemModel {
   final String id; // ID do documento do item no Firestore
   final String nome;
-  final bool disponivel;
+  late final bool disponivel;
   final double preco;
   final String categoriaId; // Para saber a qual categoria o item pertence
 
