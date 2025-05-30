@@ -14,7 +14,7 @@ class CartProvider with ChangeNotifier {
   Stream<List<CartItemModel>> getItensDoCarrinhoStream() {
     if (_dbService == null) {
       print(
-        "ALERTA: _dbService é null em getItensDoCarrinhoStream. Isso não deveria acontecer.",
+        "ALERTA🛑: _dbService é null em getItensDoCarrinhoStream. Isso não deveria acontecer.⛔",
       );
       return Stream.empty(); // Retorna um stream vazio para evitar crash
     }
