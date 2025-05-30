@@ -16,21 +16,14 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
-        // Este StreamProvider depende da instância de CartProvider criada acima.
-        // Ele fornecerá a List<CartItemModel> emitida pelo stream para seus descendentes.
         StreamProvider<List<CartItemModel>>(
           create:
               (context) =>
                   context.read<CartProvider>().getItensDoCarrinhoStream(),
-          initialData:
-              const [], // Crucial para evitar erros antes do primeiro snapshot
+          initialData: const [],
         ),
         ChangeNotifierProvider(
           create: (_) {
-            // Se você quiser que os itens carreguem assim que o app iniciar:
-            // return MenuProvider()..carregarItensDoCardapio();
-
-            // Se você prefere chamar carregarItensDoCardapio() manualmente de uma tela:
             return MenuProvider();
           },
         ),
