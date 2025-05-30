@@ -7,6 +7,8 @@ import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/cupons_item_model.dart';
+
 class NavigationBottomBar extends StatefulWidget {
   const NavigationBottomBar({super.key});
 
@@ -38,6 +40,11 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       0,
       (acumulador, itemAtual) => acumulador + itemAtual.quantidade,
     );
+
+    final List<CuponsItemModel> listaDeCupons =
+        context.watch<List<CuponsItemModel>>();
+    final int quantidadeDeCupons = listaDeCupons.length;
+
     return Scaffold(
       body: pages[currentPageIndex],
 
@@ -66,8 +73,14 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             tooltip: "Checkout",
           ),
           NavigationDestination(
-            icon: Icon(Icons.local_activity_outlined),
-            selectedIcon: Icon(Icons.local_activity),
+            icon: Badge(
+              label: Text("$quantidadeDeCupons"),
+              child: Icon(Icons.local_activity_outlined),
+            ),
+            selectedIcon: Badge(
+              label: Text("$quantidadeDeCupons"),
+              child: Icon(Icons.local_activity),
+            ),
             label: "Cupons %",
           ),
           NavigationDestination(
