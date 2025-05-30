@@ -1,9 +1,13 @@
+import 'package:cafe_pra_ja/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/screens/cupons.dart';
 import 'package:cafe_pra_ja/screens/checkout/checkout.dart';
 import 'package:cafe_pra_ja/screens/home/home.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/cupons_item_model.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   const NavigationBottomBar({super.key});
@@ -18,7 +22,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   final List<Widget> pages = [
     Scaffold(appBar: AppBarWidget(), body: MyHomePage(title: "Home")),
     Scaffold(appBar: AppBarWidget(), body: Checkout()),
-    Scaffold(body: PaginaCupons()),
+    Scaffold(appBar: AppBarWidget(), body: PaginaCupons()),
     Scaffold(body: Perfil()),
   ];
 
@@ -31,43 +35,68 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final List<CartItemModel> cartItens = context.watch<List<CartItemModel>>();
+    final quantidade = cartItens.fold(
+      0,
+      (acumulador, itemAtual) => acumulador + itemAtual.quantidade,
+    );
+
+    final List<CuponsItemModel> listaDeCupons =
+        context.watch<List<CuponsItemModel>>();
+    final int quantidadeDeCupons = listaDeCupons.length;
+
     return Scaffold(
       body: pages[currentPageIndex],
 
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentPageIndex,
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, color: theme.onSurface),
-            activeIcon: Icon(Icons.home_sharp),
-            label: "Home",
-            backgroundColor: theme.surfaceDim,
-            tooltip: "Home",
+      bottomNavigationBar: NavigationBar(
+        indicatorColor: theme.tertiaryContainer,
+        selectedIndex: currentPageIndex,
+        backgroundColor: theme.surfaceContainerHigh,
+        onDestinationSelected: _onItemTapped,
+        destinations: [
+          NavigationDestination(
+            icon: Icon(Icons.search, color: theme.onSurface),
+            selectedIcon: Icon(Icons.search_sharp),
+            label: "Pesquisar",
+            tooltip: "Pesquisar",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
-            activeIcon: Icon(Icons.shopping_bag_sharp),
+          NavigationDestination(
+            icon: Badge(
+              padding: EdgeInsets.all(2),
+              label: Text("$quantidade"),
+              child: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
+            ),
+            selectedIcon: Badge(
+              padding: EdgeInsets.all(2),
+              label: Text("$quantidade"),
+              child: Icon(Icons.shopping_bag_sharp),
+            ),
             label: "Checkout",
             tooltip: "Checkout",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_activity_outlined),
-            activeIcon: Icon(Icons.local_activity),
+          NavigationDestination(
+            icon: Badge(
+              padding: EdgeInsets.all(2),
+              label: Text("$quantidadeDeCupons"),
+              child: Icon(Icons.local_activity_outlined),
+            ),
+            selectedIcon: Badge(
+              padding: EdgeInsets.all(2),
+              label: Text("$quantidadeDeCupons"),
+              child: Icon(Icons.local_activity),
+            ),
             label: "Cupons %",
-            backgroundColor: theme.primary,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_outlined),
-            activeIcon: Icon(Icons.person_sharp),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            selectedIcon: Icon(Icons.person_sharp),
             label: "Perfil",
-            backgroundColor: theme.primary,
           ),
         ],
-        selectedIconTheme: IconThemeData(color: theme.onSurfaceVariant),
-        selectedItemColor: theme.onSurface,
-        unselectedIconTheme: IconThemeData(color: theme.onSurface),
+        // selectedIconTheme: IconThemeData(color: theme.onSurfaceVariant),
+        // selectedItemColor: theme.onSurface,
+        // unselectedIconTheme: IconThemeData(color: theme.onSurface),
       ),
     );
   }
