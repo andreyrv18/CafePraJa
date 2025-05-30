@@ -33,7 +33,6 @@ class DatabaseService {
                 .doc(categoriaId)
                 .collection('itens')
                 .get();
-
         for (QueryDocumentSnapshot<Map<String, dynamic>> itemDoc
             in itensSnapshot.docs) {
           todosOsItens.add(MenuItemModel.fromFirestore(itemDoc, categoriaId));
@@ -42,6 +41,7 @@ class DatabaseService {
     } catch (e) {
       throw Exception("Não foi possível carregar os itens do cardápio: $e");
     }
+
     return todosOsItens;
   }
 
