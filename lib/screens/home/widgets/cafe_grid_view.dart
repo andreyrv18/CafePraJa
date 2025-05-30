@@ -12,13 +12,14 @@ class CafeGridView extends StatefulWidget {
 }
 
 class _CafeGridViewState extends State<CafeGridView> {
-  @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      ;
       final menuProvider = Provider.of<MenuProvider>(context, listen: false);
-      if (menuProvider.menuItems.isEmpty && !menuProvider.isLoading) {
+
+      if (menuProvider.todosOsItensDoCardapioDEBUG.isEmpty &&
+          !menuProvider.carregandoCardapio) {
         menuProvider.carregarItensDoCardapio();
       }
     });
@@ -30,19 +31,32 @@ class _CafeGridViewState extends State<CafeGridView> {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final menuProvider = context.watch<MenuProvider>();
     final addCart = context.watch<CartProvider>();
-    if (menuProvider.isLoading) {
+
+    if (menuProvider.errorMessage != null) {
+      return Center(child: Text('Erro: ${menuProvider.errorMessage}'));
+    }
+    if (menuProvider.carregandoCardapio &&
+        menuProvider.itensFiltradosDoCardapio.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (menuProvider.menuItems.isEmpty) {
-      return const Center(child: Text('Nenhum item encontrado no cardápio.'));
-    }
+    final List<MenuItemModel> itensParaExibir =
+        menuProvider.itensFiltradosDoCardapio;
 
+    if (itensParaExibir.isEmpty && !menuProvider.carregandoCardapio) {
+      return Center(
+        child: Text(
+          menuProvider.termoDeBuscaCardapio.isEmpty
+              ? 'Nenhum item encontrado no cardápio.'
+              : 'Nenhum item encontrado para "${menuProvider.termoDeBuscaCardapio}".',
+        ),
+      );
+    }
     return Column(
       children: [
         Expanded(
           child: GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 4.0),
-            itemCount: menuProvider.menuItems.length,
+            itemCount: itensParaExibir.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.80,
@@ -50,7 +64,7 @@ class _CafeGridViewState extends State<CafeGridView> {
               crossAxisSpacing: 8.0,
             ),
             itemBuilder: (BuildContext context, index) {
-              final MenuItemModel item = menuProvider.menuItems[index];
+              final MenuItemModel item = itensParaExibir[index];
 
               return Card(
                 elevation: 3,
@@ -60,12 +74,15 @@ class _CafeGridViewState extends State<CafeGridView> {
                 color: theme.surfaceContainer,
                 clipBehavior: Clip.antiAlias,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Placeholder(
-                      fallbackHeight: 120,
-                      color: theme.secondaryContainer,
+                    Expanded(
+                      flex: 3,
+                      child: Placeholder(
+                        fallbackHeight: 120,
+                        color: theme.onSurfaceVariant,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4),
@@ -86,7 +103,7 @@ class _CafeGridViewState extends State<CafeGridView> {
                         Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Text(
-                            item.preco.toStringAsFixed(2),
+                            "R\$ ${item.preco.toStringAsFixed(2)}",
                             style: TextStyle(
                               color: theme.onSurfaceVariant,
                               fontSize: textTheme.titleLarge?.fontSize,
