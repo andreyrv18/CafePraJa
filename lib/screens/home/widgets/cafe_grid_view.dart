@@ -95,7 +95,6 @@ class _CafeGridViewState extends State<CafeGridView> {
                         ),
                         IconButton(
                           onPressed: () {
-                            print(item.nome);
                             addCart.adicionarItem(
                               item.id,
                               item.nome,

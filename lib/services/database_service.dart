@@ -40,18 +40,17 @@ class DatabaseService {
         }
       }
     } catch (e) {
-      print("Erro ao buscar todos os itens do cardápio: $e");
       throw Exception("Não foi possível carregar os itens do cardápio: $e");
     }
     return todosOsItens;
   }
 
-  Future createCart(IdDoProduto, nomeProduto, precoUnitario, imagemUrl) async {
+  Future createCart(idDoProduto, nomeProduto, precoUnitario, imagemUrl) async {
     DocumentReference itemRef = _db
         .collection("usuarios")
         .doc(uid)
         .collection("carrinhoItens")
-        .doc(IdDoProduto);
+        .doc(idDoProduto);
 
     DocumentSnapshot docSnapshot = await itemRef.get();
     if (docSnapshot.exists) {
@@ -124,11 +123,6 @@ class DatabaseService {
   }
 
   Future<void> atualizaQuantidadeNoCarrinho(idProduto, novaQuantidade) async {
-    if (uid == null) {
-      print(
-        "Erro: UID do usuário não está disponível para atualizar o carrinho.",
-      );
-    }
     DocumentReference itemRef = _db
         .collection("usuarios")
         .doc(uid)
@@ -148,7 +142,6 @@ class DatabaseService {
   Stream<QuerySnapshot<Map<String, dynamic>>> getTodosOsCuponsStream() {
     Stream<QuerySnapshot<Map<String, dynamic>>> cuponsStream =
         _db.collection("cupons").snapshots();
-    print("🗝️ Assinando o stream de cupons...");
     return cuponsStream;
   }
 }

@@ -1,6 +1,4 @@
-import 'package:cafe_pra_ja/screens/cupons.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
-import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {

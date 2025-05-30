@@ -22,7 +22,6 @@ class MenuProvider with ChangeNotifier {
       _menuItems = await _databaseService.getTodosOsItensDoCardapio();
     } catch (e) {
       _errorMessage = "Erro ao carregar cardápio: ${e.toString()}";
-      print("MenuProvider Erro: $_errorMessage");
       _menuItems = [];
     } finally {
       _isLoading = false;

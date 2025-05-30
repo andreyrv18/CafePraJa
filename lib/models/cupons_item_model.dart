@@ -4,11 +4,13 @@ class CuponsItemModel {
   final String id;
   final String codigo;
   final int porcentagem;
+  final String descricao;
 
   CuponsItemModel({
     required this.id,
     required this.codigo,
     required this.porcentagem,
+    required this.descricao,
   });
 
   factory CuponsItemModel.fromFirestore(
@@ -20,6 +22,7 @@ class CuponsItemModel {
       id: doc.id,
       codigo: data['codigo'] as String? ?? 'CÓDIGO INVÁLIDO',
       porcentagem: data['porcentagem'],
+      descricao: data["descricao"],
     );
   }
 }

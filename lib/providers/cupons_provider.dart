@@ -3,7 +3,7 @@ import 'package:cafe_pra_ja/services/database_service.dart';
 import 'package:flutter/foundation.dart';
 
 class CuponsProvider with ChangeNotifier {
-  late DatabaseService _dbService;
+  late final DatabaseService _dbService;
 
   CuponsProvider() : _dbService = DatabaseService();
 
@@ -13,7 +13,6 @@ class CuponsProvider with ChangeNotifier {
           querySnapshot.docs.map((doc) {
             return CuponsItemModel.fromFirestore(doc);
           }).toList();
-      print("💰 Cupons recebidos e mapeados: ${listaDeCupons.length} itens");
       return listaDeCupons;
     });
   }

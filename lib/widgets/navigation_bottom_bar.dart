@@ -49,6 +49,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       body: pages[currentPageIndex],
 
       bottomNavigationBar: NavigationBar(
+        elevation: 5,
         indicatorColor: theme.tertiaryContainer,
         selectedIndex: currentPageIndex,
         backgroundColor: theme.surfaceContainerHigh,
@@ -62,10 +63,12 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
           ),
           NavigationDestination(
             icon: Badge(
+              padding: EdgeInsets.all(2),
               label: Text("$quantidade"),
               child: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
             ),
             selectedIcon: Badge(
+              padding: EdgeInsets.all(2),
               label: Text("$quantidade"),
               child: Icon(Icons.shopping_bag_sharp),
             ),
@@ -74,10 +77,12 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
           ),
           NavigationDestination(
             icon: Badge(
+              padding: EdgeInsets.all(2),
               label: Text("$quantidadeDeCupons"),
               child: Icon(Icons.local_activity_outlined),
             ),
             selectedIcon: Badge(
+              padding: EdgeInsets.all(2),
               label: Text("$quantidadeDeCupons"),
               child: Icon(Icons.local_activity),
             ),
@@ -89,9 +94,6 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
             label: "Perfil",
           ),
         ],
-        // selectedIconTheme: IconThemeData(color: theme.onSurfaceVariant),
-        // selectedItemColor: theme.onSurface,
-        // unselectedIconTheme: IconThemeData(color: theme.onSurface),
       ),
     );
   }
