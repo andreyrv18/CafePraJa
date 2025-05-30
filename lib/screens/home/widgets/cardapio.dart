@@ -12,6 +12,7 @@ class CafeGridView extends StatefulWidget {
 }
 
 class _CafeGridViewState extends State<CafeGridView> {
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
