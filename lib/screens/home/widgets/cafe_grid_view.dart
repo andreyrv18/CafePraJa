@@ -15,12 +15,8 @@ class _CafeGridViewState extends State<CafeGridView> {
   @override
   void initState() {
     super.initState();
-    // Carrega os itens do cardápio quando o widget é inicializado,
-    // SE você não fez isso no construtor do MenuProvider.
-    // Usar addPostFrameCallback garante que o contexto esteja disponível.
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Verifica se já está carregando ou se já tem itens para evitar recargas desnecessárias
-      // ao reconstruir o widget, a menos que seja intencional.
       final menuProvider = Provider.of<MenuProvider>(context, listen: false);
       if (menuProvider.menuItems.isEmpty && !menuProvider.isLoading) {
         menuProvider.carregarItensDoCardapio();
