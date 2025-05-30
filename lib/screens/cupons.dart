@@ -1,22 +1,11 @@
 import 'package:flutter/material.dart';
 
-
-const Color corMarromEscuro = Color(
-  0xFF2D1B0B,
-); 
-const Color corMarromMedio = Color(
-  0xFF7B4F2F,
-); 
-const Color corBege = Color(
-  0xFFA1887F,
-); 
-const Color corCremeClaro = Color(
-  0xFFD7CCC8,
-); 
+const Color corMarromEscuro = Color(0xFF2D1B0B);
+const Color corMarromMedio = Color(0xFF7B4F2F);
+const Color corBege = Color(0xFFA1887F);
+const Color corCremeClaro = Color(0xFFD7CCC8);
 const Color corTextoClaro = Colors.white;
-const Color corTextoEscuro = Color(
-  0xFF2D1B0B,
-); 
+const Color corTextoEscuro = Color(0xFF2D1B0B);
 
 class Cupom {
   final String nome;
@@ -60,7 +49,7 @@ class PaginaCupons extends StatelessWidget {
           foregroundColor: corTextoClaro,
           elevation: 0,
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           color: corBege,
           elevation: 2,
           margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -107,10 +96,7 @@ class PaginaCupons extends StatelessWidget {
                 trailing: Text(
                   cupom.codigo,
                   style: TextStyle(
-                    color:
-                        Theme.of(context)
-                            .colorScheme
-                            .onSurfaceVariant, 
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   ),
