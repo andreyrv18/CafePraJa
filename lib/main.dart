@@ -7,6 +7,7 @@ import 'package:cafe_pra_ja/models/cupons_item_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+
 import 'firebase_options.dart';
 import 'theme.dart';
 import 'util.dart';
@@ -18,14 +19,14 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => MenuProvider()),
+        ChangeNotifierProvider(create: (_) => CuponsProvider()),
         StreamProvider<List<CartItemModel>>(
           create:
               (context) =>
                   context.read<CartProvider>().getItensDoCarrinhoStream(),
           initialData: const [],
         ),
-        ChangeNotifierProvider(create: (_) => MenuProvider()),
-        ChangeNotifierProvider(create: (_) => CuponsProvider()),
         StreamProvider<List<CuponsItemModel>>(
           create: (context) => context.read<CuponsProvider>().cuponsStream,
           initialData: const [],
