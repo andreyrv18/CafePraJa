@@ -1,14 +1,14 @@
 import 'package:cafe_pra_ja/services/database_service.dart';
 import 'package:flutter/material.dart';
 
-class CafeListView extends StatefulWidget {
-  const CafeListView({super.key});
+class CategoriasList extends StatefulWidget {
+  const CategoriasList({super.key});
 
   @override
-  State<CafeListView> createState() => _CafeListViewState();
+  State<CategoriasList> createState() => _CategoriasListState();
 }
 
-class _CafeListViewState extends State<CafeListView> {
+class _CategoriasListState extends State<CategoriasList> {
   int selectedIndex = 0;
 
   final DatabaseService _dbService = DatabaseService();
