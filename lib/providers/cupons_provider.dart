@@ -1,6 +1,5 @@
 import 'package:cafe_pra_ja/models/cupons_item_model.dart';
 import 'package:cafe_pra_ja/services/database_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class CuponsProvider with ChangeNotifier {
