@@ -16,7 +16,6 @@ class _CafeGridViewState extends State<CafeGridView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ;
       final menuProvider = Provider.of<MenuProvider>(context, listen: false);
 
       if (menuProvider.todosOsItensDoCardapioDEBUG.isEmpty &&
