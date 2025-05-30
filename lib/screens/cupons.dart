@@ -71,9 +71,8 @@ class PaginaCupons extends StatelessWidget {
         colorScheme: ColorScheme.light(
           primary: corMarromMedio,
           onPrimary: corCremeClaro,
-          background: corCremeClaro,
           surface: corBege,
-          onBackground: corTextoEscuro,
+          onSurface: corTextoEscuro,
           onSurfaceVariant: corMarromEscuro,
         ),
       ),
