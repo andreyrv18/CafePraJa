@@ -13,7 +13,7 @@ class CartProvider with ChangeNotifier {
 
   Stream<List<CartItemModel>> getItensDoCarrinhoStream() {
     if (_dbService == null) {
-      return Stream.empty(); // Retorna um stream vazio para evitar crash
+      return Stream.empty(); // Retorna um evento vazio para evitar crash
     }
     return _dbService.getCartItemsStream().map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
