@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 border: OutlineInputBorder(),
                 label: Text("Encontre seu café favorito!"),
                 hintStyle: textTheme.labelMedium,
-                hint: Text("Ex: Expresso, Cappuccino, Arábica..."),
+
                 prefixIcon: Icon(Icons.search, color: theme.onSurface),
               ),
             ),
