@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/screens/cadastro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -86,25 +87,22 @@ class _PerfilState extends State<Perfil> {
               ),
             ),
             const SizedBox(height: 7),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: theme.colorScheme.onPrimary,
-                  width: 0.8,
-                ),
-                borderRadius: BorderRadius.circular(7),
-              ),
-              child: CupertinoButton(
+            SizedBox(width: double.infinity,
+              height: 40,
+              child: ElevatedButton(
+                style: ButtonStyle(backgroundColor:  WidgetStateProperty.all(theme.colorScheme.tertiary)),
                 child: Text(
                   "Crie sua conta",
                   style: TextStyle(
-                    color: theme.colorScheme.onPrimary,
+                    color: theme.colorScheme.onSecondary,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
+
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Cadastro()));
+                },
               ),
             ),
           ],
