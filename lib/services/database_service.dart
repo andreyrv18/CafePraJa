@@ -70,7 +70,9 @@ class DatabaseService {
     String idProduto,
     String nomeProduto,
     double precoUnitario,
-    String? imagemUrl,
+    String categoriaId,
+    String imagemUrl,
+    String descricao,
   ) async {
     if (uid == null) throw Exception("Usuário não autenticado.");
     final DocumentReference itemRef = _db
@@ -91,6 +93,7 @@ class DatabaseService {
           'precoUnitario': precoUnitario,
           'quantidade': 1,
           'imagemUrl': imagemUrl,
+          'descricao': descricao,
           'adicionadoEm': FieldValue.serverTimestamp(),
         });
       }
