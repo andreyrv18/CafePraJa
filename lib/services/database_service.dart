@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 
 class DatabaseService {
+  DatabaseService({this.uid});
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final String? uid; // UID do usuário logado
-  DatabaseService({this.uid});
 
   Future<List<Map<String, dynamic>>> getCategorias() async {
     QuerySnapshot querySnapshot = await _db.collection("cardapio").get();
@@ -41,7 +41,6 @@ class DatabaseService {
     } catch (e) {
       throw Exception("Não foi possível carregar os itens do cardápio: $e");
     }
-
     return todosOsItens;
   }
 
