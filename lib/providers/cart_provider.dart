@@ -25,16 +25,20 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> adicionarItem(
-    idProduto,
-    nomeProduto,
-    precoUnitario,
+    id,
+    nome,
+    preco,
+    categoriaId,
     imagemUrl,
+    descricao,
   ) async {
     await _dbService.addOrUpdateItemNoCarrinho(
-      idProduto,
-      nomeProduto,
-      precoUnitario,
+      id,
+      nome,
+      preco,
+      categoriaId,
       imagemUrl,
+      descricao,
     );
   }
 
