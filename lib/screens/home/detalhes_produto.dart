@@ -25,41 +25,21 @@ class DetalhesProduto extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: 250,
               width: double.infinity,
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: theme.secondaryContainer.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(12.0),
               ),
               alignment: Alignment.center,
-              child: Icon(
-                Icons.local_cafe_outlined, // Ícone de placeholder
-                size: 100,
-                color: theme.onSecondaryContainer.withValues(alpha: 0.7),
-              ),
+              child:
+                  item.imagemUrl.isEmpty
+                      ? const Text("Produto sem imagem")
+                      : Expanded(child: Image.asset("${item.imagemUrl}.jpg")),
             ),
 
             const SizedBox(height: 24.0),
-            Text(
-              item.nome,
-              textAlign: TextAlign.center,
-              style: textTheme.titleMedium?.copyWith(
-                color: theme.onSurface,
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 12.0),
 
-            Text(
-              "R\$ ${item.preco.toStringAsFixed(2)}",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: theme.onSurfaceVariant,
-                fontSize: textTheme.titleLarge?.fontSize,
-              ),
-            ),
-            const SizedBox(height: 16.0),
             Card(
               elevation: 2,
               color: theme.surfaceContainerLow,
@@ -68,34 +48,63 @@ class DetalhesProduto extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      "Categoria: ${item.categoriaId}",
-                      style: textTheme.bodyLarge?.copyWith(
-                        color: theme.onSurfaceVariant,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          "Categoria: ${item.categoriaId}",
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: theme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          item.disponivel
+                              ? "Disponível em estoque"
+                              : "Indisponível no momento",
+                          style: textTheme.bodyLarge?.copyWith(
+                            color:
+                                item.disponivel
+                                    ? Colors.green.shade700
+                                    : theme.error,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      item.disponivel
-                          ? "Disponível em estoque"
-                          : "Indisponível no momento",
-                      style: textTheme.bodyLarge?.copyWith(
-                        color:
-                            item.disponivel
-                                ? Colors.green.shade700
-                                : theme.error,
-                        fontWeight: FontWeight.w500,
-                      ),
+
+                    Column(
+                      children: [
+                        Text(
+                          item.nome,
+                          textAlign: TextAlign.center,
+                          style: textTheme.titleMedium?.copyWith(
+                            color: theme.onSurface,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 12.0),
+
+                        Text(
+                          "R\$ ${item.preco.toStringAsFixed(2)}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: theme.onSurfaceVariant,
+                            fontSize: textTheme.titleLarge?.fontSize,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 32.0), // Espaço antes do botão
 
+            const SizedBox(height: 16.0),
             if (item.disponivel)
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
