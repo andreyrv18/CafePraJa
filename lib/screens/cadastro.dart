@@ -1,8 +1,59 @@
-import 'package:cafe_pra_ja/screens/home/home_screen.dart';
-import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
-class Cadastro extends StatelessWidget {
+class Cadastro extends StatefulWidget {
+  const Cadastro({super.key});
+
+  @override
+  State<Cadastro> createState() => _CadastroState();
+}
+
+class _CadastroState extends State<Cadastro> {
+  var nomeController = TextEditingController();
+  var sobrenomeController = TextEditingController();
+  var emailController = TextEditingController();
+  var senhaController = TextEditingController();
+  var segundaSenhaController = TextEditingController();
+
+  void validarCampos() {
+    var validarNome =
+        nomeController.text.length < 3 || sobrenomeController.text.length < 3;
+    var validarEmail =
+        emailController.text.contains("@") &&
+        emailController.text.contains(".com");
+    var validarTamanhoSenha =
+        senhaController.text.length < 6 ||
+        segundaSenhaController.text.length < 6;
+
+    var validarSenhaIguais = segundaSenhaController.text.compareTo(
+      senhaController.text,
+    );
+    if (validarNome ||
+        validarTamanhoSenha ||
+        !validarEmail ||
+        validarSenhaIguais != 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Verifique os campos e tente novamente'),
+          duration: const Duration(milliseconds: 1000),
+
+          behavior: SnackBarBehavior.fixed,
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    nomeController.dispose();
+    sobrenomeController.dispose();
+    emailController.dispose();
+    senhaController.dispose();
+    segundaSenhaController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
@@ -13,104 +64,73 @@ class Cadastro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person),
+          SizedBox(height: 24),
+          TextField(
+            decoration: InputDecoration(
+              hintStyle: TextStyle(color: theme.outline),
+              border: OutlineInputBorder(borderSide: BorderSide(width: 2)),
+              icon: const Icon(Icons.person_2),
               hintText: 'Como posso chamar você?',
               labelText: 'Nome *',
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-            },
-            validator: (String? value) {
-              return (value != null && value.contains('@'))
-                  ? 'Do not use the @ char.'
-                  : null;
-            },
+            controller: nomeController,
           ),
-
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person),
+          SizedBox(height: 24),
+          TextField(
+            controller: sobrenomeController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide(width: 2)),
+              hintStyle: TextStyle(color: theme.outline),
+              icon: const Icon(Icons.person_2_outlined),
               hintText: 'Qual é o seu sobrenome?',
               labelText: 'Sobrenome *',
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-            },
-            validator: (String? value) {
-              return (value != null && value.contains('@'))
-                  ? 'Do not use the @ char.'
-                  : null;
-            },
           ),
-
-          TextFormField(
-            decoration: const InputDecoration(
+          SizedBox(height: 24),
+          TextField(
+            controller: emailController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide(width: 2)),
+              hintStyle: TextStyle(color: theme.outline),
               icon: Icon(Icons.email),
               hintText: 'Ex: seumelhoremail@gmail.com *',
               labelText: 'Digite seu email *',
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-            },
-            validator: (String? value) {
-              return (value != null && value.contains('@'))
-                  ? 'Do not use the @ char.'
-                  : null;
-            },
           ),
-
-          TextFormField(
-            decoration: const InputDecoration(
+          SizedBox(height: 24),
+          TextField(
+            obscureText: true,
+            controller: senhaController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide(width: 2)),
+              hintStyle: TextStyle(color: theme.outline),
               icon: Icon(Icons.lock),
               hintText: 'Digite sua senha *',
               labelText: 'Senha *',
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-            },
-            validator: (String? value) {
-              return (value != null && value.contains('@'))
-                  ? 'Do not use the @ char.'
-                  : null;
-            },
           ),
+          SizedBox(height: 24),
 
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.lock),
+          TextField(
+            controller: segundaSenhaController,
+            obscureText: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(borderSide: BorderSide(width: 2)),
+              hintStyle: TextStyle(color: theme.outline),
+              icon: Icon(Icons.lock_outline),
               hintText: 'Senha *',
               labelText: 'Digite novamente sua senha *',
             ),
-            onSaved: (String? value) {
-              // This optional block of code can be used to run
-              // code when the user saves the form.
-            },
-            validator: (String? value) {
-              return (value != null && value.contains('@'))
-                  ? 'Do not use the @ char.'
-                  : null;
-            },
           ),
-          FloatingActionButton(
-
+          SizedBox(height: 240),
+          FloatingActionButton.extended(
             backgroundColor: theme.primary,
             elevation: 5,
             foregroundColor: theme.onPrimary,
-            onPressed: () {
-              Navigator.pop(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NavigationBottomBar(),
-                ),
-              );
+            onPressed: () async {
+              validarCampos();
             },
-            child: Text("Cadastrar!"),
+            label: Text("Cadastrar!"),
           ),
         ],
       ),
