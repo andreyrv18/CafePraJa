@@ -1,5 +1,6 @@
-import 'package:cafe_pra_ja/services/database_service.dart';
+import 'package:cafe_pra_ja/providers/menu_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoriasList extends StatefulWidget {
   const CategoriasList({super.key});
@@ -9,88 +10,68 @@ class CategoriasList extends StatefulWidget {
 }
 
 class _CategoriasListState extends State<CategoriasList> {
-  int selectedIndex = 0;
-
-  final DatabaseService _dbService = DatabaseService();
-  late Future<List<Map<String, dynamic>>> _cardapioFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchCardapioData();
-  }
-
-  void _fetchCardapioData() async {
-    setState(() {
-      _cardapioFuture = _dbService.getCategorias();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    return FutureBuilder(
-      future: _cardapioFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: (CircularProgressIndicator(
-              backgroundColor: theme.secondaryContainer,
-            )),
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text("Erro ao carregar: ${snapshot.error}"));
-        }
-        if (!snapshot.hasData ||
-            snapshot.data == null ||
-            snapshot.data!.isEmpty) {
-          return const Center(child: Text("Nenhum Item no Cardápio"));
-        }
+    final TextTheme textTheme = Theme.of(context).textTheme;
 
-        final cardapioItens = snapshot.data!;
+    final menuProvider = context.watch<MenuProvider>();
+    if (menuProvider.carregandoCardapio && menuProvider.categorias.isEmpty) {
+      return const SizedBox(
+        height: 50,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-        return ListView.builder(
-          padding: EdgeInsets.only(left: 8),
-          itemCount: cardapioItens.length,
+    final List<Map<String, dynamic>> listaDeCategorias =
+        menuProvider.categorias;
 
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            final isSelected = index == selectedIndex;
-
-            final item = cardapioItens[index];
-
-            final String nome = item["nome"]?.toString() ?? "sem nome";
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
-              child: Container(
-                width: 160,
-
-                decoration: BoxDecoration(
-                  color: isSelected ? theme.primary : theme.surfaceDim,
-                  border: Border.all(color: theme.onSurface),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      nome,
-                      style:
-                          isSelected
-                              ? TextStyle(color: theme.onPrimary)
-                              : TextStyle(color: theme.onSurface),
-                    ),
-                  ),
-                ),
-              ),
-            );
+    return ListView.builder(
+      itemCount: listaDeCategorias.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        final item = listaDeCategorias[index];
+        final String categoriaId = item['id'];
+        final String nome = item["nome"]?.toString() ?? "Sem nome";
+        final isSelected = menuProvider.categoriaSelecionadaId == categoriaId;
+        return InkWell(
+          onTap: () {
+            menuProvider.selecionarCategoria(categoriaId);
           },
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+
+          child: Container(
+            width: 160,
+            decoration: BoxDecoration(
+              color: isSelected ? theme.primary : theme.surfaceDim,
+              border: Border.all(
+                color: isSelected ? Colors.transparent : theme.outlineVariant,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 8),
+            child: Center(
+              child: Text(
+                nome,
+                textAlign: TextAlign.center,
+
+                overflow: TextOverflow.ellipsis,
+
+                style:
+                    isSelected
+                        ? TextStyle(
+                          color: theme.onPrimary,
+                          fontSize: textTheme.titleMedium?.fontSize,
+                          fontWeight: textTheme.titleMedium?.fontWeight,
+                        )
+                        : TextStyle(
+                          color: theme.onSurface,
+                          fontSize: textTheme.titleMedium?.fontSize,
+                          fontWeight: textTheme.titleMedium?.fontWeight,
+                        ),
+              ),
+            ),
+          ),
         );
       },
     );
