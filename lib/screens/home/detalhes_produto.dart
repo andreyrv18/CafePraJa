@@ -55,7 +55,7 @@ class DetalhesProduto extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          "Categoria: ${item.categoriaId}",
+                          item.descricao,
                           style: textTheme.bodyLarge?.copyWith(
                             color: theme.onSurfaceVariant,
                           ),
