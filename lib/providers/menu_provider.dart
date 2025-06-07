@@ -18,10 +18,6 @@ class MenuProvider with ChangeNotifier {
   String get termoDeBuscaCardapio => _termoDeBuscaCardapio;
   bool get carregandoCardapio => _carregandoCardapio;
 
-  // MenuProvider() {
-  //   carregarItensDoCardapio();
-  // }
-
   Future<void> carregarItensDoCardapio() async {
     if (_carregandoCardapio) return;
     _carregandoCardapio = true;
@@ -31,6 +27,7 @@ class MenuProvider with ChangeNotifier {
     try {
       _todosOsItensDoCardapio =
           await _databaseService.getTodosOsItensDoCardapio();
+
       _aplicarFiltroCardapio();
     } catch (e) {
       _mensagemErro = "Erro ao carregar cardápio: ${e.toString()}";
