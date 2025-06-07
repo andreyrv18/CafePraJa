@@ -136,6 +136,8 @@ class _CardapioGridState extends State<CardapioGrid> {
                                 item.nome,
                                 item.preco,
                                 item.categoriaId,
+                                item.imagemUrl,
+                                item.descricao,
                               );
                             },
                           ),
