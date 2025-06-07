@@ -7,6 +7,7 @@ class MenuItemModel {
   final double preco;
   final String categoriaId; // Para saber a qual categoria o item pertence
   final String imagemUrl;
+  final String descricao;
 
   MenuItemModel({
     required this.id,
@@ -15,6 +16,7 @@ class MenuItemModel {
     required this.preco,
     required this.categoriaId,
     required this.imagemUrl,
+    required this.descricao,
   });
 
   factory MenuItemModel.fromFirestore(
@@ -29,6 +31,7 @@ class MenuItemModel {
       preco: (data['preco'] as num? ?? 0.0).toDouble(),
       categoriaId: categoriaId,
       imagemUrl: data["imagemUrl"] as String? ?? "Produto sem Imagem",
+      descricao: data["descricao"] as String? ?? "Produto sem Descrição",
     );
   }
 }
