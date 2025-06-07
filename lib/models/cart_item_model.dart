@@ -5,14 +5,16 @@ class CartItemModel {
   final String nomeProduto;
   final int quantidade;
   final double precoUnitario;
-  final String? imagemUrl;
+  final String imagemUrl;
+  final String descricao;
 
   CartItemModel({
     required this.id,
     required this.nomeProduto,
     required this.quantidade,
     required this.precoUnitario,
-    this.imagemUrl,
+    required this.imagemUrl,
+    required this.descricao,
   });
 
   factory CartItemModel.fromFirestore(
@@ -25,7 +27,8 @@ class CartItemModel {
       nomeProduto: data['nomeProduto'] ?? 'Nome Indisponível',
       precoUnitario: (data['precoUnitario'] ?? 0.0).toDouble(),
       quantidade: data['quantidade'] ?? 0,
-      // imagemUrl: data['imagemUrl'],
+      imagemUrl: data["imagemUrl"] as String? ?? "Produto sem Imagem",
+      descricao: data["descricao"] as String? ?? "Produto sem Descrição",
     );
   }
 }
