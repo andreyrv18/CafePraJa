@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 class DetalhesProduto extends StatelessWidget {
   const DetalhesProduto(this.item, {super.key});
+
   final MenuItemModel item;
 
   @override
@@ -60,11 +61,8 @@ class DetalhesProduto extends StatelessWidget {
                             color: theme.onSurfaceVariant,
                           ),
                         ),
-                        const SizedBox(height: 8.0),
                         Text(
-                          item.disponivel
-                              ? "Disponível em estoque"
-                              : "Indisponível no momento",
+                          item.disponivel ? "Disponível" : "Indisponível",
                           style: textTheme.bodyLarge?.copyWith(
                             color:
                                 item.disponivel
@@ -73,11 +71,7 @@ class DetalhesProduto extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                      ],
-                    ),
-
-                    Column(
-                      children: [
+                        const SizedBox(height: 8.0),
                         Text(
                           item.nome,
                           textAlign: TextAlign.center,
@@ -110,7 +104,8 @@ class DetalhesProduto extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.primary,
                   foregroundColor: theme.onPrimary,
-                  minimumSize: const Size(double.infinity, 50), // Botão largo
+                  minimumSize: const Size(double.infinity, 50),
+                  // Botão largo
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
@@ -125,6 +120,8 @@ class DetalhesProduto extends StatelessWidget {
                     item.nome,
                     item.preco,
                     item.categoriaId,
+                    item.imagemUrl,
+                    item.descricao,
                   );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
