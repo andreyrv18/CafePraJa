@@ -2,7 +2,7 @@ import 'package:cafe_pra_ja/autentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
