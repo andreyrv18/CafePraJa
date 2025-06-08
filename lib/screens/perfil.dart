@@ -1,169 +1,103 @@
-import 'package:cafe_pra_ja/screens/bemvindo.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+// Modelo de dados do usuário
+class UserProfile {
+  String name;
+  String email;
+  String? phone;
+  String? profileImagePath;
+
+  UserProfile({
+    required this.name,
+    required this.email,
+    this.phone,
+    this.profileImagePath,
+  });
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      profileImagePath: json['profileImagePath'],
+    );
+  }
+}
 
 class Perfil extends StatefulWidget {
-  const Perfil({super.key});
+  const Perfil({super.key, required String title});
 
   @override
   State<Perfil> createState() => _PerfilState();
 }
 
 class _PerfilState extends State<Perfil> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
+  UserProfile? _userProfile;
+  bool _isLoading = true;
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _senhaController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _fetchUserProfile();
+  }
+
+  Future<void> _fetchUserProfile() async {
+    try {
+      final response = await http.get(Uri.parse('https://seuservidor.com/api/usuario-logado'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          _userProfile = UserProfile.fromJson(data);
+          _isLoading = false;
+        });
+      } else {
+        throw Exception('Erro ao buscar dados do usuário');
+      }
+    } catch (e) {
+      debugPrint('Erro: $e');
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (_userProfile == null) {
+      return const Scaffold(
+        body: Center(child: Text("Erro ao carregar perfil.")),
+      );
+    }
+
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(27),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [theme.colorScheme.primary, theme.colorScheme.onSurface],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.coffee_sharp, size: 150.0),
-              const SizedBox(height: 30),
-              Text(
-                "Digite os dados de acesso nos campos abaixo.",
-                style: TextStyle(color: theme.colorScheme.onPrimary),
-              ),
-              const SizedBox(height: 30),
-
-              // Campo de e-mail
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0x332D1B0B),
-                  hintText: "Digite o seu e-mail",
-                  hintStyle: TextStyle(
-                    color: theme.colorScheme.onPrimary,
-                    fontSize: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: const TextStyle(color: Colors.white),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'O e-mail é obrigatório';
-                  } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                    return 'Digite um e-mail válido';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-
-              // Campo de senha
-              TextFormField(
-                controller: _senhaController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0x332D1B0B),
-                  hintText: "Digite sua senha",
-                  hintStyle: TextStyle(
-                    color: theme.colorScheme.onPrimary,
-                    fontSize: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: const TextStyle(color: Colors.white),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'A senha é obrigatória';
-                  } else if (value.length < 6) {
-                    return 'A senha deve ter pelo menos 6 caracteres';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 30),
-
-              // Botão de acessar
-              SizedBox(
-                width: double.infinity,
-                child: CupertinoButton(
-                  padding: const EdgeInsets.all(17),
-                  color: theme.colorScheme.primary,
-                  child: Text(
-                    "Acessar",
-                    style: TextStyle(
-                      color: theme.colorScheme.onPrimary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Se o formulário for válido, prossiga
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Acesso autorizado')),
-                      );
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(height: 7),
-
-              // Botão de criar conta
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: theme.colorScheme.onPrimary,
-                    width: 0.8,
-                  ),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: CupertinoButton(
-                  child: Text(
-                    "Crie sua conta",
-                    style: TextStyle(
-                      color: theme.colorScheme.onPrimary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Bemvindo(title: 'teste'),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+      appBar: AppBar(title: const Text("Perfil")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            CircleAvatar(
+              radius: 60,
+              backgroundColor: Colors.grey[300],
+              backgroundImage: _userProfile!.profileImagePath != null
+                  ? NetworkImage(_userProfile!.profileImagePath!)
+                  : null,
+              child: _userProfile!.profileImagePath == null
+                  ? const Icon(Icons.person, size: 60)
+                  : null,
+            ),
+            const SizedBox(height: 20),
+            Text("Nome: ${_userProfile!.name}", style: const TextStyle(fontSize: 18)),
+            Text("Email: ${_userProfile!.email}", style: const TextStyle(fontSize: 18)),
+            if (_userProfile!.phone != null)
+              Text("Telefone: ${_userProfile!.phone}", style: const TextStyle(fontSize: 18)),
+          ],
         ),
       ),
     );
