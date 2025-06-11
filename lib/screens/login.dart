@@ -2,7 +2,32 @@ import 'package:cafe_pra_ja/autentication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cafe_pra_ja/screens/perfil.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
+// Modelo de dados do usuário
+class UserProfile {
+  String name;
+  String email;
+  String? phone;
+  String? profileImagePath;
+
+  UserProfile({
+    required this.name,
+    required this.email,
+    this.phone,
+    this.profileImagePath,
+  });
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      profileImagePath: json['profileImagePath'],
+    );
+  }
+}
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -26,15 +51,48 @@ class _LoginState extends State<Login> {
     return Future.value(null);
   }
 
+
+  UserProfile? _userProfile;
+  bool _isLoading = false;
+
   @override
-  void dispose() {
-    _emailController.dispose();
-    _senhaController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+
+  }
+
+
+  Future<void> _fetchUserProfile() async {
+    try {
+      var response = FirebaseAuth.instance
+          .authStateChanges()
+          .listen((User? user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+        }
+      });
+
+    } catch (e) {
+      debugPrint('Erro: $e');
+      setState(() => _isLoading = true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (_userProfile != null) {
+      return const Scaffold(
+        body: Center(child: Text("Erro ao carregar perfil.")),
+      );
+    }
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -149,6 +207,7 @@ class _LoginState extends State<Login> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+                      // onPressed: () {},
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         try {
@@ -218,4 +277,11 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _senhaController.dispose();
+    super.dispose();
+  }
 }
+
