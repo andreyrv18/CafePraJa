@@ -2,7 +2,7 @@ import 'package:cafe_pra_ja/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/screens/cupons.dart';
 import 'package:cafe_pra_ja/screens/checkout/checkout.dart';
 import 'package:cafe_pra_ja/screens/home/home_screen.dart';
-import 'package:cafe_pra_ja/screens/perfil.dart';
+import 'package:cafe_pra_ja/screens/login.dart';
 import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
     Scaffold(appBar: AppBarWidget(), body: MyHomePage(title: "Home")),
     Scaffold(appBar: AppBarWidget(), body: Checkout()),
     Scaffold(appBar: AppBarWidget(), body: PaginaCupons()),
-    Scaffold(body: Perfil()),
+    Scaffold(body: Login()),
   ];
 
   void _onItemTapped(int index) {
