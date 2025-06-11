@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 
@@ -35,11 +36,12 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
-  // UserProfile? _userProfile;
+
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme theme = Theme.of(context).colorScheme;
+
+     ColorScheme theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text("Perfil")),
       body: Padding(
