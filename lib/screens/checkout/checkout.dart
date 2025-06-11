@@ -25,80 +25,83 @@ class Checkout extends StatelessWidget {
         final nomeProduto = item.nomeProduto;
         final precoUnitario = item.precoUnitario;
         final quantidade = item.quantidade;
+        final imagemUrl = item.imagemUrl;
         return Card(
           margin: EdgeInsets.all(8),
           elevation: 2,
           color: theme.surfaceContainerHighest,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      nomeProduto,
-                      style: textTheme.titleLarge?.copyWith(
-                        color: theme.onSurface,
-                      ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 3,
+                child:
+                    imagemUrl.isEmpty
+                        ? const Text("Produto sem imagem")
+                        : Expanded(child: Image.asset("${item.imagemUrl}.jpg")),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    nomeProduto,
+                    style: textTheme.titleLarge?.copyWith(
+                      color: theme.onSurface,
                     ),
+                  ),
 
-                    Text(
-                      'Qtd: $quantidade x R\$ $precoUnitario',
-                      style: textTheme.bodyLarge,
+                  Text(
+                    'Qtd: $quantidade x R\$ $precoUnitario',
+                    style: textTheme.bodyLarge,
+                  ),
+                  Text(
+                    'R\$ ${(precoUnitario * quantidade).toStringAsFixed(2)}',
+                    style: textTheme.titleLarge?.copyWith(
+                      color: theme.primary,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      'R\$ ${(precoUnitario * quantidade).toStringAsFixed(2)}',
-                      style: textTheme.titleLarge?.copyWith(
-                        color: theme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: theme.tertiaryContainer,
-                        foregroundColor: theme.onTertiaryContainer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: theme.tertiaryContainer,
+                          foregroundColor: theme.onTertiaryContainer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
+                        onPressed: () {
+                          adicionarItem.atualizarQuantidade(
+                            item.id,
+                            item.quantidade + 1,
+                          );
+                        },
+                        icon: Icon(Icons.add_shopping_cart),
                       ),
-                      onPressed: () {
-                        adicionarItem.atualizarQuantidade(
-                          item.id,
-                          item.quantidade + 1,
-                        );
-                      },
-                      icon: Icon(Icons.add_shopping_cart),
-                    ),
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: theme.errorContainer,
-                        foregroundColor: theme.onErrorContainer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      IconButton(
+                        style: IconButton.styleFrom(
+                          backgroundColor: theme.errorContainer,
+                          foregroundColor: theme.onErrorContainer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
+                        onPressed: () {
+                          adicionarItem.atualizarQuantidade(
+                            item.id,
+                            item.quantidade - 1,
+                          );
+                        },
+                        icon: Icon(Icons.remove_shopping_cart_rounded),
                       ),
-                      onPressed: () {
-                        adicionarItem.atualizarQuantidade(
-                          item.id,
-                          item.quantidade - 1,
-                        );
-                      },
-                      icon: Icon(Icons.remove_shopping_cart_rounded),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },

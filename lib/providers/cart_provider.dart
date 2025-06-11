@@ -12,9 +12,6 @@ class CartProvider with ChangeNotifier {
   }
 
   Stream<List<CartItemModel>> getItensDoCarrinhoStream() {
-    if (_dbService == null) {
-      return Stream.empty(); // Retorna um evento vazio para evitar crash
-    }
     return _dbService.getCartItemsStream().map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return CartItemModel.fromFirestore(
@@ -25,16 +22,20 @@ class CartProvider with ChangeNotifier {
   }
 
   Future<void> adicionarItem(
-    idProduto,
-    nomeProduto,
-    precoUnitario,
+    id,
+    nome,
+    preco,
+    categoriaId,
     imagemUrl,
+    descricao,
   ) async {
     await _dbService.addOrUpdateItemNoCarrinho(
-      idProduto,
-      nomeProduto,
-      precoUnitario,
+      id,
+      nome,
+      preco,
+      categoriaId,
       imagemUrl,
+      descricao,
     );
   }
 

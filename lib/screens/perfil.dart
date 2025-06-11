@@ -1,4 +1,9 @@
+
+import 'package:cafe_pra_ja/screens/cadastro.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
@@ -91,6 +96,80 @@ class _PerfilState extends State<Perfil> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+
+            Icon(Icons.coffee_sharp, size: 150.0),
+            const SizedBox(height: 30),
+            Text(
+              "Digite os dados de acesso nos campos abaixo.",
+              style: TextStyle(color: theme.colorScheme.onPrimary), // creme
+            ),
+            const SizedBox(height: 30),
+            CupertinoTextField(
+              cursorColor: Color(0xFF7B4F2F), // marrom médio
+              padding: EdgeInsets.all(15),
+              placeholder: "Digite o seu e-mail",
+              placeholderStyle: TextStyle(
+                color: theme.colorScheme.onPrimary,
+                fontSize: 14,
+              ), // bege claro
+              style: TextStyle(color: Colors.white, fontSize: 14),
+              decoration: BoxDecoration(
+                color: Color(0x332D1B0B), // marrom com transparência
+                borderRadius: BorderRadius.all(Radius.circular(7)),
+              ),
+            ),
+            const SizedBox(height: 5),
+            CupertinoTextField(
+              padding: EdgeInsets.all(15),
+              cursorColor: Color(0xFF8B5E3C),
+              placeholder: "Digite sua senha",
+              obscureText: true,
+              placeholderStyle: TextStyle(
+                color: theme.colorScheme.onPrimary,
+                fontSize: 14,
+              ),
+              style: TextStyle(color: Colors.white, fontSize: 14),
+              decoration: BoxDecoration(
+                color: Color(0x332D1B0B),
+                borderRadius: BorderRadius.all(Radius.circular(7)),
+              ),
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              child: CupertinoButton(
+                padding: const EdgeInsets.all(17),
+                color: theme.colorScheme.primary, // marrom café com leite
+                child: Text(
+                  "Acessar",
+                  style: TextStyle(
+                    color: theme.colorScheme.onPrimary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ),
+            const SizedBox(height: 7),
+            SizedBox(width: double.infinity,
+              height: 40,
+              child: ElevatedButton(
+                style: ButtonStyle(backgroundColor:  WidgetStateProperty.all(theme.colorScheme.tertiary)),
+                child: Text(
+                  "Crie sua conta",
+                  style: TextStyle(
+                    color: theme.colorScheme.onSecondary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Cadastro()));
+                },
+              ),
+
             CircleAvatar(
               radius: 60,
               backgroundColor: Colors.grey[300],
@@ -100,6 +179,7 @@ class _PerfilState extends State<Perfil> {
               child: _userProfile!.profileImagePath == null
                   ? const Icon(Icons.person, size: 60)
                   : null,
+
             ),
             const SizedBox(height: 20),
             Text("Nome: ${_userProfile!.name}", style: const TextStyle(fontSize: 18)),
