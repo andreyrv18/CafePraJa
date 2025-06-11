@@ -1,16 +1,3 @@
-<<<<<<< andrey-fapi
-import 'package:flutter/cupertino.dart';
-
-class Autenticacao extends StatelessWidget {
-  const Autenticacao({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
-=======
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AutenticacaoServico {
@@ -46,4 +33,3 @@ class AutenticacaoServico {
     }
   }
 }
->>>>>>> main

@@ -1,5 +1,6 @@
 
 import 'package:cafe_pra_ja/screens/cadastro.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'dart:convert';
@@ -89,7 +90,7 @@ class _PerfilState extends State<Perfil> {
         body: Center(child: Text("Erro ao carregar perfil.")),
       );
     }
-
+    ColorScheme theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text("Perfil")),
       body: Padding(
@@ -101,7 +102,7 @@ class _PerfilState extends State<Perfil> {
             const SizedBox(height: 30),
             Text(
               "Digite os dados de acesso nos campos abaixo.",
-              style: TextStyle(color: theme.colorScheme.onPrimary), // creme
+              style: TextStyle(color: theme.onPrimary), // creme
             ),
             const SizedBox(height: 30),
             CupertinoTextField(
@@ -109,7 +110,7 @@ class _PerfilState extends State<Perfil> {
               padding: EdgeInsets.all(15),
               placeholder: "Digite o seu e-mail",
               placeholderStyle: TextStyle(
-                color: theme.colorScheme.onPrimary,
+                color: theme.onPrimary,
                 fontSize: 14,
               ), // bege claro
               style: TextStyle(color: Colors.white, fontSize: 14),
@@ -125,7 +126,7 @@ class _PerfilState extends State<Perfil> {
               placeholder: "Digite sua senha",
               obscureText: true,
               placeholderStyle: TextStyle(
-                color: theme.colorScheme.onPrimary,
+                color: theme.onPrimary,
                 fontSize: 14,
               ),
               style: TextStyle(color: Colors.white, fontSize: 14),
@@ -139,11 +140,11 @@ class _PerfilState extends State<Perfil> {
               width: double.infinity,
               child: CupertinoButton(
                 padding: const EdgeInsets.all(17),
-                color: theme.colorScheme.primary, // marrom café com leite
+                color: theme.primary, // marrom café com leite
                 child: Text(
                   "Acessar",
                   style: TextStyle(
-                    color: theme.colorScheme.onPrimary,
+                    color: theme.onPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -152,40 +153,7 @@ class _PerfilState extends State<Perfil> {
               ),
             ),
             const SizedBox(height: 7),
-            SizedBox(width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                style: ButtonStyle(backgroundColor:  WidgetStateProperty.all(theme.colorScheme.tertiary)),
-                child: Text(
-                  "Crie sua conta",
-                  style: TextStyle(
-                    color: theme.colorScheme.onSecondary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
 
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Cadastro()));
-                },
-              ),
-
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: Colors.grey[300],
-              backgroundImage: _userProfile!.profileImagePath != null
-                  ? NetworkImage(_userProfile!.profileImagePath!)
-                  : null,
-              child: _userProfile!.profileImagePath == null
-                  ? const Icon(Icons.person, size: 60)
-                  : null,
-
-            ),
-            const SizedBox(height: 20),
-            Text("Nome: ${_userProfile!.name}", style: const TextStyle(fontSize: 18)),
-            Text("Email: ${_userProfile!.email}", style: const TextStyle(fontSize: 18)),
-            if (_userProfile!.phone != null)
-              Text("Telefone: ${_userProfile!.phone}", style: const TextStyle(fontSize: 18)),
           ],
         ),
       ),
