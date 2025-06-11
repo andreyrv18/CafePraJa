@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/screens/perfil.dart';
+import 'package:cafe_pra_ja/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -29,7 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Perfil()),
+              MaterialPageRoute(builder: (context) => Login()),
             );
           },
           color: theme.onSecondary,
