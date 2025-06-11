@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
 
 // Modelo de dados do usuário
 class UserProfile {
@@ -46,7 +47,15 @@ class _PerfilState extends State<Perfil> {
   Future<void> _fetchUserProfile() async {
     try {
       final response = await http.get(Uri.parse('https://seuservidor.com/api/usuario-logado'));
-
+      FirebaseAuth.instance
+          .authStateChanges()
+          .listen((User? user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+        }
+      });
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         setState(() {
