@@ -23,9 +23,8 @@ class _LoginState extends State<Login> {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _senhaController.text,
-
       );
-      print(userCredential);
+      print(userCredential.user?.email);
       return userCredential;
     } on FirebaseAuthException {
       rethrow;
@@ -93,7 +92,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   style: const TextStyle(color: Colors.white),
-                  validator: (value) {
+                  validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return 'O e-mail é obrigatório';
                     } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
@@ -137,7 +136,7 @@ class _LoginState extends State<Login> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: (){},
-                        // () => _recoverPassword(_emailController.text.trim()),
+                    // () => _recoverPassword(_emailController.text.trim()),
                     child: const Text(
                       "Esqueceu a senha?",
                       style: TextStyle(color: Colors.white),
@@ -151,41 +150,43 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: double.infinity,
                   child: CupertinoButton(
-                    padding: const EdgeInsets.all(17),
-                    color: theme.colorScheme.primary,
-                    child: Text(
-                      "Acessar",
-                      style: TextStyle(
-                        color: theme.colorScheme.onPrimary,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                      padding: const EdgeInsets.all(17),
+                      color: theme.colorScheme.primary,
+                      child: Text(
+                        "Acessar",
+                        style: TextStyle(
+                          color: theme.colorScheme.onPrimary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    // onPressed: () {},
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        try {
-                          loginUsuario();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Acesso autorizado')),
-                          );
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => const Perfil(title: 'teste'),
-                            ),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Erro ao acessar: ${e.toString()}'),
-                            ),
-                          );
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() => _isLoading = true);
+                          try {
+                            await loginUsuario();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Acesso autorizado')),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  Perfil(user: _auth.currentUser!), // Passa o objeto User do Firebase
+                              ),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Erro: ${e.message}')),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Erro inesperado: ${e.toString()}')),
+                            );
+                          } finally {
+                            setState(() => _isLoading = false);
+                          }
                         }
                       }
-                    },
                   ),
                 ),
                 const SizedBox(height: 7),
@@ -235,3 +236,4 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 }
+
