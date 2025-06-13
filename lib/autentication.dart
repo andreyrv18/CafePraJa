@@ -1,20 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AutenticacaoServico {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<String?> cadastrarUsuario({
+    required String nome,
     required String email,
     required String senha,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: senha,
       );
-      return null;
+      await userCredential.user!.updateDisplayName(nome);
+      return null; // Sucesso
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'email-already-in-use') {
+        return 'O e-mail já está em uso.';
+      } else {
+        return 'Erro ao cadastrar: ${e.message}';
+      }
+    } catch (e) {
+      return 'Erro inesperado: ${e.toString()}';
     }
   }
 
@@ -27,9 +35,11 @@ class AutenticacaoServico {
         email: email,
         password: senha,
       );
-      return null;
+      return null; // Sucesso
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.message ?? 'Erro ao fazer login.';
+    } catch (e) {
+      return 'Erro inesperado: ${e.toString()}';
     }
   }
 }
