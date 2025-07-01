@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cafe_pra_ja/screens/perfil.dart'; // Importar a tela de perfil
+import 'package:cafe_pra_ja/screens/perfil/perfil.dart'; // Importar a tela de perfil
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -31,10 +31,11 @@ class _CadastroState extends State<Cadastro> {
     setState(() => _isLoading = true);
 
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: senhaController.text,
-      );
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: senhaController.text,
+          );
 
       User? user = userCredential.user;
 
@@ -55,7 +56,9 @@ class _CadastroState extends State<Cadastro> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Perfil(user: user), // Passa o objeto User do Firebase
+            builder:
+                (context) =>
+                    Perfil(user: user), // Passa o objeto User do Firebase
           ),
         );
       }
@@ -68,9 +71,9 @@ class _CadastroState extends State<Cadastro> {
       } else {
         message = 'Erro ao cadastrar: ${e.message}';
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro inesperado: ${e.toString()}')),
@@ -113,7 +116,9 @@ class _CadastroState extends State<Cadastro> {
                 controller: nomeController,
                 decoration: InputDecoration(
                   hintStyle: TextStyle(color: theme.outline),
-                  border: OutlineInputBorder(borderSide: const BorderSide(width: 2)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 2),
+                  ),
                   icon: const Icon(Icons.person_2),
                   hintText: 'Como posso chamar você?',
                   labelText: 'Nome *',
@@ -129,7 +134,9 @@ class _CadastroState extends State<Cadastro> {
               TextFormField(
                 controller: sobrenomeController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderSide: const BorderSide(width: 2)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 2),
+                  ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.person_2_outlined),
                   hintText: 'Qual é o seu sobrenome?',
@@ -146,7 +153,9 @@ class _CadastroState extends State<Cadastro> {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderSide: const BorderSide(width: 2)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 2),
+                  ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.email),
                   hintText: 'Ex: seumelhoremail@gmail.com *',
@@ -166,7 +175,9 @@ class _CadastroState extends State<Cadastro> {
                 obscureText: true,
                 controller: senhaController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderSide: const BorderSide(width: 2)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 2),
+                  ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.lock),
                   hintText: 'Digite sua senha *',
@@ -186,7 +197,9 @@ class _CadastroState extends State<Cadastro> {
                 controller: segundaSenhaController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderSide: const BorderSide(width: 2)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 2),
+                  ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.lock_outline),
                   hintText: 'Senha *',
@@ -216,4 +229,3 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 }
-

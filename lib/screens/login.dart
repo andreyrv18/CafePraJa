@@ -1,7 +1,7 @@
 import 'package:cafe_pra_ja/screens/cadastro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cafe_pra_ja/screens/perfil.dart';
+import 'package:cafe_pra_ja/screens/perfil/perfil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: (){},
+                  onPressed: () {},
                   // () => _recoverPassword(_emailController.text.trim()),
                   child: const Text(
                     "Esqueceu a senha?",
@@ -149,43 +149,48 @@ class _LoginState extends State<Login> {
               SizedBox(
                 width: double.infinity,
                 child: CupertinoButton(
-                    padding: const EdgeInsets.all(17),
-                    color: theme.colorScheme.primary,
-                    child: Text(
-                      "Acessar",
-                      style: TextStyle(
-                        color: theme.colorScheme.onPrimary,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  padding: const EdgeInsets.all(17),
+                  color: theme.colorScheme.primary,
+                  child: Text(
+                    "Acessar",
+                    style: TextStyle(
+                      color: theme.colorScheme.onPrimary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() => _isLoading = true);
-                        try {
-                          await loginUsuario();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Acesso autorizado')),
-                          );
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>  Perfil(user: _auth.currentUser!), // Passa o objeto User do Firebase
-                            ),
-                          );
-                        } on FirebaseAuthException catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Erro: ${e.message}')),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Erro inesperado: ${e.toString()}')),
-                          );
-                        } finally {
-                          setState(() => _isLoading = false);
-                        }
+                  ),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() => _isLoading = true);
+                      try {
+                        await loginUsuario();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Acesso autorizado')),
+                        );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => Perfil(
+                                  user: _auth.currentUser!,
+                                ), // Passa o objeto User do Firebase
+                          ),
+                        );
+                      } on FirebaseAuthException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Erro: ${e.message}')),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Erro inesperado: ${e.toString()}'),
+                          ),
+                        );
+                      } finally {
+                        setState(() => _isLoading = false);
                       }
                     }
+                  },
                 ),
               ),
               const SizedBox(height: 7),
@@ -213,9 +218,7 @@ class _LoginState extends State<Login> {
                     // Navegar para tela de cadastro, se houver
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const Cadastro(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const Cadastro()),
                     );
                   },
                 ),
@@ -234,4 +237,3 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 }
-
