@@ -29,7 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Perfil()),
+              MaterialPageRoute(builder: (context) => Login()),
             );
           },
           color: theme.onSecondary,

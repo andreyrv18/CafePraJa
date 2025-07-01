@@ -88,58 +88,56 @@ class _CardapioGridState extends State<CardapioGrid> {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: Placeholder(
-                          fallbackHeight: 120,
-                          color: theme.onSurfaceVariant,
-                        ),
+                        child:
+                            item.imagemUrl.isEmpty
+                                ? const Center(child: Placeholder())
+                                : Image.asset(
+                                  "${item.imagemUrl}.jpg",
+                                  fit: BoxFit.cover,
+                                ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Text(
-                          item.nome,
-                          textAlign: TextAlign.center,
-                          style: textTheme.titleMedium?.copyWith(
-                            color: theme.onSurface,
-                            fontWeight: FontWeight.bold,
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(
+                            item.nome,
+                            textAlign: TextAlign.center,
+                            style: textTheme.titleLarge?.copyWith(
+                              color: theme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 2, // Limita o nome a 2 linhas
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2, // Limita o nome a 2 linhas
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              "R\$ ${item.preco.toStringAsFixed(2)}",
-                              style: TextStyle(
-                                color: theme.onSurfaceVariant,
-                                fontSize: textTheme.titleLarge?.fontSize,
-                              ),
+                          Text(
+                            "R\$ ${item.preco.toStringAsFixed(2)}",
+                            style: TextStyle(
+                              color: theme.onSurfaceVariant,
+                              fontSize: textTheme.titleLarge?.fontSize,
                             ),
                           ),
-                          IconButton(
+                          FloatingActionButton(
+                            shape: BeveledRectangleBorder(),
+                            tooltip: "Comprar",
+
+                            backgroundColor: theme.tertiary,
+                            foregroundColor: theme.onTertiary,
+                            child: Icon(Icons.add_shopping_cart_outlined),
                             onPressed: () {
                               addCart.adicionarItem(
                                 item.id,
                                 item.nome,
                                 item.preco,
                                 item.categoriaId,
+                                item.imagemUrl,
+                                item.descricao,
                               );
                             },
-                            style: IconButton.styleFrom(
-                              backgroundColor: theme.tertiary,
-                              foregroundColor: theme.onTertiary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            icon: const Icon(
-                              Icons.add_shopping_cart_outlined,
-                              size: 20,
-                            ),
                           ),
                         ],
                       ),

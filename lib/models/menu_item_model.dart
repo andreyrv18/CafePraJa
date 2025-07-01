@@ -1,4 +1,3 @@
-// models/menu_item_model.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MenuItemModel {
@@ -7,6 +6,8 @@ class MenuItemModel {
   late final bool disponivel;
   final double preco;
   final String categoriaId; // Para saber a qual categoria o item pertence
+  final String imagemUrl;
+  final String descricao;
 
   MenuItemModel({
     required this.id,
@@ -14,6 +15,8 @@ class MenuItemModel {
     required this.disponivel,
     required this.preco,
     required this.categoriaId,
+    required this.imagemUrl,
+    required this.descricao,
   });
 
   factory MenuItemModel.fromFirestore(
@@ -22,11 +25,13 @@ class MenuItemModel {
   ) {
     Map<String, dynamic> data = doc.data()!; // Pega os dados do documento
     return MenuItemModel(
-      id: doc.id, // O ID do próprio documento
+      id: doc.id,
       nome: data['nome'] as String? ?? 'Nome Indisponível',
       disponivel: data['disponivel'] as bool? ?? false,
-      preco: (data['preco'] as num? ?? 0.0).toDouble(), // Converte para double
-      categoriaId: categoriaId, // ID da categoria pai
+      preco: (data['preco'] as num? ?? 0.0).toDouble(),
+      categoriaId: categoriaId,
+      imagemUrl: data["imagemUrl"] as String? ?? "Produto sem Imagem",
+      descricao: data["descricao"] as String? ?? "Produto sem Descrição",
     );
   }
 }

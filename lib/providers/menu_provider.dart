@@ -7,20 +7,50 @@ class MenuProvider with ChangeNotifier {
 
   List<MenuItemModel> _todosOsItensDoCardapio = [];
   List<MenuItemModel> _itensFiltradosDoCardapio = [];
+  List<Map<String, dynamic>> _categorias = [];
   String? _mensagemErro;
   String _termoDeBuscaCardapio = "";
   bool _carregandoCardapio = false;
+  String? _categoriaSelecionadaId;
+
+  String? get categoriaSelecionadaId => _categoriaSelecionadaId;
+
+  List<Map<String, dynamic>> get categorias => _categorias;
 
   List<MenuItemModel> get todosOsItensDoCardapioDEBUG =>
       _todosOsItensDoCardapio;
+
   String? get errorMessage => _mensagemErro;
+
   List<MenuItemModel> get itensFiltradosDoCardapio => _itensFiltradosDoCardapio;
+
   String get termoDeBuscaCardapio => _termoDeBuscaCardapio;
+
   bool get carregandoCardapio => _carregandoCardapio;
 
-  // MenuProvider() {
-  //   carregarItensDoCardapio();
-  // }
+  MenuProvider() {
+    buscarCategorias();
+    carregarItensDoCardapio();
+    notifyListeners();
+  }
+
+  Future<void> buscarCategorias() async {
+    try {
+      _categorias = await _databaseService.getCategorias();
+      if (_categorias.isNotEmpty && _categoriaSelecionadaId == null) {
+        _categoriaSelecionadaId = _categorias.first['id'];
+      }
+    } catch (e) {
+      _mensagemErro = "Erro ao buscar categorias: $e";
+      _categorias = [];
+    }
+  }
+
+  void selecionarCategoria(String categoriaId) {
+    _categoriaSelecionadaId = categoriaId;
+    _aplicarFiltroCardapio();
+    notifyListeners();
+  }
 
   Future<void> carregarItensDoCardapio() async {
     if (_carregandoCardapio) return;
@@ -31,6 +61,7 @@ class MenuProvider with ChangeNotifier {
     try {
       _todosOsItensDoCardapio =
           await _databaseService.getTodosOsItensDoCardapio();
+
       _aplicarFiltroCardapio();
     } catch (e) {
       _mensagemErro = "Erro ao carregar cardápio: ${e.toString()}";
@@ -49,16 +80,24 @@ class MenuProvider with ChangeNotifier {
   }
 
   void _aplicarFiltroCardapio() {
-    if (_termoDeBuscaCardapio.isEmpty) {
-      _itensFiltradosDoCardapio = List.from(_todosOsItensDoCardapio);
-    } else {
-      _itensFiltradosDoCardapio =
-          _todosOsItensDoCardapio.where((item) {
-            final nomeItem = item.nome.toLowerCase();
-            final categoriaItem = item.categoriaId.toLowerCase();
-            return nomeItem.contains(_termoDeBuscaCardapio) ||
-                categoriaItem.contains(_termoDeBuscaCardapio);
+    List<MenuItemModel> itensTemporarios = List.from(_todosOsItensDoCardapio);
+
+    if (_categoriaSelecionadaId != null &&
+        _categoriaSelecionadaId!.isNotEmpty) {
+      itensTemporarios =
+          itensTemporarios.where((item) {
+            return item.categoriaId == _categoriaSelecionadaId;
           }).toList();
     }
+
+    if (_termoDeBuscaCardapio.isNotEmpty) {
+      itensTemporarios =
+          itensTemporarios.where((item) {
+            final nomeItem = item.nome.toLowerCase();
+            return nomeItem.contains(_termoDeBuscaCardapio);
+          }).toList();
+    }
+
+    _itensFiltradosDoCardapio = itensTemporarios;
   }
 }
