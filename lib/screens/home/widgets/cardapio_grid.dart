@@ -1,7 +1,7 @@
 import 'package:cafe_pra_ja/models/menu_item_model.dart';
 import 'package:cafe_pra_ja/providers/cart_provider.dart';
 import 'package:cafe_pra_ja/providers/menu_provider.dart';
-import 'package:cafe_pra_ja/screens/home/detalhes_produto.dart';
+import 'package:cafe_pra_ja/screens/home/details/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -72,9 +72,7 @@ class _CardapioGridState extends State<CardapioGrid> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => DetalhesProduto(item),
-                    ),
+                    MaterialPageRoute(builder: (context) => DetailScreen()),
                   );
                 },
                 child: Card(

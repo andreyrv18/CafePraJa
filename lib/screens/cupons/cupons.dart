@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/cupons_item_model.dart';
+import '../../models/cupons_item_model.dart';
 
 class PaginaCupons extends StatelessWidget {
   const PaginaCupons({super.key});

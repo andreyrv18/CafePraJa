@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/widgets/navigation_bottom_bar.dart';
+import 'package:cafe_pra_ja/navigation/navigation_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class Bemvindo extends StatelessWidget {
@@ -7,7 +7,15 @@ class Bemvindo extends StatelessWidget {
 
   void _onPressedItem(context) => Navigator.pushReplacement(
     context,
-    MaterialPageRoute(builder: (context) => const NavigationBottomBar()),
+    MaterialPageRoute(
+      builder:
+          (context) => BottomNavigationBarWidget(
+            currentIndex: 0,
+            onTap: (int) {
+              return 0;
+            },
+          ),
+    ),
   );
 
   @override

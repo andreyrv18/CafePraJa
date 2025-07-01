@@ -3,9 +3,15 @@ import 'package:cafe_pra_ja/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DetalhesProduto extends StatelessWidget {
-  const DetalhesProduto(this.item, {super.key});
-  final MenuItemModel item;
+class DetailScreen extends StatefulWidget {
+  const DetailScreen({super.key});
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  late final MenuItemModel item;
 
   @override
   Widget build(BuildContext context) {

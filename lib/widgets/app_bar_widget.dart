@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/screens/perfil.dart';
+import 'package:cafe_pra_ja/screens/perfil/perfil.dart';
 import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
