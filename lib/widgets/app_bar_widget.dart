@@ -1,4 +1,3 @@
-import 'package:cafe_pra_ja/screens/perfil/perfil.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/login.dart';
