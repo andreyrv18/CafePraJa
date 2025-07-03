@@ -1,8 +1,8 @@
+import 'package:cafe_pra_ja/config/app_router.dart';
 import 'package:cafe_pra_ja/screens/cadastro.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cafe_pra_ja/screens/perfil/perfil.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -167,14 +167,7 @@ class _LoginState extends State<Login> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Acesso autorizado')),
                         );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) =>
-                                    Perfil(), // Passa o objeto User do Firebase
-                          ),
-                        );
+                        AppRouter.instance.go('/perfil');
                       } on FirebaseAuthException catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Erro: ${e.message}')),
@@ -215,10 +208,7 @@ class _LoginState extends State<Login> {
                   ),
                   onPressed: () {
                     // Navegar para tela de cadastro, se houver
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Cadastro()),
-                    );
+                   AppRouter.instance.go("/cadastro");
                   },
                 ),
               ),

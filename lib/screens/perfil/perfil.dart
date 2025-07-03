@@ -1,19 +1,21 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Perfil extends StatefulWidget {
-  final User user;
-
-  const Perfil({super.key, required this.user});
+  const Perfil({super.key});
 
   @override
   State<Perfil> createState() => _PerfilState();
 }
 
 class _PerfilState extends State<Perfil> {
+  // 1. A variável do utilizador agora é anulável para lidar com o estado de "não autenticado".
+  User? _user;
   String _name = "";
   String _email = "";
   String? _phone;
@@ -31,46 +33,74 @@ class _PerfilState extends State<Perfil> {
   @override
   void initState() {
     super.initState();
-    _email = widget.user.email ?? "";
-    Future.delayed(const Duration(milliseconds: 500), () {
+    // 2. Inicializa a variável _user com o utilizador atual do Firebase.
+    _user = FirebaseAuth.instance.currentUser;
+
+    // 3. Verifica se um utilizador realmente existe.
+    if (_user != null) {
+      // Se existe, pode obter o email e começar a carregar os dados do Firestore.
+      _email = _user!.email ?? "";
       _fetchUserData();
-    });
+    } else {
+      // Se não há utilizador, para o carregamento. O método build irá lidar com isto.
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   Future<void> _fetchUserData() async {
-    try {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.user.uid)
-          .get();
+    // Uma verificação extra para garantir que não prosseguimos sem um utilizador.
+    if (_user == null) return;
 
-      if (userDoc.exists) {
+    try {
+      // Agora é seguro usar _user!.uid
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(_user!.uid)
+              .get();
+
+      if (mounted && userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>;
         setState(() {
           _name = data['name'] ?? "";
-          _email = data['email'] ?? "";
+          _email =
+              data['email'] ??
+              _user!.email ??
+              ""; // Fallback para o email do Auth
           _phone = data['phone'];
           _profileImagePath = data['profileImagePath'];
-          _isLoading = false;
         });
-      } else {
-        setState(() => _isLoading = false);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao carregar dados do usuário: ${e.toString()}')),
-      );
-      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erro ao carregar dados do utilizador: ${e.toString()}',
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
         _profileImagePath = pickedFile.path;
+        // Aqui você adicionaria a lógica para fazer o upload da imagem para o Firebase Storage
+        // e salvar o URL no Firestore.
       });
     }
   }
@@ -94,17 +124,17 @@ class _PerfilState extends State<Perfil> {
                   TextFormField(
                     controller: _nameController,
                     decoration: const InputDecoration(labelText: "Nome"),
-                    validator: (value) =>
-                    value == null || value.isEmpty ? 'Nome não pode ficar em branco' : null,
+                    validator:
+                        (value) =>
+                            value == null || value.isEmpty
+                                ? 'Nome não pode ficar em branco'
+                                : null,
                   ),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(labelText: "Email"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) return 'Email obrigatório';
-                      if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) return 'Email inválido';
-                      return null;
-                    },
+                    enabled:
+                        false, // Não é recomendado permitir a edição do email de login aqui
                   ),
                   TextFormField(
                     controller: _phoneController,
@@ -126,28 +156,34 @@ class _PerfilState extends State<Perfil> {
                   try {
                     await FirebaseFirestore.instance
                         .collection('users')
-                        .doc(widget.user.uid)
+                        .doc(_user!.uid) // Seguro usar _user!
                         .update({
-                      'name': _nameController.text,
-                      'email': _emailController.text,
-                      'phone': _phoneController.text.isNotEmpty
-                          ? _phoneController.text
-                          : null,
-                    });
+                          'name': _nameController.text,
+                          'phone':
+                              _phoneController.text.isNotEmpty
+                                  ? _phoneController.text
+                                  : null,
+                        });
                     setState(() {
                       _name = _nameController.text;
-                      _email = _emailController.text;
-                      _phone = _phoneController.text.isNotEmpty
-                          ? _phoneController.text
-                          : null;
+                      _phone =
+                          _phoneController.text.isNotEmpty
+                              ? _phoneController.text
+                              : null;
                     });
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Perfil atualizado com sucesso")),
+                      const SnackBar(
+                        content: Text("Perfil atualizado com sucesso"),
+                      ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Erro ao atualizar perfil: ${e.toString()}')),
+                      SnackBar(
+                        content: Text(
+                          'Erro ao atualizar perfil: ${e.toString()}',
+                        ),
+                      ),
                     );
                   }
                 }
@@ -169,16 +205,44 @@ class _PerfilState extends State<Perfil> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+    // 4. Se não há utilizador, mostra uma tela de "não autenticado".
+    if (_user == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Perfil')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Você não está autenticado.'),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => context.go('/login'),
+                child: const Text('Fazer Login'),
+              ),
+            ],
+          ),
+        ),
       );
+    }
+
+    // O resto do build só é executado se houver um utilizador.
+    if (_isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Perfil"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              // O redirect do GoRouter irá lidar com a navegação para /login
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -191,14 +255,22 @@ class _PerfilState extends State<Perfil> {
                 child: CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.grey[300],
-                  backgroundImage: _imageFile != null
-                      ? FileImage(_imageFile!)
-                      : _profileImagePath != null
-                      ? FileImage(File(_profileImagePath!))
-                      : null,
-                  child: _imageFile == null && _profileImagePath == null
-                      ? Icon(Icons.camera_alt, size: 50, color: Colors.grey[700])
-                      : null,
+                  backgroundImage:
+                      _imageFile != null
+                          ? FileImage(_imageFile!)
+                          : _profileImagePath != null
+                          ? NetworkImage(
+                            _profileImagePath!,
+                          ) // Assumindo que é um URL do Firebase Storage
+                          : null,
+                  child:
+                      _imageFile == null && _profileImagePath == null
+                          ? Icon(
+                            Icons.camera_alt,
+                            size: 50,
+                            color: Colors.grey[700],
+                          )
+                          : null,
                 ),
               ),
               const SizedBox(height: 8),
@@ -210,10 +282,22 @@ class _PerfilState extends State<Perfil> {
               _buildInfoCard(
                 title: "Informações Pessoais",
                 children: [
-                  _buildInfoRow(icon: Icons.person, label: "Nome", value: _name),
-                  _buildInfoRow(icon: Icons.email, label: "Email", value: _email),
+                  _buildInfoRow(
+                    icon: Icons.person,
+                    label: "Nome",
+                    value: _name,
+                  ),
+                  _buildInfoRow(
+                    icon: Icons.email,
+                    label: "Email",
+                    value: _email,
+                  ),
                   if (_phone != null && _phone!.isNotEmpty)
-                    _buildInfoRow(icon: Icons.phone, label: "Telefone", value: _phone!),
+                    _buildInfoRow(
+                      icon: Icons.phone,
+                      label: "Telefone",
+                      value: _phone!,
+                    ),
                 ],
               ),
               const SizedBox(height: 30),
@@ -222,7 +306,10 @@ class _PerfilState extends State<Perfil> {
                 label: const Text("Editar Perfil"),
                 onPressed: _showEditDialog,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
                 ),
               ),
             ],
@@ -245,7 +332,10 @@ class _PerfilState extends State<Perfil> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const Divider(height: 20, thickness: 1),
             ...children,
           ],
