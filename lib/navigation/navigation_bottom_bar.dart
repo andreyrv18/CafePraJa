@@ -1,9 +1,4 @@
 import 'package:cafe_pra_ja/models/cart_item_model.dart';
-import 'package:cafe_pra_ja/screens/cupons/cupons.dart';
-import 'package:cafe_pra_ja/screens/checkout/checkout.dart';
-import 'package:cafe_pra_ja/screens/home/home_screen_page.dart';
-import 'package:cafe_pra_ja/screens/perfil/perfil.dart';
-import 'package:cafe_pra_ja/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
