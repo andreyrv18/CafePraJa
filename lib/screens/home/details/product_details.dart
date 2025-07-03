@@ -1,28 +1,22 @@
+import 'package:cafe_pra_ja/config/context_extensions.dart';
 import 'package:cafe_pra_ja/models/menu_item_model.dart';
 import 'package:cafe_pra_ja/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+class DetailScreen extends StatelessWidget {
+  final MenuItemModel item;
 
-  @override
-  State<DetailScreen> createState() => _DetailScreenState();
-}
-
-class _DetailScreenState extends State<DetailScreen> {
-  late final MenuItemModel item;
+  const DetailScreen({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme theme = Theme.of(context).colorScheme;
-    final TextTheme textTheme = Theme.of(context).textTheme;
     final cartProvider = context.read<CartProvider>();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(item.nome),
-        backgroundColor: theme.surfaceContainerHigh,
+        backgroundColor: context.theme.surfaceContainerHigh,
         elevation: 1,
       ),
       body: Padding(
@@ -30,25 +24,37 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: double.infinity,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: theme.secondaryContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(12.0),
+            SizedBox(
+              height: 300,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  alignment: Alignment.center,
+                  child:
+                      item.imagemUrl.isEmpty
+                          ? Hero(tag: item.id, child: const Placeholder())
+                          : Hero(
+                            tag: item.id,
+                            child: Image.asset(
+                              "${item.imagemUrl}.jpg",
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                ),
               ),
-              alignment: Alignment.center,
-              child:
-                  item.imagemUrl.isEmpty
-                      ? const Text("Produto sem imagem")
-                      : Expanded(child: Image.asset("${item.imagemUrl}.jpg")),
             ),
 
             const SizedBox(height: 24.0),
 
             Card(
               elevation: 2,
-              color: theme.surfaceContainerLow,
+              color: context.theme.surfaceContainerLow,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -62,17 +68,17 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Text(
                           item.descricao,
-                          style: textTheme.bodyLarge?.copyWith(
-                            color: theme.onSurfaceVariant,
+                          style: context.textTheme.bodyLarge?.copyWith(
+                            color: context.theme.onSurfaceVariant,
                           ),
                         ),
                         Text(
                           item.disponivel ? "Disponível" : "Indisponível",
-                          style: textTheme.bodyLarge?.copyWith(
+                          style: context.textTheme.bodyLarge?.copyWith(
                             color:
                                 item.disponivel
                                     ? Colors.green.shade700
-                                    : theme.error,
+                                    : context.theme.error,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -80,8 +86,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         Text(
                           item.nome,
                           textAlign: TextAlign.center,
-                          style: textTheme.titleMedium?.copyWith(
-                            color: theme.onSurface,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: context.theme.onSurface,
                             fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -92,8 +98,8 @@ class _DetailScreenState extends State<DetailScreen> {
                           "R\$ ${item.preco.toStringAsFixed(2)}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: theme.onSurfaceVariant,
-                            fontSize: textTheme.titleLarge?.fontSize,
+                            color: context.theme.onSurfaceVariant,
+                            fontSize: context.textTheme.titleLarge?.fontSize,
                           ),
                         ),
                       ],
@@ -103,19 +109,19 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
             ),
 
-            const SizedBox(height: 16.0),
+            const Spacer(),
             if (item.disponivel)
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.primary,
-                  foregroundColor: theme.onPrimary,
+                  backgroundColor: context.theme.primary,
+                  foregroundColor: context.theme.onPrimary,
                   minimumSize: const Size(double.infinity, 50),
                   // Botão largo
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  textStyle: textTheme.titleMedium?.copyWith(
+                  textStyle: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -131,7 +137,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('${item.nome} adicionado ao carrinho!'),
-                      backgroundColor: theme.tertiary,
+                      backgroundColor: context.theme.tertiary,
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
