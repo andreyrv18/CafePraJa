@@ -171,9 +171,8 @@ class _LoginState extends State<Login> {
                           context,
                           MaterialPageRoute(
                             builder:
-                                (context) => Perfil(
-                                  user: _auth.currentUser!,
-                                ), // Passa o objeto User do Firebase
+                                (context) =>
+                                    Perfil(), // Passa o objeto User do Firebase
                           ),
                         );
                       } on FirebaseAuthException catch (e) {

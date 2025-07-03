@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cafe_pra_ja/screens/perfil/perfil.dart'; // Importar a tela de perfil
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -56,9 +56,7 @@ class _CadastroState extends State<Cadastro> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder:
-                (context) =>
-                    Perfil(user: user), // Passa o objeto User do Firebase
+            builder: (context) => Perfil(), // Passa o objeto User do Firebase
           ),
         );
       }
@@ -216,6 +214,7 @@ class _CadastroState extends State<Cadastro> {
               ),
               const SizedBox(height: 40),
               FloatingActionButton.extended(
+                heroTag: 'fab_cadastro',
                 backgroundColor: theme.primary,
                 elevation: 5,
                 foregroundColor: theme.onPrimary,
