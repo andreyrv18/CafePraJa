@@ -1,20 +1,19 @@
-import 'package:cafe_pra_ja/config/app_router.dart';
-import 'package:cafe_pra_ja/models/cart_item_model.dart';
-import 'package:cafe_pra_ja/providers/cart_provider.dart';
-import 'package:cafe_pra_ja/providers/cupons_provider.dart';
-import 'package:cafe_pra_ja/providers/menu_provider.dart';
-import 'package:cafe_pra_ja/models/cupons_item_model.dart';
+import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
+import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
+import 'package:cafe_pra_ja/routing/router.dart';
+import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/core/themes/theme.dart';
+import 'package:cafe_pra_ja/ui/core/themes/util.dart';
+import 'package:cafe_pra_ja/ui/cupons/view_models/cupons_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/home/view_models/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'theme.dart';
-import 'util.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
     TextTheme textTheme = createTextTheme(context, "Roboto", "Noto Sans");
     MaterialTheme theme = MaterialTheme(textTheme);
     return MultiProvider(
@@ -37,9 +36,16 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        // localizationsDelegates: [
+        //   AppLocalizationDelegate(),
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalMaterialLocalizations.delegate,
+        // ],
         title: 'Café Pra Já',
-        theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-        routerConfig: AppRouter.instance.router,
+        theme: theme.light(),
+        darkTheme: theme.dark(),
+        themeMode: ThemeMode.system,
+        routerConfig: router(),
       ),
     );
   }
