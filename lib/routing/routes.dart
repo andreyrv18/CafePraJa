@@ -1,0 +1,26 @@
+// abstract final class Routes {
+//   static const home = '/';
+//   static const login = '/login';
+//   static const search = '/$searchRelative';
+//   static const searchRelative = 'search';
+//   static const results = '/$resultsRelative';
+//   static const resultsRelative = 'results';
+//   static const activities = '/$activitiesRelative';
+//   static const activitiesRelative = 'activities';
+//   static const booking = '/$bookingRelative';
+//   static const bookingRelative = 'booking';
+//   static String bookingWithId(int id) => '$booking/$id';
+// }
+
+abstract final class Routes {
+  static const login = '/login';
+  static const home = '/';
+  static const details = '/$detailsRelative';
+  static const detailsRelative = 'details';
+  static const checkout = '/checkout';
+  static const cupons = '/cupons';
+  static const perfil = '/perfil';
+  static const cadastro = '/cadastro';
+
+  static String detailsWithId(String id) => '$details/$id';
+}
