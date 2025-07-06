@@ -45,8 +45,8 @@ Adquiri essas habilidades ao desenvolver esse projeto:
   > Front-end
 
   ```bash
-  cd 17-Trybe-Wallet/
-  npm install
+  cd CafePraJa/
+  flutter pub get
   ```
 
 ## Executando aplicação
@@ -54,13 +54,10 @@ Adquiri essas habilidades ao desenvolver esse projeto:
 - Para rodar o Front-end:
 
   ```bash
-  cd src/ && npm start
+  flutter run
   ```
 
-
-
-A new Flutter project.
-
+<!--
 ## Referencias Firestore
 ![]()
 Transações e gravações em lote https://firebase.google.com/docs/firestore/manage-data/transactions?hl=pt-br
@@ -70,3 +67,4 @@ Solucionar erros do Cloud Storage no Flutter https://firebase.google.com/docs/st
 gerenciamento de estado https://docs.flutter.dev/data-and-backend/state-mgmt/simple
 
 Classe ChangeNotifier https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html
+-->
