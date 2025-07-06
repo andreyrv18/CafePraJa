@@ -39,7 +39,7 @@ Adquiri essas habilidades ao desenvolver esse projeto:
 - Clone o projeto:
 
   ```bash
-  git clone 
+  git clone git@github.com:andreyrv18/CafePraJa.git
   ```
 
   > Front-end
