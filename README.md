@@ -1,4 +1,63 @@
-# cafe_pra_ja
+# CAFÉ PRA JÁ
+
+## Contexto
+
+Este projeto trata-se de uma aplicativo de cafeteria universitária
+
+## Técnologias usadas
+
+Front-end:
+> Desenvolvido usando: Flutter, Bloc, Go Router, Material Design 3
+
+
+Back-end:
+> Desenvolvido usando: Firebase Authentication, Firebase FireStore Database
+
+## Habilidades
+
+Adquiri essas habilidades ao desenvolver esse projeto:
+
+- Criar design consistente
+   
+- Fazer o gerenciamento de logica usando Bloc;
+
+- Criar autenticação de login usando firebase;
+
+- Criar e gerenciar bando de dados não relacional;
+
+- Criar Rotamento de paginas na aplicação;
+
+- ;
+
+## Preview da Aplicação
+
+| ![Login](./aplicacao-login.png) | ![Home](./aplicacao-home.png) |
+| ----------- | ----------- |
+
+## Instalando Dependências
+
+- Clone o projeto:
+
+  ```bash
+  git clone 
+  ```
+
+  > Front-end
+
+  ```bash
+  cd 17-Trybe-Wallet/
+  npm install
+  ```
+
+## Executando aplicação
+
+- Para rodar o Front-end:
+
+  ```bash
+  cd src/ && npm start
+  ```
+
+
 
 A new Flutter project.
 
