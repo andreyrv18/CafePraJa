@@ -6,7 +6,7 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text("Erro: Produto não encontrado.")),
+      body: Center(child: Text("Erro: Algo de errado aconteceu!!")),
     );
   }
 }
