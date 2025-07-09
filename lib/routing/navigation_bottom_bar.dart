@@ -1,11 +1,10 @@
 import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
+import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../domain/models/cupons_item_model.dart';
-
-class BottomNavigationBarWidget extends StatelessWidget {
-  const BottomNavigationBarWidget({
+class NavigationBottomBarWidget extends StatelessWidget {
+  const NavigationBottomBarWidget({
     super.key,
     required this.currentIndex,
     required this.onTap,
