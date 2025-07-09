@@ -22,6 +22,7 @@ abstract final class Routes {
   static const cupons = '/cupons';
   static const perfil = '/perfil';
   static const cadastro = '/cadastro';
+  static const notFound = '/404';
 
   static String detailsWithId(String id) => '$details/$id';
 }
