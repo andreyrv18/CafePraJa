@@ -22,12 +22,10 @@ class MyApp extends StatelessWidget {
       },
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
-        ChangeNotifierProvider(create: (_) => MenuProvider()),
+        ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => CuponsProvider()),
         StreamProvider<List<CartItemModel>>(
-          create:
-              (context) =>
-                  context.read<CartProvider>().getItensDoCarrinhoStream(),
+          create: (context) => context.read<CartProvider>().getItensDoCarrinhoStream(),
           initialData: const [],
         ),
         StreamProvider<List<CuponsItemModel>>(
@@ -36,14 +34,15 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         // localizationsDelegates: [
         //   AppLocalizationDelegate(),
         //   GlobalWidgetsLocalizations.delegate,
         //   GlobalMaterialLocalizations.delegate,
         // ],
         title: 'Café Pra Já',
-        theme: theme.light(),
-        darkTheme: theme.dark(),
+        theme: theme.lightHighContrast(),
+        darkTheme: theme.darkHighContrast(),
         themeMode: ThemeMode.system,
         routerConfig: router(),
       ),

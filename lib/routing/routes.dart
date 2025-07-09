@@ -14,13 +14,15 @@
 
 abstract final class Routes {
   static const login = '/login';
-  static const home = '/';
-  static const details = '/$detailsRelative';
-  static const detailsRelative = 'details';
+  static const initial = '/';
+  static const home = '/home';
+  static const details = '/details';
+  static const detailsComId = '$details/:id';
   static const checkout = '/checkout';
   static const cupons = '/cupons';
   static const perfil = '/perfil';
   static const cadastro = '/cadastro';
+  static const notFound = '/404';
 
   static String detailsWithId(String id) => '$details/$id';
 }

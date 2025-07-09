@@ -34,4 +34,10 @@ class MenuItemModel {
       descricao: data["descricao"] as String? ?? "Produto sem Descrição",
     );
   }
+
+  @override
+  String toString() {
+    return nome;
+    // Personalize isso para incluir as propriedades que você deseja imprimir
+  }
 }

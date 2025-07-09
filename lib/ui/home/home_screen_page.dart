@@ -20,14 +20,14 @@ class HomeScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<HomeScreen> {
   final myController = TextEditingController();
-  late MenuProvider _menuProviderInstance;
+  late HomeViewModel _menuProviderInstance;
 
   @override
   void initState() {
     super.initState();
     initialization();
 
-    _menuProviderInstance = Provider.of<MenuProvider>(context, listen: false);
+    _menuProviderInstance = Provider.of<HomeViewModel>(context, listen: false);
     myController.addListener(() {
       _menuProviderInstance.atualizarTermoBuscaCardapio(myController.text);
     });
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<HomeScreen> {
   }
 
   Widget _categoriasList() {
-    final menuProvider = context.watch<MenuProvider>();
+    final menuProvider = context.watch<HomeViewModel>();
     if (menuProvider.carregandoCardapio && menuProvider.categorias.isEmpty) {
       return const SizedBox(
         height: 50,
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<HomeScreen> {
   }
 
   Widget _cardapioGrid() {
-    final menuProvider = context.watch<MenuProvider>();
+    final menuProvider = context.watch<HomeViewModel>();
     final addCart = context.watch<CartProvider>();
 
     if (menuProvider.errorMessage != null) {
@@ -147,7 +147,7 @@ class _MyHomePageState extends State<HomeScreen> {
 
               return InkWell(
                 onTap: () {
-                  context.push(Routes.detailsWithId(item.id));
+                  context.go(Routes.detailsWithId(item.id));
                 },
                 child: Card(
                   elevation: 3,
@@ -294,8 +294,6 @@ class _MyHomePageState extends State<HomeScreen> {
     // delaying the user experience is a bad design practice!
     // ignore_for_file: avoid_print
 
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
     print('go!');
     FlutterNativeSplash.remove();
   }

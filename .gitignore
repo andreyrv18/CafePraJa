@@ -68,3 +68,8 @@ windows/flutter/ephemeral/
 
 # Linux related
 linux/flutter/ephemeral/
+
+
+# Variaveis de ambiente
+*.env
+.env

@@ -4,21 +4,16 @@ import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DetailScreen extends StatelessWidget {
-  final MenuItemModel item;
+class ProductDetailScreen extends StatelessWidget {
+  final MenuItemModel? item;
 
-  const DetailScreen({super.key, required this.item});
+  const ProductDetailScreen({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = context.read<CartProvider>();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(item.nome),
-        backgroundColor: context.theme.surfaceContainerHigh,
-        elevation: 1,
-      ),
+      appBar: AppBar(title: Text(item!.nome), backgroundColor: context.theme.surfaceContainerHigh, elevation: 1),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -31,20 +26,14 @@ class DetailScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.0)),
                   alignment: Alignment.center,
                   child:
-                      item.imagemUrl.isEmpty
-                          ? Hero(tag: item.id, child: const Placeholder())
+                      item!.imagemUrl.isEmpty
+                          ? Hero(tag: item!.id, child: const Placeholder())
                           : Hero(
-                            tag: item.id,
-                            child: Image.asset(
-                              "${item.imagemUrl}.jpg",
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
+                            tag: item!.id,
+                            child: Image.asset("${item!.imagemUrl}.jpg", fit: BoxFit.cover, width: double.infinity),
                           ),
                 ),
               ),
@@ -55,9 +44,7 @@ class DetailScreen extends StatelessWidget {
             Card(
               elevation: 2,
               color: context.theme.surfaceContainerLow,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
@@ -67,24 +54,19 @@ class DetailScreen extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          item.descricao,
-                          style: context.textTheme.bodyLarge?.copyWith(
-                            color: context.theme.onSurfaceVariant,
-                          ),
+                          item!.descricao,
+                          style: context.textTheme.bodyLarge?.copyWith(color: context.theme.onSurfaceVariant),
                         ),
                         Text(
-                          item.disponivel ? "Disponível" : "Indisponível",
+                          item!.disponivel ? "Disponível" : "Indisponível",
                           style: context.textTheme.bodyLarge?.copyWith(
-                            color:
-                                item.disponivel
-                                    ? Colors.green.shade700
-                                    : context.theme.error,
+                            color: item!.disponivel ? Colors.green.shade700 : context.theme.error,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          item.nome,
+                          item!.nome,
                           textAlign: TextAlign.center,
                           style: context.textTheme.titleMedium?.copyWith(
                             color: context.theme.onSurface,
@@ -95,7 +77,7 @@ class DetailScreen extends StatelessWidget {
                         const SizedBox(height: 12.0),
 
                         Text(
-                          "R\$ ${item.preco.toStringAsFixed(2)}",
+                          "R\$ ${item!.preco.toStringAsFixed(2)}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: context.theme.onSurfaceVariant,
@@ -110,7 +92,7 @@ class DetailScreen extends StatelessWidget {
             ),
 
             const Spacer(),
-            if (item.disponivel)
+            if (item!.disponivel)
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.theme.primary,
@@ -118,30 +100,24 @@ class DetailScreen extends StatelessWidget {
                   minimumSize: const Size(double.infinity, 50),
                   // Botão largo
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  textStyle: context.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  textStyle: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
                   cartProvider.adicionarItem(
-                    item.id,
-                    item.nome,
-                    item.preco,
-                    item.categoriaId,
-                    item.imagemUrl,
-                    item.descricao,
+                    item!.id,
+                    item!.nome,
+                    item!.preco,
+                    item!.categoriaId,
+                    item!.imagemUrl,
+                    item!.descricao,
                   );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('${item.nome} adicionado ao carrinho!'),
+                      content: Text('${item!.nome} adicionado ao carrinho!'),
                       backgroundColor: context.theme.tertiary,
                       behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       margin: const EdgeInsets.all(10),
                     ),
                   );

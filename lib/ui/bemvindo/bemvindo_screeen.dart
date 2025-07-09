@@ -1,15 +1,16 @@
-import 'package:cafe_pra_ja/routing/navigation_bottom_bar.dart';
+import 'package:cafe_pra_ja/routing/navigation_bottom_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class BemvindoScreen extends StatelessWidget {
   final String title;
+
   const BemvindoScreen({super.key, required this.title});
 
   void _onPressedItem(context) => Navigator.pushReplacement(
     context,
     MaterialPageRoute(
       builder:
-          (context) => BottomNavigationBarWidget(
+          (context) => NavigationBottomBarWidget(
             currentIndex: 0,
             onTap: (int) {
               return 0;
