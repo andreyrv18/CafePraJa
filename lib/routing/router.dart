@@ -1,66 +1,98 @@
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
+import 'package:cafe_pra_ja/routing/app_shell.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_screen.dart';
 import 'package:cafe_pra_ja/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/checkout/checkout_screen.dart';
 import 'package:cafe_pra_ja/ui/cupons/cupons_screen.dart';
+import 'package:cafe_pra_ja/ui/error/error_screeen.dart';
+import 'package:cafe_pra_ja/ui/home/details/product_details.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_page.dart';
 import 'package:cafe_pra_ja/ui/home/view_models/home_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/perfil/perfil_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../ui/home/details/product_details.dart';
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 /// Top go_router entry point.
 /// Listens to changes in [AuthTokenRepository] to redirect the user
 /// to /login when the user logs out.
 // GoRouter router(AuthRepository authRepository) => GoRouter(
 GoRouter router() => GoRouter(
+  navigatorKey: _rootNavigatorKey,
+
   initialLocation: Routes.initial,
   debugLogDiagnostics: true,
+  onException: (context, state, router) {
+    router.go(Routes.notFound, extra: state.uri.toString());
+  },
   // errorBuilder: (context, state) => ErrorScreen(),
   // redirect: (_, __) => Routes.home,
   // refreshListenable: authRepository,
   routes: [
-    GoRoute(
-      path: Routes.initial,
-      builder: (context, state) {
-        return HomeScreen();
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return AppShell(navigationShell: navigationShell);
       },
-      routes: [
-        GoRoute(
-          path: Routes.detailsComId,
-          builder: (context, state) {
-            final id = state.pathParameters['id']!;
 
-            final homeViewModel = context.read<HomeViewModel>();
-            MenuItemModel? item = homeViewModel.getItem(id);
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.initial,
+              builder: (context, state) {
+                return HomeScreen();
+              },
+              routes: [
+                GoRoute(
+                  path: Routes.detailsComId,
+                  builder: (context, state) {
+                    final id = state.pathParameters['id']!;
 
-            return ProductDetailScreen(item: item);
-          },
+                    final homeViewModel = context.read<HomeViewModel>();
+                    MenuItemModel? item = homeViewModel.getItem(id);
+
+                    return ProductDetailScreen(item: item);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.checkout,
+              builder: (context, state) {
+                return CheckoutScreen();
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.cupons,
+              builder: (context, state) {
+                return CuponsScreen();
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: Routes.perfil,
+              builder: (context, state) {
+                return PerfilScreen();
+              },
+            ),
+          ],
         ),
       ],
-    ),
-
-    GoRoute(
-      path: Routes.checkout,
-      builder: (context, state) {
-        return CheckoutScreen();
-      },
-    ),
-    GoRoute(
-      path: Routes.cupons,
-      builder: (context, state) {
-        return CuponsScreen();
-      },
-    ),
-    GoRoute(
-      path: Routes.perfil,
-      builder: (context, state) {
-        return PerfilScreen();
-      },
     ),
     GoRoute(
       path: Routes.cadastro,
@@ -73,6 +105,13 @@ GoRouter router() => GoRouter(
       path: Routes.login,
       builder: (context, state) {
         return LoginScreen(viewModel: LoginViewModel());
+      },
+    ),
+
+    GoRoute(
+      path: '/404',
+      builder: (BuildContext context, GoRouterState state) {
+        return NotFoundScreen(uri: state.extra as String? ?? '');
       },
     ),
   ],
