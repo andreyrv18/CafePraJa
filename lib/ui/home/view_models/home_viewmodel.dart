@@ -2,7 +2,14 @@ import 'package:cafe_pra_ja/data/repositories/database_repository.dart';
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
 import 'package:flutter/foundation.dart';
 
-class MenuProvider with ChangeNotifier {
+class HomeViewModel with ChangeNotifier {
+  HomeViewModel() {
+    buscarCategorias();
+    carregarItensDoCardapio();
+
+    notifyListeners();
+  }
+
   final DatabaseRepository _databaseService = DatabaseRepository();
 
   List<MenuItemModel> _todosOsItensDoCardapio = [];
@@ -28,21 +35,14 @@ class MenuProvider with ChangeNotifier {
 
   bool get carregandoCardapio => _carregandoCardapio;
 
-  MenuProvider() {
-    buscarCategorias();
-    carregarItensDoCardapio();
-    notifyListeners();
+  MenuItemModel? getItem(String id) {
+    try {
+      return _todosOsItensDoCardapio.firstWhere((item) => item.id == id);
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
-
-  // MenuItemModel? getItemById(int id) {
-  //   try {
-  //     return _menuItems.firstWhere((item) => item.id == id);
-  //   } catch (e) {
-  //     return null; // Retorna null se não encontrar
-  //   }
-  // }
-
-  notifyListeners();
 
   Future<void> buscarCategorias() async {
     try {
