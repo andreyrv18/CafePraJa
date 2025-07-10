@@ -18,7 +18,7 @@ Back-end:
 Adquiri essas habilidades ao desenvolver esse projeto:
 
 - Criar design consistente
-   
+
 - Fazer o gerenciamento de logica usando Bloc;
 
 - Criar autenticação de login usando firebase;
@@ -31,8 +31,9 @@ Adquiri essas habilidades ao desenvolver esse projeto:
 
 ## Preview da Aplicação
 
-| ![Login](./aplicacao-login.png) | ![Home](./aplicacao-home.png) |
-| ----------- | ----------- |
+| ![HomeLight](./assets/home-light.png) | [DetailsLight](./assets/details-light.png) |
+|---------------------------------------|--------------------------------------------|
+| ![HomeDark](./assets/home-dark.png)   | ![DetailsLight](./assets/details-dark.png) |
 
 ## Instalando Dependências
 
