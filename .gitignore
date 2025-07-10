@@ -73,3 +73,11 @@ linux/flutter/ephemeral/
 # Variaveis de ambiente
 *.env
 .env
+
+# Ignorar pastas de plataformas não utilizadas
+
+/ios/
+/linux/
+/macos/
+/windows/
+/web/
