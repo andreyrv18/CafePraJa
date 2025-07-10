@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text,
         password: _senhaController.text,
       );
-      print(userCredential.user?.email);
+      debugPrint(userCredential.user?.email);
       return userCredential;
     } on FirebaseAuthException {
       rethrow;

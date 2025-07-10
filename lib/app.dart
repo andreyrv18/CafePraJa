@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
 import 'package:cafe_pra_ja/routing/router.dart';
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     TextTheme textTheme = createTextTheme(context, "Roboto", "Noto Sans");
     MaterialTheme theme = MaterialTheme(textTheme);
     return MultiProvider(

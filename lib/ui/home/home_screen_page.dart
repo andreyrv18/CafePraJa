@@ -233,7 +233,7 @@ class _MyHomePageState extends State<HomeScreen> {
     );
   }
 
-  Widget _page(state) {
+  Widget _page(HomeScreenState state) {
     return Scaffold(
       body: Container(
         color: context.theme.surface,
@@ -271,7 +271,7 @@ class _MyHomePageState extends State<HomeScreen> {
     return BlocProvider(
       create: (_) => HomeScreenBloc(),
       child: BlocBuilder<HomeScreenBloc, HomeScreenState>(
-        builder: (context, state) {
+        builder: (BuildContext context, HomeScreenState state) {
           switch (state) {
             case HomeScreenLoadingState():
               return const Center(child: CircularProgressIndicator());

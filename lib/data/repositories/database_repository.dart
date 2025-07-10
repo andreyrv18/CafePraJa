@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class DatabaseRepository {
   DatabaseRepository({this.uid});
@@ -112,7 +113,7 @@ class DatabaseRepository {
         .snapshots();
   }
 
-  Future<void> deleteProduto(idDoProduto) async {
+  Future<void> deleteProduto(String idDoProduto) async {
     try {
       DocumentReference itemRef = _db
           .collection('usuarios')
@@ -122,11 +123,14 @@ class DatabaseRepository {
 
       await itemRef.delete();
     } on Exception catch (e) {
-      print("Erro ao Deletar: $e");
+      debugPrint("Erro ao Deletar: $e");
     }
   }
 
-  Future<void> atualizaQuantidadeNoCarrinho(idProduto, novaQuantidade) async {
+  Future<void> atualizaQuantidadeNoCarrinho(
+    String idProduto,
+    int novaQuantidade,
+  ) async {
     DocumentReference itemRef = _db
         .collection("usuarios")
         .doc(uid)

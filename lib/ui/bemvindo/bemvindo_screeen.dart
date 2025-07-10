@@ -6,13 +6,13 @@ class BemvindoScreen extends StatelessWidget {
 
   const BemvindoScreen({super.key, required this.title});
 
-  void _onPressedItem(context) => Navigator.pushReplacement(
+  void _onPressedItem(BuildContext context) => Navigator.pushReplacement(
     context,
     MaterialPageRoute(
       builder:
           (context) => NavigationBottomBarWidget(
             currentIndex: 0,
-            onTap: (int) {
+            onTap: (int current) {
               return 0;
             },
           ),
