@@ -55,7 +55,7 @@ Adquiri essas habilidades ao desenvolver esse projeto:
 - Para rodar o Front-end:
 
   ```bash
-  flutter run
+  flutter run -d chrome
   ```
 
 <!--
