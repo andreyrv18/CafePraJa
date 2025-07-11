@@ -13,3 +13,8 @@ bloc:
 linter:
 
   rules:
+    - prefer_single_quotes
+    - always_use_package_imports
+analyzer:
+  errors:
+    strict_top_level_inference: ignore
