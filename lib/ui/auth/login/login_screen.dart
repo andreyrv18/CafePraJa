@@ -1,5 +1,6 @@
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/login/view_models/login_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Icon(Icons.coffee_sharp, size: 150.0),
               const SizedBox(height: 30),
               Text(
-                "Digite os dados de acesso nos campos abaixo.",
+                CafeString.digiteOsDadosDeAcessoNosCamposAbaixo,
                 style: TextStyle(color: theme.colorScheme.onPrimary),
               ),
               const SizedBox(height: 30),
@@ -82,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: const Color(0x332D1B0B),
-                  hintText: "Digite o seu e-mail",
+                  hintText: CafeString.digiteSeuEmail,
                   hintStyle: TextStyle(
                     color: theme.colorScheme.onPrimary,
                     fontSize: 14,
@@ -95,9 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: const TextStyle(color: Colors.white),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
-                    return 'O e-mail é obrigatório';
+                    return CafeString.emailEObrigatorio;
                   } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                    return 'Digite um e-mail válido';
+                    return CafeString.digiteUmEmailValido;
                   }
                   return null;
                 },
@@ -111,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: const Color(0x332D1B0B),
-                  hintText: "Digite sua senha",
+                  hintText: CafeString.digiteSuaSenha,
                   hintStyle: TextStyle(
                     color: theme.colorScheme.onPrimary,
                     fontSize: 14,
@@ -124,9 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: const TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'A senha é obrigatória';
+                    return CafeString.senhaObrigatoria;
                   } else if (value.length < 6) {
-                    return 'A senha deve ter pelo menos 6 caracteres';
+                    return CafeString.senhaDeveTerPeloMenos6Caracteres;
                   }
                   return null;
                 },
@@ -139,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {},
                   // () => _recoverPassword(_emailController.text.trim()),
                   child: const Text(
-                    "Esqueceu a senha?",
+                    CafeString.esqueceuASenha,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -154,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(17),
                   color: theme.colorScheme.primary,
                   child: Text(
-                    "Acessar",
+                    CafeString.acessar,
                     style: TextStyle(
                       color: theme.colorScheme.onPrimary,
                       fontSize: 14,
@@ -167,17 +168,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       try {
                         await loginUsuario();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Acesso autorizado')),
+                          const SnackBar(content: Text(CafeString.acessoAutorizado)),
                         );
                         context.go(Routes.perfil);
                       } on FirebaseAuthException catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Erro: ${e.message}')),
+                          SnackBar(content: Text('${CafeString.erro}: ${e.message}')),
                         );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Erro inesperado: ${e.toString()}'),
+                            content: Text('${CafeString.erroInesperado}: ${e.toString()}'),
                           ),
                         );
                       } finally {
@@ -201,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: MaterialButton(
                   child: Text(
-                    "Crie sua conta",
+                    CafeString.crieSuaConta,
                     style: TextStyle(
                       color: theme.colorScheme.onPrimary,
                       fontSize: 14,

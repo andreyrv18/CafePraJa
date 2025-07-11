@@ -1,5 +1,6 @@
 import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,40 +38,40 @@ class NavigationBottomBarWidget extends StatelessWidget {
         NavigationDestination(
           icon: Icon(Icons.search, color: theme.onSurface),
           selectedIcon: Icon(Icons.search_sharp),
-          label: "Pesquisar",
-          tooltip: "Pesquisar",
+          label: CafeString.pesquisar,
+          tooltip: CafeString.pesquisar,
         ),
         NavigationDestination(
           icon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text("$quantidade"),
+            label: Text('$quantidade'),
             child: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
           ),
           selectedIcon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text("$quantidade"),
+            label: Text('$quantidade'),
             child: Icon(Icons.shopping_bag_sharp),
           ),
-          label: "Checkout",
-          tooltip: "Checkout",
+          label: CafeString.checkout,
+          tooltip: CafeString.checkout,
         ),
         NavigationDestination(
           icon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text("$quantidadeDeCupons"),
+            label: Text('$quantidadeDeCupons'),
             child: Icon(Icons.local_activity_outlined),
           ),
           selectedIcon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text("$quantidadeDeCupons"),
+            label: Text('$quantidadeDeCupons'),
             child: Icon(Icons.local_activity),
           ),
-          label: "Cupons %",
+          label: CafeString.cuponsPorcentagem,
         ),
         NavigationDestination(
           icon: Icon(Icons.person),
           selectedIcon: Icon(Icons.person_sharp),
-          label: "Perfil",
+          label: CafeString.perfil,
         ),
       ],
     );

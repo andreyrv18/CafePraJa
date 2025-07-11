@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:cafe_pra_ja/routing/routes.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../core/localization/cafe_string.dart';
+import 'package:image_picker/image_pickerart';
 
 class PerfilScreen extends StatefulWidget {
   const PerfilScreen({super.key});
@@ -19,8 +18,8 @@ class PerfilScreen extends StatefulWidget {
 class _PerfilScreenState extends State<PerfilScreen> {
   // 1. A variável do utilizador agora é anulável para lidar com o estado de "não autenticado".
   User? _user;
-  String _name = "";
-  String _email = "";
+  String _name = '';
+  String _email = '';
   String? _phone;
   String? _profileImagePath;
 
@@ -42,7 +41,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
     // 3. Verifica se um utilizador realmente existe.
     if (_user != null) {
       // Se existe, pode obter o email e começar a carregar os dados do Firestore.
-      _email = _user!.email ?? "";
+      _email = _user!.email ?? '';
       _fetchUserData();
     } else {
       // Se não há utilizador, para o carregamento. O método build irá lidar com isto.
@@ -67,11 +66,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
       if (mounted && userDoc.exists) {
         final data = userDoc.data() as Map<String, dynamic>;
         setState(() {
-          _name = data['name'] ?? "";
+          _name = data['name'] ?? '';
           _email =
               data['email'] ??
               _user!.email ??
-              ""; // Fallback para o email do Auth
+              ''; // Fallback para o email do Auth
           _phone = data['phone'];
           _profileImagePath = data['profileImagePath'];
         });
@@ -81,7 +80,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Erro ao carregar dados do utilizador: ${e.toString()}',
+                '${CafeString.erroAoCarregarDadosDoUtilizador}: ${e.toString()}',
             ),
           ),
         );
@@ -111,13 +110,13 @@ class _PerfilScreenState extends State<PerfilScreen> {
   void _showEditDialog() {
     _nameController.text = _name;
     _emailController.text = _email;
-    _phoneController.text = _phone ?? "";
+    _phoneController.text = _phone ?? '';
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Editar Perfil"),
+          title: const Text(CafeString.editarPerfil),
           content: Form(
             key: _editFormKey,
             child: SingleChildScrollView(
@@ -126,22 +125,22 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 children: [
                   TextFormField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: "Nome"),
+                    decoration: const InputDecoration(labelText: CafeString.nome),
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Nome não pode ficar em branco'
+                                ? CafeString.nomeNaoPodeEstarEmBranco
                                 : null,
                   ),
                   TextFormField(
                     controller: _emailController,
-                    decoration: const InputDecoration(labelText: "Email"),
+                    decoration: const InputDecoration(labelText: CafeString.email),
                     enabled:
                         false, // Não é recomendado permitir a edição do email de login aqui
                   ),
                   TextFormField(
                     controller: _phoneController,
-                    decoration: const InputDecoration(labelText: "Telefone"),
+                    decoration: const InputDecoration(labelText: CafeString.telefone),
                   ),
                 ],
               ),
@@ -149,11 +148,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
           ),
           actions: [
             TextButton(
-              child: const Text("Cancelar"),
+              child: const Text(CafeString.cancelar),
               onPressed: () => Navigator.of(context).pop(),
             ),
             ElevatedButton(
-              child: const Text("Salvar"),
+              child: const Text(CafeString.salvar),
               onPressed: () async {
                 if (_editFormKey.currentState!.validate()) {
                   try {
@@ -177,14 +176,14 @@ class _PerfilScreenState extends State<PerfilScreen> {
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text("Perfil atualizado com sucesso"),
+                        content: Text(CafeString.perfilAtualizadoComSucesso),
                       ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Erro ao atualizar perfil: ${e.toString()}',
+                          '${CafeString.erroAoAtualizarPerfil}: ${e.toString()}',
                         ),
                       ),
                     );
@@ -280,26 +279,26 @@ class _PerfilScreenState extends State<PerfilScreen> {
               const SizedBox(height: 8),
               TextButton(
                 onPressed: _pickImage,
-                child: const Text("Alterar Foto"),
+                child: const Text(CafeString.alterarFoto),
               ),
               const SizedBox(height: 30),
               _buildInfoCard(
-                title: "Informações Pessoais",
+                title: CafeString.informacoesPessoais,
                 children: [
                   _buildInfoRow(
                     icon: Icons.person,
-                    label: "Nome",
+                    label: CafeString.nome,
                     value: _name,
                   ),
                   _buildInfoRow(
                     icon: Icons.email,
-                    label: "Email",
+                    label: CafeString.email,
                     value: _email,
                   ),
                   if (_phone != null && _phone!.isNotEmpty)
                     _buildInfoRow(
                       icon: Icons.phone,
-                      label: "Telefone",
+                      label: CafeString.telefone,
                       value: _phone!,
                     ),
                 ],
@@ -307,7 +306,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
               const SizedBox(height: 30),
               ElevatedButton.icon(
                 icon: const Icon(Icons.edit),
-                label: const Text("Editar Perfil"),
+                label: const Text(CafeString.editarPerfil),
                 onPressed: _showEditDialog,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
@@ -360,7 +359,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Icon(icon, color: Theme.of(context).primaryColor, size: 20),
           const SizedBox(width: 15),
           Text(
-            "$label: ",
+            '$label: ',
             style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
           ),
           Expanded(

@@ -4,7 +4,9 @@ import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_screen.dart';
 import 'package:cafe_pra_ja/ui/auth/login/view_models/login_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/bemvindo/bemvindo_screeen.dart';
 import 'package:cafe_pra_ja/ui/checkout/checkout_screen.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/cupons/cupons_screen.dart';
 import 'package:cafe_pra_ja/ui/error/error_screeen.dart';
 import 'package:cafe_pra_ja/ui/home/details/product_details.dart';
@@ -107,9 +109,15 @@ GoRouter router() => GoRouter(
         return LoginScreen(viewModel: LoginViewModel());
       },
     ),
+    GoRoute(
+      path: Routes.bemVindo,
+      builder: (context, state) {
+        return BemvindoScreen(title: CafeString.bemVindo,);
+      },
+    ),
 
     GoRoute(
-      path: '/404',
+      path: Routes.notFound,
       builder: (BuildContext context, GoRouterState state) {
         return NotFoundScreen(uri: state.extra as String? ?? '');
       },

@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CuponsItemModel {
@@ -20,9 +21,9 @@ class CuponsItemModel {
 
     return CuponsItemModel(
       id: doc.id,
-      codigo: data['codigo'] as String? ?? 'CÓDIGO INVÁLIDO',
+      codigo: data['codigo'] as String? ?? CafeString.codigoInvalido,
       porcentagem: data['porcentagem'],
-      descricao: data["descricao"],
+      descricao: data['descricao'] ?? CafeString.cuponSemDescricao,
     );
   }
 }

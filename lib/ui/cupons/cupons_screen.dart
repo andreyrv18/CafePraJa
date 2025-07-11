@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class CuponsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Nenhum cupom disponível no momento.",
+            CafeString.nenhumCupomDisponivelNoMomento,
             style: TextStyle(color: theme.onSurfaceVariant),
           ),
         ),
@@ -51,7 +52,7 @@ class CuponsScreen extends StatelessWidget {
                   ),
                 ),
                 trailing: Text(
-                  '${cupom.porcentagem}% OFF',
+                  '${cupom.porcentagem}${CafeString.off}',
                   style: TextStyle(
                     color: theme.tertiary,
                     fontWeight: FontWeight.bold,
@@ -61,7 +62,7 @@ class CuponsScreen extends StatelessWidget {
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Cupom ${cupom.codigo} selecionado!"),
+                      content: Text('${CafeString.cupom} ${cupom.codigo} ${CafeString.selecionado}'),
                       backgroundColor: theme.primary,
                     ),
                   );

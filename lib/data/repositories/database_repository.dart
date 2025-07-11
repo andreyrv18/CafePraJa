@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +12,11 @@ class DatabaseRepository {
   final String? uid; // UID do usuário logado
 
   Future<List<Map<String, dynamic>>> getCategorias() async {
-    QuerySnapshot querySnapshot = await _db.collection("cardapio").get();
+    QuerySnapshot querySnapshot = await _db.collection('cardapio').get();
     final allData =
         querySnapshot.docs.map((doc) {
           final data = doc.data() as Map<String, dynamic>;
-          data["id"] = doc.id;
+          data['id'] = doc.id;
           return data;
         }).toList();
     return allData;
@@ -42,16 +43,16 @@ class DatabaseRepository {
         }
       }
     } catch (e) {
-      throw Exception("Não foi possível carregar os itens do cardápio: $e");
+      throw Exception('${CafeString.naoFoiPossivelCarregarOsItensDoCardapio}: $e');
     }
     return todosOsItens;
   }
 
   Future createCart(idDoProduto, nomeProduto, precoUnitario, imagemUrl) async {
     DocumentReference itemRef = _db
-        .collection("usuarios")
+        .collection('usuarios')
         .doc(uid)
-        .collection("carrinhoItens")
+        .collection('carrinhoItens')
         .doc(idDoProduto);
 
     DocumentSnapshot docSnapshot = await itemRef.get();
@@ -77,9 +78,9 @@ class DatabaseRepository {
     String imagemUrl,
     String descricao,
   ) async {
-    if (uid == null) throw Exception("Usuário não autenticado.");
+    if (uid == null) throw Exception(CafeString.usuarioNaoAutenticado);
     final DocumentReference itemRef = _db
-        .collection("usuarios")
+        .collection('usuarios')
         .doc(uid)
         .collection('carrinhoItens')
         .doc(idProduto);
@@ -87,7 +88,7 @@ class DatabaseRepository {
       final snapshot = await transaction.get(itemRef);
       if (snapshot.exists) {
         transaction.update(itemRef, {
-          "quantidade": FieldValue.increment(1),
+          'quantidade': FieldValue.increment(1),
           'adicionadoEm': FieldValue.serverTimestamp(),
         });
       } else {
@@ -109,7 +110,7 @@ class DatabaseRepository {
     return _db
         .collection('usuarios')
         .doc(uid)
-        .collection("carrinhoItens")
+        .collection('carrinhoItens')
         .snapshots();
   }
 
@@ -123,7 +124,7 @@ class DatabaseRepository {
 
       await itemRef.delete();
     } on Exception catch (e) {
-      debugPrint("Erro ao Deletar: $e");
+      debugPrint('${CafeString.erroAoDeletar}: $e');
     }
   }
 
@@ -132,9 +133,9 @@ class DatabaseRepository {
     int novaQuantidade,
   ) async {
     DocumentReference itemRef = _db
-        .collection("usuarios")
+        .collection('usuarios')
         .doc(uid)
-        .collection("carrinhoItens")
+        .collection('carrinhoItens')
         .doc(idProduto);
 
     if (novaQuantidade <= 0) {
@@ -149,7 +150,7 @@ class DatabaseRepository {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getTodosOsCuponsStream() {
     Stream<QuerySnapshot<Map<String, dynamic>>> cuponsStream =
-        _db.collection("cupons").snapshots();
+        _db.collection('cupons').snapshots();
     return cuponsStream;
   }
 }

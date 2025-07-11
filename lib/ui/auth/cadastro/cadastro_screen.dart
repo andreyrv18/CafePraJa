@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/perfil/perfil_screen.dart'; // Importar a tela de perfil
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +50,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cadastro realizado com sucesso!')),
+          const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
         );
 
         // Navegar para a tela de perfil, passando os dados do usuário
@@ -63,19 +64,19 @@ class _CadastroScreenState extends State<CadastroScreen> {
       }
     } on FirebaseAuthException catch (e) {
       String message;
-      if (e.code == 'weak-password') {
-        message = 'A senha fornecida é muito fraca.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'O e-mail já está em uso por outra conta.';
+      if (e.code == CafeString.weakPassword) {
+        message = CafeString.senhaFornecidaEMuitoFraca;
+      } else if (e.code == CafeString.emailAlrearyInUse) {
+        message = CafeString.emailJaEstaEmUsoPorOutraConta;
       } else {
-        message = 'Erro ao cadastrar: ${e.message}';
+        message = '${CafeString.erroAoCadastrar}: ${e.message}';
       }
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro inesperado: ${e.toString()}')),
+        SnackBar(content: Text('${CafeString.erroInesperado}: ${e.toString()}')),
       );
     } finally {
       setState(() => _isLoading = false);
@@ -101,7 +102,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
     final ColorScheme theme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Cadastro")),
+      appBar: AppBar(title: const Text(CafeString.cadastro)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -119,12 +120,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     borderSide: const BorderSide(width: 2),
                   ),
                   icon: const Icon(Icons.person_2),
-                  hintText: 'Como posso chamar você?',
-                  labelText: 'Nome *',
+                  hintText: CafeString.comoPossoChamarVoce,
+                  labelText: CafeString.nome,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu nome';
+                    return CafeString.insiraSeuNome;
                   }
                   return null;
                 },
@@ -138,12 +139,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.person_2_outlined),
-                  hintText: 'Qual é o seu sobrenome?',
-                  labelText: 'Sobrenome *',
+                  hintText: CafeString.qualEOSeuSobrenome,
+                  labelText: CafeString.sobrenome,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu sobrenome';
+                    return CafeString.insiraSeuSobrenome;
                   }
                   return null;
                 },
@@ -157,14 +158,14 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.email),
-                  hintText: 'Ex: seumelhoremail@gmail.com *',
-                  labelText: 'Digite seu email *',
+                  hintText: CafeString.exemploEmail,
+                  labelText: CafeString.digiteSeuEmail,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu e-mail';
+                    return CafeString.insiraSeuEmail;
                   } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                    return 'Por favor, insira um e-mail válido';
+                    return CafeString.insiraUmEmailValido;
                   }
                   return null;
                 },
@@ -179,14 +180,14 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.lock),
-                  hintText: 'Digite sua senha *',
-                  labelText: 'Senha *',
+                  hintText: CafeString.digiteSuaSenha,
+                  labelText: CafeString.senha,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira sua senha';
+                    return CafeString.insiraSuaSenha;
                   } else if (value.length < 6) {
-                    return 'A senha deve ter pelo menos 6 caracteres';
+                    return CafeString.senhaDeveTerPeloMenos6Caracteres;
                   }
                   return null;
                 },
@@ -201,26 +202,26 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ),
                   hintStyle: TextStyle(color: theme.outline),
                   icon: const Icon(Icons.lock_outline),
-                  hintText: 'Senha *',
-                  labelText: 'Digite novamente sua senha *',
+                  hintText: CafeString.senha,
+                  labelText: CafeString.digiteNovamenteSuaSenha,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, confirme sua senha';
+                    return CafeString.confirmeSuaSenha;
                   } else if (value != senhaController.text) {
-                    return 'As senhas não coincidem';
+                    return CafeString.senhasNaoCoincidem;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 40),
               FloatingActionButton.extended(
-                heroTag: 'fab_cadastro',
+                heroTag: CafeString.fabCadastro,
                 backgroundColor: theme.primary,
                 elevation: 5,
                 foregroundColor: theme.onPrimary,
                 onPressed: _cadastrarUsuario,
-                label: const Text("Cadastrar!"),
+                label: const Text(CafeString.cadastrar),
               ),
             ],
           ),
