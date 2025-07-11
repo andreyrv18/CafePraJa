@@ -1,6 +1,7 @@
 import 'package:cafe_pra_ja/config/context_extensions.dart';
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
 import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,7 @@ class ProductDetailScreen extends StatelessWidget {
                           ? Hero(tag: item!.id, child: const Placeholder())
                           : Hero(
                             tag: item!.id,
-                            child: Image.asset("${item!.imagemUrl}.jpg", fit: BoxFit.cover, width: double.infinity),
+                            child: Image.asset('${item!.imagemUrl}.jpg', fit: BoxFit.cover, width: double.infinity),
                           ),
                 ),
               ),
@@ -58,7 +59,7 @@ class ProductDetailScreen extends StatelessWidget {
                           style: context.textTheme.bodyLarge?.copyWith(color: context.theme.onSurfaceVariant),
                         ),
                         Text(
-                          item!.disponivel ? "Disponível" : "Indisponível",
+                          item!.disponivel ? CafeString.disponivel : CafeString.indisponivel,
                           style: context.textTheme.bodyLarge?.copyWith(
                             color: item!.disponivel ? Colors.green.shade700 : context.theme.error,
                             fontWeight: FontWeight.w500,
@@ -77,7 +78,7 @@ class ProductDetailScreen extends StatelessWidget {
                         const SizedBox(height: 12.0),
 
                         Text(
-                          "R\$ ${item!.preco.toStringAsFixed(2)}",
+                          'R\$ ${item!.preco.toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: context.theme.onSurfaceVariant,
@@ -114,7 +115,7 @@ class ProductDetailScreen extends StatelessWidget {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('${item!.nome} adicionado ao carrinho!'),
+                      content: Text('${item!.nome} ${CafeString.adiconadoAoCarrinho}'),
                       backgroundColor: context.theme.tertiary,
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -123,7 +124,7 @@ class ProductDetailScreen extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.add_shopping_cart_rounded),
-                label: const Text("Adicionar ao Carrinho"),
+                label: const Text(CafeString.adicionarAoCarrinho),
               ),
           ],
         ),

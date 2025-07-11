@@ -2,6 +2,7 @@ import 'package:cafe_pra_ja/config/context_extensions.dart';
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_bloc.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_state.dart';
 import 'package:cafe_pra_ja/ui/home/view_models/home_viewmodel.dart';
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<HomeScreen> {
       itemBuilder: (context, index) {
         final item = listaDeCategorias[index];
         final String categoriaId = item['id'];
-        final String nome = item["nome"]?.toString() ?? "Sem nome";
+        final String nome = item['nome']?.toString() ?? CafeString.semNome;
         final isSelected = menuProvider.categoriaSelecionadaId == categoriaId;
         return InkWell(
           onTap: () {
@@ -111,7 +112,7 @@ class _MyHomePageState extends State<HomeScreen> {
     final addCart = context.watch<CartProvider>();
 
     if (menuProvider.errorMessage != null) {
-      return Center(child: Text('Erro: ${menuProvider.errorMessage}'));
+      return Center(child: Text('${CafeString.erro}: ${menuProvider.errorMessage}'));
     }
     if (menuProvider.carregandoCardapio &&
         menuProvider.itensFiltradosDoCardapio.isEmpty) {
@@ -124,8 +125,8 @@ class _MyHomePageState extends State<HomeScreen> {
       return Center(
         child: Text(
           menuProvider.termoDeBuscaCardapio.isEmpty
-              ? 'Nenhum item encontrado no cardápio.'
-              : 'Nenhum item encontrado para "${menuProvider.termoDeBuscaCardapio}".',
+              ? CafeString.nenhumItemEncontradoNoCardapio
+              : '${CafeString.nenhumItemEnconradoPara} ${menuProvider.termoDeBuscaCardapio}.',
         ),
       );
     }
@@ -170,7 +171,7 @@ class _MyHomePageState extends State<HomeScreen> {
                                   child: Material(
                                     color: Colors.transparent,
                                     child: Image.asset(
-                                      "${item.imagemUrl}.jpg",
+                                      '${item.imagemUrl}.jpg',
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -195,16 +196,16 @@ class _MyHomePageState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "R\$ ${item.preco.toStringAsFixed(2)}",
+                            'R\$ ${item.preco.toStringAsFixed(2)}',
                             style: TextStyle(
                               color: context.theme.onSurfaceVariant,
                               fontSize: context.textTheme.titleLarge?.fontSize,
                             ),
                           ),
                           FloatingActionButton(
-                            heroTag: "fab_${item.id}",
+                            heroTag: '${CafeString.fab}${item.id}',
                             shape: BeveledRectangleBorder(),
-                            tooltip: "Comprar",
+                            tooltip: CafeString.comprar,
                             mini: true,
                             backgroundColor: context.theme.tertiary,
                             foregroundColor: context.theme.onTertiary,
@@ -246,9 +247,9 @@ class _MyHomePageState extends State<HomeScreen> {
                 controller: myController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  label: Text("Encontre seu café favorito!"),
+                  label: Text(CafeString.encontreSeuCafeFavorito),
                   hintStyle: context.textTheme.labelMedium,
-                  hint: Text("Ex: Expresso, Cappuccino, Arábica..."),
+                  hint: Text(CafeString.exemploTermoBusca),
                   prefixIcon: Icon(
                     Icons.search,
                     color: context.theme.onSurface,
@@ -278,7 +279,7 @@ class _MyHomePageState extends State<HomeScreen> {
             case HomeScreenSuccessState():
               return _page(state);
             case HomeScreenErrorState():
-              return const Center(child: Text("error"));
+              return const Center(child: Text(CafeString.erro));
 
             default:
               return _page(state);
@@ -294,7 +295,7 @@ class _MyHomePageState extends State<HomeScreen> {
     // delaying the user experience is a bad design practice!
     // ignore_for_file: avoid_print
 
-    print('go!');
+    print(CafeString.vai);
     FlutterNativeSplash.remove();
   }
 }

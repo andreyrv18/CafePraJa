@@ -1,5 +1,6 @@
 import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class CheckoutScreen extends StatelessWidget {
 
     if (cartItems.isEmpty) {
       return Center(
-        child: Column(children: [const Text("Seu carrinho está vazio.")]),
+        child: Column(children: [const Text(CafeString.seuCarrinhoEstaVazio)]),
       );
     }
     return ListView.builder(
@@ -37,8 +38,8 @@ class CheckoutScreen extends StatelessWidget {
                 flex: 3,
                 child:
                     imagemUrl.isEmpty
-                        ? const Text("Produto sem imagem")
-                        : Expanded(child: Image.asset("${item.imagemUrl}.jpg")),
+                        ? const Text(CafeString.produtoSemImagem)
+                        : Expanded(child: Image.asset('${item.imagemUrl}.jpg')),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,11 +53,11 @@ class CheckoutScreen extends StatelessWidget {
                   ),
 
                   Text(
-                    'Qtd: $quantidade x R\$ $precoUnitario',
+                    '$quantidade x ${CafeString.realBR} $precoUnitario',
                     style: textTheme.bodyLarge,
                   ),
                   Text(
-                    'R\$ ${(precoUnitario * quantidade).toStringAsFixed(2)}',
+                    '${CafeString.realBR} ${(precoUnitario * quantidade).toStringAsFixed(2)}',
                     style: textTheme.titleLarge?.copyWith(
                       color: theme.primary,
                       fontWeight: FontWeight.bold,

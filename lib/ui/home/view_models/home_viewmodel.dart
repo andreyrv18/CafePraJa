@@ -1,5 +1,6 @@
 import 'package:cafe_pra_ja/data/repositories/database_repository.dart';
 import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/foundation.dart';
 
 class HomeViewModel with ChangeNotifier {
@@ -16,7 +17,7 @@ class HomeViewModel with ChangeNotifier {
   List<MenuItemModel> _itensFiltradosDoCardapio = [];
   List<Map<String, dynamic>> _categorias = [];
   String? _mensagemErro;
-  String _termoDeBuscaCardapio = "";
+  String _termoDeBuscaCardapio = '';
   bool _carregandoCardapio = false;
   String? _categoriaSelecionadaId;
 
@@ -51,7 +52,7 @@ class HomeViewModel with ChangeNotifier {
         _categoriaSelecionadaId = _categorias.first['id'];
       }
     } catch (e) {
-      _mensagemErro = "Erro ao buscar categorias: $e";
+      _mensagemErro = '${CafeString.erroAoBuscarCategorias}: $e';
       _categorias = [];
     }
   }
@@ -74,7 +75,7 @@ class HomeViewModel with ChangeNotifier {
 
       _aplicarFiltroCardapio();
     } catch (e) {
-      _mensagemErro = "Erro ao carregar cardápio: ${e.toString()}";
+      _mensagemErro = '${CafeString.erroAoCarregarCargaprio}: ${e.toString()}';
       _todosOsItensDoCardapio = [];
       _itensFiltradosDoCardapio = [];
     } finally {

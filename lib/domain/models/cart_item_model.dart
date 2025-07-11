@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartItemModel {
@@ -24,11 +25,11 @@ class CartItemModel {
 
     return CartItemModel(
       id: doc.id,
-      nomeProduto: data['nomeProduto'] ?? 'Nome Indisponível',
+      nomeProduto: data['nomeProduto'] ?? CafeString.nomeIndisponivel,
       precoUnitario: (data['precoUnitario'] ?? 0.0).toDouble(),
       quantidade: data['quantidade'] ?? 0,
-      imagemUrl: data["imagemUrl"] as String? ?? "Produto sem Imagem",
-      descricao: data["descricao"] as String? ?? "Produto sem Descrição",
+      imagemUrl: data['imagemUrl'] as String? ?? CafeString.produtoSemImagem,
+      descricao: data['descricao'] as String? ?? CafeString.produtoSemDescricao,
     );
   }
 }

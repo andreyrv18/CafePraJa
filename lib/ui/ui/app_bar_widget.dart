@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/routing/routes.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,7 +36,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           color: theme.onSecondary,
           iconSize: 44,
           alignment: Alignment.center,
-          tooltip: "Perfil",
+          tooltip: CafeString.perfil,
         ),
       ],
       title: Row(
@@ -46,13 +47,22 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "localização",
-                style: textTheme.titleSmall?.copyWith(color: theme.onPrimary),
-              ),
-              Text(
-                "Pinhais, Paraná",
-                style: textTheme.titleMedium?.copyWith(color: theme.onPrimary),
+              TextButton(
+                style: TextButton.styleFrom(foregroundColor: theme.onPrimary),
+                onPressed: () {
+                  context.go(Routes.bemVindo);
+                },
+                child: Column(
+                  children: [
+                    Text(CafeString.localizacao),
+                    Text(
+                      CafeString.pinhaisParana,
+                      style: textTheme.titleMedium?.copyWith(
+                        color: theme.onPrimary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

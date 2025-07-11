@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthApiFirebase {
@@ -15,12 +16,12 @@ class AuthApiFirebase {
       return null; // Sucesso
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return 'O e-mail já está em uso.';
+        return CafeString.emailJaEstaEmUso;
       } else {
-        return 'Erro ao cadastrar: ${e.message}';
+        return '${CafeString.erroAoCadastrar}: ${e.message}';
       }
     } catch (e) {
-      return 'Erro inesperado: ${e.toString()}';
+      return '${CafeString.erroInesperado}: ${e.toString()}';
     }
   }
 
@@ -35,9 +36,9 @@ class AuthApiFirebase {
       );
       return null; // Sucesso
     } on FirebaseAuthException catch (e) {
-      return e.message ?? 'Erro ao fazer login.';
+      return e.message ?? CafeString.erroAoFazerLogin;
     } catch (e) {
-      return 'Erro inesperado: ${e.toString()}';
+      return '${CafeString.erroInesperado}: ${e.toString()}';
     }
   }
 }

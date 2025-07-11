@@ -4,6 +4,7 @@ import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
 import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
 import 'package:cafe_pra_ja/routing/router.dart';
 import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/core/themes/theme.dart';
 import 'package:cafe_pra_ja/ui/core/themes/util.dart';
 import 'package:cafe_pra_ja/ui/cupons/view_models/cupons_viewmodel.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    TextTheme textTheme = createTextTheme(context, "Roboto", "Noto Sans");
+    TextTheme textTheme = createTextTheme(context, 'Roboto', 'Noto Sans');
     MaterialTheme theme = MaterialTheme(textTheme);
     return MultiProvider(
       builder: (context, child) {
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         //   GlobalWidgetsLocalizations.delegate,
         //   GlobalMaterialLocalizations.delegate,
         // ],
-        title: 'Café Pra Já',
+        title: CafeString.appTitle,
         theme: theme.light(),
         darkTheme: theme.dark(),
         themeMode: ThemeMode.system,
