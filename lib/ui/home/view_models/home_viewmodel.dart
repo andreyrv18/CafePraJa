@@ -40,7 +40,7 @@ class HomeViewModel with ChangeNotifier {
     try {
       return _todosOsItensDoCardapio.firstWhere((item) => item.id == id);
     } catch (e) {
-      print(e);
+      debugPrint(e as String?);
     }
     return null;
   }
