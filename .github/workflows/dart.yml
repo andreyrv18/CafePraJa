@@ -30,7 +30,7 @@ jobs:
 
       # 3. Instala todas as dependências do projeto listadas no pubspec.yaml
       - name: Instalar dependências
-        run: dart pub get
+        run: flutter pub get
 
       # 4. Verifica a formatação do código. O build falhará se algum arquivo não estiver formatado.
       # Isso garante um estilo de código consistente em todo o projeto.
