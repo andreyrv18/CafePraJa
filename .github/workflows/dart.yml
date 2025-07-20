@@ -1,18 +1,15 @@
 # Nome do workflow, que aparecerá na aba "Actions" do GitHub
-name: Dart CI - Lint, Format & Test
+name: Flutter CI - Lint, Format & Test
 
 # Define os gatilhos que disparam o workflow
 on:
-  # Roda em pushes para a branch "main"
   push:
     branches: [ "main" ]
-  # Roda em pull requests que têm a "main" como alvo
   pull_request:
     branches: [ "main" ]
 
 # Define os jobs a serem executados
 jobs:
-  # Nome do job. Você pode ter vários jobs.
   build_and_test:
     # Máquina virtual onde o job será executado
     runs-on: ubuntu-latest
@@ -23,26 +20,26 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # 2. Configura o ambiente Dart SDK
-      # Usa uma action oficial do Dart para garantir o ambiente correto
-      - name: Configurar Dart SDK
-        uses: dart-lang/setup-dart@v1.6.0
+      # 2. Configura o ambiente Flutter SDK
+      # Esta action instala o Flutter e o adiciona ao PATH
+      - name: Configurar Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Você pode usar 'beta', 'dev' ou 'master'
 
-      # 3. Instala todas as dependências do projeto listadas no pubspec.yaml
+      # 3. Instala todas as dependências do projeto
       - name: Instalar dependências
         run: flutter pub get
 
       # 4. Verifica a formatação do código. O build falhará se algum arquivo não estiver formatado.
-      # Isso garante um estilo de código consistente em todo o projeto.
       - name: Verificar formatação
-        run: dart format --output=none --set-exit-if-changed .
+        run: flutter format --output=none --set-exit-if-changed .
 
       # 5. Roda o linter e o analisador estático.
-      # A flag '--fatal-infos' trata avisos (infos) como erros, forçando um código mais limpo.
+      # A flag '--fatal-infos' trata avisos como erros, forçando um código mais limpo.
       - name: Analisar e rodar o Linter
-        run: dart analyze --fatal-infos
+        run: flutter analyze --fatal-infos
 
       # 6. Roda a suíte de testes do projeto.
-      # Garante que as novas alterações não quebraram a lógica existente.
       - name: Rodar os testes
-        run: dart test
+        run: flutter test
