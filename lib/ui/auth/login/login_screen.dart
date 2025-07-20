@@ -162,11 +162,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onPressed: () async {
+                  onPressed: ()  {
                     if (_formKey.currentState!.validate()) {
                       setState(() => _isLoading = true);
                       try {
-                        await loginUsuario();
+                        loginUsuario();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text(CafeString.acessoAutorizado)),
                         );

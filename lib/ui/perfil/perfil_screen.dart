@@ -173,21 +173,23 @@ class _PerfilScreenState extends State<PerfilScreen> {
                               ? _phoneController.text
                               : null;
                     });
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(CafeString.perfilAtualizadoComSucesso),
-                      ),
-                    );
+                    // Navigator.of(context).pop();
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(
+                    //     content: Text(CafeString.perfilAtualizadoComSucesso),
+                    //   ),
+                    // );
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${CafeString.erroAoAtualizarPerfil}: ${e.toString()}',
-                        ),
-                      ),
-                    );
+                    debugPrint('$e');
                   }
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text(
+                  //         '${CafeString.erroAoAtualizarPerfil}: ${e.toString()}',
+                  //       ),
+                  //     ),
+                  //   );
+                  // }
                 }
               },
             ),
@@ -240,8 +242,8 @@ class _PerfilScreenState extends State<PerfilScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
               context.go(Routes.perfil);
+              await FirebaseAuth.instance.signOut();
               // O redirect do GoRouter irá lidar com a navegação para /login
             },
           ),

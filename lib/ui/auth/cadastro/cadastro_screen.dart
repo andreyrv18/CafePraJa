@@ -1,5 +1,4 @@
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
-import 'package:cafe_pra_ja/ui/perfil/perfil_screen.dart'; // Importar a tela de perfil
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -49,35 +48,34 @@ class _CadastroScreenState extends State<CadastroScreen> {
           // Adicione outros campos que desejar salvar
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
-        );
 
         // Navegar para a tela de perfil, passando os dados do usuário
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) => PerfilScreen(), // Passa o objeto User do Firebase
-          ),
-        );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder:
+        //         (context) => PerfilScreen(), // Passa o objeto User do Firebase
+        //   ),
+        // );
       }
     } on FirebaseAuthException catch (e) {
-      String message;
-      if (e.code == CafeString.weakPassword) {
-        message = CafeString.senhaFornecidaEMuitoFraca;
-      } else if (e.code == CafeString.emailAlrearyInUse) {
-        message = CafeString.emailJaEstaEmUsoPorOutraConta;
-      } else {
-        message = '${CafeString.erroAoCadastrar}: ${e.message}';
-      }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      debugPrint('$e');
+      // String message;
+      // if (e.code == CafeString.weakPassword) {
+      //   message = CafeString.senhaFornecidaEMuitoFraca;
+      // } else if (e.code == CafeString.emailAlrearyInUse) {
+      //   message = CafeString.emailJaEstaEmUsoPorOutraConta;
+      // } else {
+      //   message = '${CafeString.erroAoCadastrar}: ${e.message}';
+      // }
+      // // ScaffoldMessenger.of(
+      // //   context,
+      // // ).showSnackBar(SnackBar(content: Text(message)));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${CafeString.erroInesperado}: ${e.toString()}')),
-      );
+      debugPrint('$e');
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('${CafeString.erroInesperado}: ${e.toString()}')),
+      // );
     } finally {
       setState(() => _isLoading = false);
     }
@@ -220,7 +218,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
                 backgroundColor: theme.primary,
                 elevation: 5,
                 foregroundColor: theme.onPrimary,
-                onPressed: _cadastrarUsuario,
+                onPressed: () {
+                  _cadastrarUsuario();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
+                  );
+                },
                 label: const Text(CafeString.cadastrar),
               ),
             ],
