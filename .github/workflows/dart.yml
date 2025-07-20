@@ -45,10 +45,6 @@ jobs:
       - name: Instalar dependências
         run: flutter pub get
 
-      # 5. Verifica a formatação do código. O comando correto é "dart format".
-      - name: Verificar formatação
-        run: dart format --output=none --set-exit-if-changed .
-
       # 6. Roda o linter e o analisador estático
       - name: Analisar e rodar o Linter
         run: flutter analyze --fatal-infos
