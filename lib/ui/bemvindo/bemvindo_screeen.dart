@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/routing/routes.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_assets.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ class BemvindoScreen extends StatelessWidget {
         children: [
           SizedBox(
             height: 508,
-            child: Image.asset('assets/images/bemvindo.jpg', fit: BoxFit.cover),
+            child: Image.asset(CafeAssets.bemvindo, fit: BoxFit.cover),
           ),
           Expanded(
             child: Container(
