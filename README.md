@@ -1,5 +1,5 @@
 # CAFÉ PRA JÁ
-
+[Link do quadro Kanban no Jira](https://andreyrv-dev.atlassian.net/jira/software/projects/CPJA/boards/34?atlOrigin=eyJpIjoiYjA2ZDVkYWJjN2U0NGE0ZTk1MjYyNWY5YjFlMmQxOTgiLCJwIjoiaiJ9)
 ## Contexto
 
 Este projeto trata-se de uma aplicativo de cafeteria universitária
