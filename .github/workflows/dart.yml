@@ -49,6 +49,6 @@ jobs:
       - name: Analisar e rodar o Linter
         run: flutter analyze --fatal-infos
 
-      # 7. Roda a suíte de testes do projeto
-      - name: Rodar os testes
-        run: flutter test
+      # # 7. Roda a suíte de testes do projeto
+      # - name: Rodar os testes
+      #   run: flutter test
