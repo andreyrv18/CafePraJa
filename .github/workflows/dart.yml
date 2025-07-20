@@ -20,26 +20,35 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # 2. Configura o ambiente Flutter SDK
-      # Esta action instala o Flutter e o adiciona ao PATH
+      # 2. Configura o cache para o SDK do Flutter
+      # Isso evita baixar o Flutter em todas as execuções
+      - name: Cache do Flutter
+        uses: actions/cache@v4
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      # 3. Configura o ambiente Flutter SDK
+      # A action é inteligente e usará o cache se disponível
       - name: Configurar Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable' # Você pode usar 'beta', 'dev' ou 'master'
+          channel: 'stable'
 
-      # 3. Instala todas as dependências do projeto
+      # 4. Instala todas as dependências do projeto
       - name: Instalar dependências
         run: flutter pub get
 
-      # 4. Verifica a formatação do código. O build falhará se algum arquivo não estiver formatado.
+      # 5. Verifica a formatação do código
       - name: Verificar formatação
         run: flutter format --output=none --set-exit-if-changed .
 
-      # 5. Roda o linter e o analisador estático.
-      # A flag '--fatal-infos' trata avisos como erros, forçando um código mais limpo.
+      # 6. Roda o linter e o analisador estático
       - name: Analisar e rodar o Linter
         run: flutter analyze --fatal-infos
 
-      # 6. Roda a suíte de testes do projeto.
+      # 7. Roda a suíte de testes do projeto
       - name: Rodar os testes
         run: flutter test
