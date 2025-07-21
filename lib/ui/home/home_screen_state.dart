@@ -10,3 +10,5 @@ class HomeScreenErrorState extends HomeScreenState {
   final String message;
   HomeScreenErrorState(this.message);
 }
+
+class HomeScreenApplyFilterState extends HomeScreenState {}

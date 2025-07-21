@@ -1,7 +1,7 @@
 import 'package:cafe_pra_ja/config/context_extensions.dart';
-import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
+import 'package:cafe_pra_ja/data/repositories/cart_repository.dart';
+import 'package:cafe_pra_ja/domain/models/product_model.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
-import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_bloc.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_state.dart';
@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _MyHomePageState extends State<HomeScreen> {
   final myController = TextEditingController();
   late HomeViewModel _menuProviderInstance;
-
+  late final CartRepository _cartRepository;
   @override
   void initState() {
     super.initState();
@@ -42,12 +42,12 @@ class _MyHomePageState extends State<HomeScreen> {
 
   Widget _categoriasList() {
     final menuProvider = context.watch<HomeViewModel>();
-    if (menuProvider.carregandoCardapio && menuProvider.categorias.isEmpty) {
-      return const SizedBox(
-        height: 50,
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
+    // if (menuProvider.carregandoCardapio && menuProvider.categorias.isEmpty) {
+    //   return const SizedBox(
+    //     height: 50,
+    //     child: Center(child: CircularProgressIndicator()),
+    //   );
+    // }
 
     final List<Map<String, dynamic>> listaDeCategorias =
         menuProvider.categorias;
@@ -109,7 +109,7 @@ class _MyHomePageState extends State<HomeScreen> {
 
   Widget _cardapioGrid() {
     final menuProvider = context.watch<HomeViewModel>();
-    final addCart = context.watch<CartProvider>();
+
 
     if (menuProvider.errorMessage != null) {
       return Center(child: Text('${CafeString.erro}: ${menuProvider.errorMessage}'));
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<HomeScreen> {
         menuProvider.itensFiltradosDoCardapio.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-    final List<MenuItemModel> itensParaExibir =
+    final List<ProductModel> itensParaExibir =
         menuProvider.itensFiltradosDoCardapio;
 
     if (itensParaExibir.isEmpty && !menuProvider.carregandoCardapio) {
@@ -144,7 +144,7 @@ class _MyHomePageState extends State<HomeScreen> {
               crossAxisSpacing: 8.0,
             ),
             itemBuilder: (BuildContext context, index) {
-              final MenuItemModel item = itensParaExibir[index];
+              final ProductModel item = itensParaExibir[index];
 
               return InkWell(
                 onTap: () {
@@ -211,7 +211,7 @@ class _MyHomePageState extends State<HomeScreen> {
                             foregroundColor: context.theme.onTertiary,
                             child: Icon(Icons.add_shopping_cart_outlined),
                             onPressed: () {
-                              addCart.adicionarItem(
+                              _cartRepository.addOrUpdateItemNoCarrinho(
                                 item.id,
                                 item.nome,
                                 item.preco,
