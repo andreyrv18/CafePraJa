@@ -1,7 +1,7 @@
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MenuItemModel {
+class ProductModel {
   final String id; // ID do documento do item no Firestore
   final String nome;
   late final bool disponivel;
@@ -10,7 +10,7 @@ class MenuItemModel {
   final String imagemUrl;
   final String descricao;
 
-  MenuItemModel({
+  ProductModel({
     required this.id,
     required this.nome,
     required this.disponivel,
@@ -20,12 +20,12 @@ class MenuItemModel {
     required this.descricao,
   });
 
-  factory MenuItemModel.fromFirestore(
+  factory ProductModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> doc,
     String categoriaId,
   ) {
     Map<String, dynamic> data = doc.data()!; // Pega os dados do documento
-    return MenuItemModel(
+    return ProductModel(
       id: doc.id,
       nome: data['nome'] as String? ?? CafeString.nomeIndisponivel,
       disponivel: data['disponivel'] as bool? ?? false,
