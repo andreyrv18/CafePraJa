@@ -1,5 +1,4 @@
 import 'package:cafe_pra_ja/config/context_extensions.dart';
-import 'package:cafe_pra_ja/data/repositories/cart_repository.dart';
 import 'package:cafe_pra_ja/domain/models/product_model.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
@@ -105,14 +104,14 @@ class ProductDetailScreen extends StatelessWidget {
                   textStyle: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 onPressed: ()  {
-                     _cartRepository.addOrUpdateItemNoCarrinho(
-                    item!.id,
-                    item!.nome,
-                    item!.preco,
-                    item!.categoriaId,
-                    item!.imagemUrl,
-                    item!.descricao,
-                  );
+                  //    _cartRepository.addOrUpdateItemNoCarrinho(
+                  //   item!.id,
+                  //   item!.nome,
+                  //   item!.preco,
+                  //   item!.categoriaId,
+                  //   item!.imagemUrl,
+                  //   item!.descricao,
+                  // );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('${item!.nome} ${CafeString.adiconadoAoCarrinho}'),

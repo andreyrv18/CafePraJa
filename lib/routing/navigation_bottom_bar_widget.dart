@@ -1,8 +1,5 @@
-import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
-import 'package:cafe_pra_ja/domain/models/cupons_item_model.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class NavigationBottomBarWidget extends StatelessWidget {
   const NavigationBottomBarWidget({
@@ -18,15 +15,15 @@ class NavigationBottomBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-    final List<CartItemModel> cartItens = context.watch<List<CartItemModel>>();
-    final quantidade = cartItens.fold(
-      0,
-      (acumulador, itemAtual) => acumulador + itemAtual.quantidade,
-    );
+    // final List<CartItemModel> cartItens = context.watch<List<CartItemModel>>();
+    // final quantidade = cartItens.fold(
+    //   0,
+    //   (acumulador, itemAtual) => acumulador + itemAtual.quantidade,
+    // );
 
-    final List<CuponsItemModel> listaDeCupons =
-        context.watch<List<CuponsItemModel>>();
-    final int quantidadeDeCupons = listaDeCupons.length;
+    // final List<CuponsItemModel> listaDeCupons =
+    //     context.watch<List<CuponsItemModel>>();
+    // final int quantidadeDeCupons = listaDeCupons.length;
 
     return NavigationBar(
       elevation: 5,
@@ -44,12 +41,12 @@ class NavigationBottomBarWidget extends StatelessWidget {
         NavigationDestination(
           icon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('$quantidade'),
+            label: Text('quantidade'),
             child: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
           ),
           selectedIcon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('$quantidade'),
+            label: Text('quantidade'),
             child: Icon(Icons.shopping_bag_sharp),
           ),
           label: CafeString.checkout,
@@ -58,12 +55,12 @@ class NavigationBottomBarWidget extends StatelessWidget {
         NavigationDestination(
           icon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('$quantidadeDeCupons'),
+            label: Text('quantidadeDeCupons'),
             child: Icon(Icons.local_activity_outlined),
           ),
           selectedIcon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('$quantidadeDeCupons'),
+            label: Text('quantidadeDeCupons'),
             child: Icon(Icons.local_activity),
           ),
           label: CafeString.cuponsPorcentagem,

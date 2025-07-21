@@ -18,15 +18,15 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     });
 
     on<HomeScreenLoadingEvent>((event, emit) {
-      // TODO: implement event handler
+     emit(HomeScreenLoadingState());
     });
 
     on<HomeScreenSuccessEvent>((event, emit) {
-      // TODO: implement event handler
+      emit(HomeScreenSuccessState());
     });
 
     on<HomeScreenErrorEvent>((event, emit) {
-      // TODO: implement event handler
+      emit(HomeScreenErrorState(''));
     });
 
     on<HomeScreenApplyFilterEvent>((event, emit) {

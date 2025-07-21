@@ -1,7 +1,9 @@
+import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});
@@ -103,131 +105,137 @@ class _CadastroScreenState extends State<CadastroScreen> {
       appBar: AppBar(title: const Text(CafeString.cadastro)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24),
-              TextFormField(
-                controller: nomeController,
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(color: theme.outline),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 2),
+        child: Column(
+          children: [
+            FloatingActionButton(isExtended: true, onPressed: () => context.go(Routes.initial), child: Text( CafeString.pesquisar),),
+
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    controller: nomeController,
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(color: theme.outline),
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 2),
+                      ),
+                      icon: const Icon(Icons.person_2),
+                      hintText: CafeString.comoPossoChamarVoce,
+                      labelText: CafeString.nome,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return CafeString.insiraSeuNome;
+                      }
+                      return null;
+                    },
                   ),
-                  icon: const Icon(Icons.person_2),
-                  hintText: CafeString.comoPossoChamarVoce,
-                  labelText: CafeString.nome,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.insiraSeuNome;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              TextFormField(
-                controller: sobrenomeController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 2),
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    controller: sobrenomeController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 2),
+                      ),
+                      hintStyle: TextStyle(color: theme.outline),
+                      icon: const Icon(Icons.person_2_outlined),
+                      hintText: CafeString.qualEOSeuSobrenome,
+                      labelText: CafeString.sobrenome,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return CafeString.insiraSeuSobrenome;
+                      }
+                      return null;
+                    },
                   ),
-                  hintStyle: TextStyle(color: theme.outline),
-                  icon: const Icon(Icons.person_2_outlined),
-                  hintText: CafeString.qualEOSeuSobrenome,
-                  labelText: CafeString.sobrenome,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.insiraSeuSobrenome;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 2),
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 2),
+                      ),
+                      hintStyle: TextStyle(color: theme.outline),
+                      icon: const Icon(Icons.email),
+                      hintText: CafeString.exemploEmail,
+                      labelText: CafeString.digiteSeuEmail,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return CafeString.insiraSeuEmail;
+                      } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return CafeString.insiraUmEmailValido;
+                      }
+                      return null;
+                    },
                   ),
-                  hintStyle: TextStyle(color: theme.outline),
-                  icon: const Icon(Icons.email),
-                  hintText: CafeString.exemploEmail,
-                  labelText: CafeString.digiteSeuEmail,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.insiraSeuEmail;
-                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                    return CafeString.insiraUmEmailValido;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              TextFormField(
-                obscureText: true,
-                controller: senhaController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 2),
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    obscureText: true,
+                    controller: senhaController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 2),
+                      ),
+                      hintStyle: TextStyle(color: theme.outline),
+                      icon: const Icon(Icons.lock),
+                      hintText: CafeString.digiteSuaSenha,
+                      labelText: CafeString.senha,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return CafeString.insiraSuaSenha;
+                      } else if (value.length < 6) {
+                        return CafeString.senhaDeveTerPeloMenos6Caracteres;
+                      }
+                      return null;
+                    },
                   ),
-                  hintStyle: TextStyle(color: theme.outline),
-                  icon: const Icon(Icons.lock),
-                  hintText: CafeString.digiteSuaSenha,
-                  labelText: CafeString.senha,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.insiraSuaSenha;
-                  } else if (value.length < 6) {
-                    return CafeString.senhaDeveTerPeloMenos6Caracteres;
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-              TextFormField(
-                controller: segundaSenhaController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 2),
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    controller: segundaSenhaController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 2),
+                      ),
+                      hintStyle: TextStyle(color: theme.outline),
+                      icon: const Icon(Icons.lock_outline),
+                      hintText: CafeString.senha,
+                      labelText: CafeString.digiteNovamenteSuaSenha,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return CafeString.confirmeSuaSenha;
+                      } else if (value != senhaController.text) {
+                        return CafeString.senhasNaoCoincidem;
+                      }
+                      return null;
+                    },
                   ),
-                  hintStyle: TextStyle(color: theme.outline),
-                  icon: const Icon(Icons.lock_outline),
-                  hintText: CafeString.senha,
-                  labelText: CafeString.digiteNovamenteSuaSenha,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.confirmeSuaSenha;
-                  } else if (value != senhaController.text) {
-                    return CafeString.senhasNaoCoincidem;
-                  }
-                  return null;
-                },
+                  const SizedBox(height: 40),
+                  FloatingActionButton.extended(
+                    heroTag: CafeString.fabCadastro,
+                    backgroundColor: theme.primary,
+                    elevation: 5,
+                    foregroundColor: theme.onPrimary,
+                    onPressed: () {
+                      _cadastrarUsuario();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
+                      );
+                    },
+                    label: const Text(CafeString.cadastrar),
+                  ),
+                ],
               ),
-              const SizedBox(height: 40),
-              FloatingActionButton.extended(
-                heroTag: CafeString.fabCadastro,
-                backgroundColor: theme.primary,
-                elevation: 5,
-                foregroundColor: theme.onPrimary,
-                onPressed: () {
-                  _cadastrarUsuario();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
-                  );
-                },
-                label: const Text(CafeString.cadastrar),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
