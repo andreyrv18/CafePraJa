@@ -38,7 +38,6 @@ class ProductModel {
 
   @override
   String toString() {
-    return nome;
-    // Personalize isso para incluir as propriedades que você deseja imprimir
+    return 'ProductModel(id: $id, name: $nome, isAvailable: $disponivel, price: $preco, categoryId: $categoriaId)';    // Personalize isso para incluir as propriedades que você deseja imprimir
   }
 }
