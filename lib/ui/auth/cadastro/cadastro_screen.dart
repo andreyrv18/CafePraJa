@@ -220,7 +220,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   ),
                   const SizedBox(height: 40),
                   FloatingActionButton.extended(
-                    heroTag: CafeString.fabCadastro,
+                    // heroTag: CafeString.fabCadastro,
                     backgroundColor: theme.primary,
                     elevation: 5,
                     foregroundColor: theme.onPrimary,

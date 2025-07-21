@@ -1,10 +1,10 @@
 import 'package:cafe_pra_ja/config/context_extensions.dart';
-import 'package:cafe_pra_ja/domain/models/product_model.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final ProductModel? item;
+  // final ProductModel? item;
+  final int? item;
 
   const ProductDetailScreen({super.key, required this.item});
 
@@ -13,7 +13,7 @@ class ProductDetailScreen extends StatelessWidget {
 
 
     return Scaffold(
-      appBar: AppBar(title: Text(item!.nome), backgroundColor: context.theme.surfaceContainerHigh, elevation: 1),
+      appBar: AppBar(title: Text('item!.nome'), backgroundColor: context.theme.surfaceContainerHigh, elevation: 1),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -29,11 +29,12 @@ class ProductDetailScreen extends StatelessWidget {
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.0)),
                   alignment: Alignment.center,
                   child:
-                      item!.imagemUrl.isEmpty
-                          ? Hero(tag: item!.id, child: const Placeholder())
+                      // item!.imagemUrl.isEmpty
+                    true
+                          ? Hero(tag: 'item!.id', child: const Placeholder())
                           : Hero(
-                            tag: item!.id,
-                            child: Image.asset('${item!.imagemUrl}.jpg', fit: BoxFit.cover, width: double.infinity),
+                            tag: 'item!.id',
+                            child: Image.asset('{item!.imagemUrl}.jpg', fit: BoxFit.cover, width: double.infinity),
                           ),
                 ),
               ),
@@ -51,40 +52,48 @@ class ProductDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                      children: [
-                        Text(
-                          item!.descricao,
-                          style: context.textTheme.bodyLarge?.copyWith(color: context.theme.onSurfaceVariant),
-                        ),
-                        Text(
-                          item!.disponivel ? CafeString.disponivel : CafeString.indisponivel,
-                          style: context.textTheme.bodyLarge?.copyWith(
-                            color: item!.disponivel ? Colors.green.shade700 : context.theme.error,
-                            fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            'item!.descricao',
+                            style: context.textTheme.bodyLarge?.copyWith(color: context.theme.onSurfaceVariant),
                           ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          item!.nome,
-                          textAlign: TextAlign.center,
-                          style: context.textTheme.titleMedium?.copyWith(
-                            color: context.theme.onSurface,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            // item!.disponivel
+                            true
+                                ? CafeString.disponivel : CafeString.indisponivel,
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              color:
+                              // item!.disponivel
+                              true
+                                  ? Colors.green.shade700 : context.theme.error,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 12.0),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            'item!.nome',
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              color: context.theme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 12.0),
 
-                        Text(
-                          'R\$ ${item!.preco.toStringAsFixed(2)}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: context.theme.onSurfaceVariant,
-                            fontSize: context.textTheme.titleLarge?.fontSize,
+                          Text(
+                            overflow: TextOverflow.ellipsis,
+                            'R\$ {item!.preco.toStringAsFixed(2)}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: context.theme.onSurfaceVariant,
+                              fontSize: context.textTheme.titleLarge?.fontSize,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -92,7 +101,8 @@ class ProductDetailScreen extends StatelessWidget {
             ),
 
             const Spacer(),
-            if (item!.disponivel)
+            // if (item!.disponivel)
+            if(true)
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.theme.primary,
@@ -114,7 +124,7 @@ class ProductDetailScreen extends StatelessWidget {
                   // );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('${item!.nome} ${CafeString.adiconadoAoCarrinho}'),
+                      content: Text('{item!.nome} ${CafeString.adiconadoAoCarrinho}'),
                       backgroundColor: context.theme.tertiary,
                       behavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

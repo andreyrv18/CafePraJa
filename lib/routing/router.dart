@@ -1,4 +1,3 @@
-import 'package:cafe_pra_ja/domain/models/product_model.dart';
 import 'package:cafe_pra_ja/routing/app_shell.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen.dart';
@@ -51,9 +50,9 @@ GoRouter router() => GoRouter(
                   builder: (context, state) {
                     // final id = state.pathParameters['id']!;
 
-                    ProductModel? item;
+                    // ProductModel? item;
 
-                    return ProductDetailScreen(item: item);
+                    return ProductDetailScreen(item: 1);
                   },
                 ),
               ],

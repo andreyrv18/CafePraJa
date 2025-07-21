@@ -23,18 +23,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _authRepository = AuthFirebaseRepository();
+  }
+
   Future<void> logInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
       final senha = _senhaController.text.trim();
       await _authRepository.logInWithEmailAndPassword(email, senha);
     }
-  }
-
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override

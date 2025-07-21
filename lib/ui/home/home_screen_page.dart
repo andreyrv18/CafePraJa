@@ -1,4 +1,5 @@
 import 'package:cafe_pra_ja/config/context_extensions.dart';
+import 'package:cafe_pra_ja/routing/routes.dart';
 // import 'package:cafe_pra_ja/data/repositories/cart_repository.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:cafe_pra_ja/ui/home/home_screen_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -162,6 +164,7 @@ class _MyHomePageState extends State<HomeScreen> {
 
               return InkWell(
                 onTap: () {
+                  context.go(Routes.detailsWithId('1'));
                   // context.go(Routes.detailsWithId(item.id));
                 },
                 child: Card(
@@ -220,7 +223,7 @@ class _MyHomePageState extends State<HomeScreen> {
                             ),
                           ),
                           FloatingActionButton(
-                            heroTag: '${CafeString.fab}{item.id}',
+                            // heroTag: '${CafeString.fab}{item.id}',
                             shape: BeveledRectangleBorder(),
                             tooltip: CafeString.comprar,
                             mini: true,
@@ -228,6 +231,7 @@ class _MyHomePageState extends State<HomeScreen> {
                             foregroundColor: context.theme.onTertiary,
                             child: Icon(Icons.add_shopping_cart_outlined),
                             onPressed: () {
+
                               // _cartRepository.addOrUpdateItemNoCarrinho(
                               //   item.id,
                               //   item.nome,

@@ -1,8 +1,8 @@
 import 'package:cafe_pra_ja/data/services/auth_firebase_service.dart';
 
 class AuthFirebaseRepository {
-  final AuthFirebaseService _authFirebaseService;
-  AuthFirebaseRepository(this._authFirebaseService);
+  late final AuthFirebaseService _authFirebaseService;
+  // AuthFirebaseRepository(this._authFirebaseService);
 
   Future<void> signUpWithEmailAndPassword(
     // String nome,
