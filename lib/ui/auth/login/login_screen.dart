@@ -1,15 +1,12 @@
 import 'package:cafe_pra_ja/data/repositories/auth_firebase_repository.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
-import 'package:cafe_pra_ja/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.viewModel});
-
-  final LoginViewModel viewModel;
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

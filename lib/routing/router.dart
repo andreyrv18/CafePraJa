@@ -3,7 +3,6 @@ import 'package:cafe_pra_ja/routing/app_shell.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_screen.dart';
-import 'package:cafe_pra_ja/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/bemvindo/bemvindo_screeen.dart';
 import 'package:cafe_pra_ja/ui/checkout/checkout_screen.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
@@ -103,7 +102,7 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.login,
       builder: (context, state) {
-        return LoginScreen(viewModel: LoginViewModel());
+        return LoginScreen();
       },
     ),
     GoRoute(
