@@ -1,18 +1,18 @@
 import 'package:cafe_pra_ja/config/context_extensions.dart';
-import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
-import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
+import 'package:cafe_pra_ja/data/repositories/cart_repository.dart';
+import 'package:cafe_pra_ja/domain/models/product_model.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final MenuItemModel? item;
+  final ProductModel? item;
 
   const ProductDetailScreen({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = context.read<CartProvider>();
+
+
     return Scaffold(
       appBar: AppBar(title: Text(item!.nome), backgroundColor: context.theme.surfaceContainerHigh, elevation: 1),
       body: Padding(
@@ -104,8 +104,8 @@ class ProductDetailScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
                   textStyle: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                onPressed: () {
-                  cartProvider.adicionarItem(
+                onPressed: ()  {
+                     _cartRepository.addOrUpdateItemNoCarrinho(
                     item!.id,
                     item!.nome,
                     item!.preco,
