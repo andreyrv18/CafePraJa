@@ -217,7 +217,7 @@ class _State extends State<LoginScreen> {
                   ),
                   onPressed: () {
                     // Navegar para tela de cadastro, se houver
-                    context.go(Routes.cadastro);
+                    context.push(Routes.cadastro);
                   },
                 ),
               ),

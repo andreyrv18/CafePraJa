@@ -1,9 +1,7 @@
-import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});
@@ -107,8 +105,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            FloatingActionButton(isExtended: true, onPressed: () => context.go(Routes.initial), child: Text( CafeString.pesquisar),),
-
             Form(
               key: _formKey,
               child: Column(

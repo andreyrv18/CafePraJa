@@ -220,7 +220,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
               const Text(CafeString.voceNaoEstaAutenticado),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => context.go(Routes.login),
+                onPressed: () => context.push(Routes.login),
                 child: const Text(CafeString.fazerLogin),
               ),
             ],
