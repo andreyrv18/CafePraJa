@@ -1,3 +1,4 @@
+import 'package:cafe_pra_ja/data/repositories/auth_firebase_repository.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
@@ -15,28 +16,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
+  late final AuthFirebaseRepository _authRepository;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<UserCredential> loginUsuario() async {
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _senhaController.text,
-      );
-      debugPrint(userCredential.user?.email);
-      return userCredential;
-    } on FirebaseAuthException {
-      rethrow;
-    } catch (e) {
-      rethrow;
+  bool _isLoading = false;
+
+  Future<void> logInWithEmailAndPassword() async {
+    if (_formKey.currentState!.validate()) {
+      final email = _emailController.text.trim();
+      final senha = _senhaController.text.trim();
+      await _authRepository.logInWithEmailAndPassword(email, senha);
     }
   }
 
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -166,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (_formKey.currentState!.validate()) {
                       setState(() => _isLoading = true);
                       try {
-                        loginUsuario();
+                        logInWithEmailAndPassword();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text(CafeString.acessoAutorizado)),
                         );
