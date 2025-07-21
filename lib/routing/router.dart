@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/domain/models/menu_item_model.dart';
+import 'package:cafe_pra_ja/domain/models/product_model.dart';
 import 'package:cafe_pra_ja/routing/app_shell.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen.dart';
@@ -9,12 +9,10 @@ import 'package:cafe_pra_ja/ui/checkout/checkout_screen.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/cupons/cupons_screen.dart';
 import 'package:cafe_pra_ja/ui/error/error_screeen.dart';
-import 'package:cafe_pra_ja/ui/home/details/product_details.dart';
+import 'package:cafe_pra_ja/ui/home/details/product_detail_screen.dart';
 import 'package:cafe_pra_ja/ui/home/home_screen_page.dart';
-import 'package:cafe_pra_ja/ui/home/view_models/home_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/perfil/perfil_screen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -54,8 +52,7 @@ GoRouter router() => GoRouter(
                   builder: (context, state) {
                     final id = state.pathParameters['id']!;
 
-                    final homeViewModel = context.read<HomeViewModel>();
-                    MenuItemModel? item = homeViewModel.getItem(id);
+                    ProductModel? item;
 
                     return ProductDetailScreen(item: item);
                   },
