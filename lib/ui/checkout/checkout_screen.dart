@@ -1,5 +1,4 @@
 import 'package:cafe_pra_ja/domain/models/cart_item_model.dart';
-import 'package:cafe_pra_ja/ui/checkout/view_models/checkout_viewmodel.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,6 @@ class CheckoutScreen extends StatelessWidget {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
     final List<CartItemModel> cartItems = context.watch<List<CartItemModel>>();
-    final adicionarItem = context.watch<CartProvider>();
 
     if (cartItems.isEmpty) {
       return Center(
@@ -75,10 +73,10 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          adicionarItem.atualizarQuantidade(
-                            item.id,
-                            item.quantidade + 1,
-                          );
+                          // adicionarItem.atualizarQuantidade(
+                          //   item.id,
+                          //   item.quantidade + 1,
+                          // );
                         },
                         icon: Icon(Icons.add_shopping_cart),
                       ),
@@ -91,10 +89,10 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          adicionarItem.atualizarQuantidade(
-                            item.id,
-                            item.quantidade - 1,
-                          );
+                          // adicionarItem.atualizarQuantidade(
+                          //   item.id,
+                          //   item.quantidade - 1,
+                          // );
                         },
                         icon: Icon(Icons.remove_shopping_cart_rounded),
                       ),
