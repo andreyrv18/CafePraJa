@@ -1,33 +1,41 @@
 import 'package:cafe_pra_ja/data/repositories/auth_firebase_repository.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
+import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen_state.dart';
+import 'package:cafe_pra_ja/ui/auth/login/login_screen_bloc.dart';
+import 'package:cafe_pra_ja/ui/auth/login/login_screen_state.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _State();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _State extends State<LoginScreen> {
+  /// bloc
+  final loginBloc = LoginScreenBloc();
 
-
+  /// variaveis
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   late final AuthFirebaseRepository _authRepository;
 
-
   bool _isLoading = false;
 
+  /// init state
   @override
   void initState() {
     super.initState();
     _authRepository = AuthFirebaseRepository();
   }
+
+  /// Metodos
 
   Future<void> logInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
@@ -37,13 +45,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
+  /// Widget
 
+  Widget _page(state) {
     final ThemeData theme = Theme.of(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
@@ -156,23 +162,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onPressed: ()  {
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       setState(() => _isLoading = true);
                       try {
                         logInWithEmailAndPassword();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text(CafeString.acessoAutorizado)),
+                          const SnackBar(
+                            content: Text(CafeString.acessoAutorizado),
+                          ),
                         );
                         context.go(Routes.perfil);
                       } on FirebaseAuthException catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('${CafeString.erro}: ${e.message}')),
+                          SnackBar(
+                            content: Text('${CafeString.erro}: ${e.message}'),
+                          ),
                         );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${CafeString.erroInesperado}: ${e.toString()}'),
+                            content: Text(
+                              '${CafeString.erroInesperado}: ${e.toString()}',
+                            ),
                           ),
                         );
                       } finally {
@@ -216,10 +228,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  /// bloc
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => LoginScreenBloc(),
+      child: BlocBuilder<LoginScreenBloc, LoginScreenState>(
+        builder: (BuildContext context, LoginScreenState state) {
+          switch (state) {
+            case CadastroScreenLoadingState():
+              return const Center(child: CircularProgressIndicator());
+            case CadastroScreenSuccessState():
+              return _page(state);
+            case CadastroScreenErrorState():
+              return const Center(child: Text(CafeString.erro));
+            default:
+              return _page(state);
+          }
+        },
+      ),
+    );
+  }
+
   @override
   void dispose() {
+    super.dispose();
     _emailController.dispose();
     _senhaController.dispose();
-    super.dispose();
   }
 }
