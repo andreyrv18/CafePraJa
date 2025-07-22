@@ -1,15 +1,15 @@
 import 'package:cafe_pra_ja/routing/app_shell.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
-import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_screen.dart';
-import 'package:cafe_pra_ja/ui/auth/login/login_screen_page.dart';
+import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_page.dart';
+import 'package:cafe_pra_ja/ui/auth/login/login_page.dart';
 import 'package:cafe_pra_ja/ui/bemvindo/bemvindo_screeen.dart';
-import 'package:cafe_pra_ja/ui/checkout/checkout_screen.dart';
+import 'package:cafe_pra_ja/ui/checkout/checkout_page.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
-import 'package:cafe_pra_ja/ui/cupons/cupons_screen.dart';
-import 'package:cafe_pra_ja/ui/error/error_screeen.dart';
-import 'package:cafe_pra_ja/ui/home/details/product_detail_screen.dart';
-import 'package:cafe_pra_ja/ui/home/home_screen_page.dart';
-import 'package:cafe_pra_ja/ui/perfil/perfil_screen.dart';
+import 'package:cafe_pra_ja/ui/cupons/cupons_page.dart';
+import 'package:cafe_pra_ja/ui/error/error_page.dart';
+import 'package:cafe_pra_ja/ui/home/details/product_detail_page.dart';
+import 'package:cafe_pra_ja/ui/home/home_page.dart';
+import 'package:cafe_pra_ja/ui/perfil/perfil_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,7 +42,7 @@ GoRouter router() => GoRouter(
             GoRoute(
               path: Routes.initial,
               builder: (context, state) {
-                return HomeScreen();
+                return HomePage();
               },
               routes: [
                 GoRoute(
@@ -52,7 +52,7 @@ GoRouter router() => GoRouter(
 
                     // ProductModel? item;
 
-                    return ProductDetailScreen(item: 1);
+                    return ProductDetailPage(item: 1);
                   },
                 ),
               ],
@@ -64,7 +64,7 @@ GoRouter router() => GoRouter(
             GoRoute(
               path: Routes.checkout,
               builder: (context, state) {
-                return CheckoutScreen();
+                return CheckoutPage();
               },
             ),
           ],
@@ -74,7 +74,7 @@ GoRouter router() => GoRouter(
             GoRoute(
               path: Routes.cupons,
               builder: (context, state) {
-                return CuponsScreen();
+                return CuponsPage();
               },
             ),
           ],
@@ -84,7 +84,7 @@ GoRouter router() => GoRouter(
             GoRoute(
               path: Routes.perfil,
               builder: (context, state) {
-                return PerfilScreen();
+                return PerfilPage();
               },
             ),
           ],
@@ -94,14 +94,14 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.cadastro,
       builder: (context, state) {
-        return CadastroScreen();
+        return CadastroPage();
       },
     ),
 
     GoRoute(
       path: Routes.login,
       builder: (context, state) {
-        return LoginScreen();
+        return LoginPage();
       },
     ),
     GoRoute(
@@ -114,7 +114,7 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.notFound,
       builder: (BuildContext context, GoRouterState state) {
-        return NotFoundScreen(uri: state.extra as String? ?? '');
+        return NotFoundPage(uri: state.extra as String? ?? '');
       },
     ),
   ],
