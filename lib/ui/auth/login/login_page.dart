@@ -1,4 +1,4 @@
-import 'package:cafe_pra_ja/data/repositories/auth_firebase_repository.dart';
+import 'package:cafe_pra_ja/data/services/auth_firebase_service.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_bloc.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_state.dart';
@@ -23,24 +23,58 @@ class _State extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
-  late final AuthFirebaseRepository _authRepository;
 
-  bool  _isLoading = false;
+  final _credential = AuthFirebaseService();
 
   /// init state
   @override
   void initState() {
     super.initState();
-    _authRepository = AuthFirebaseRepository();
   }
 
   /// Metodos
 
-  Future<void> logInWithEmailAndPassword() async {
+  String? validarEmail(value) {
+    if (value == null || value.isEmpty) {
+      return CafeString.emailEObrigatorio;
+    } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+      return CafeString.digiteUmEmailValido;
+    }
+    return null;
+  }
+
+  String? validarSenha(value) {
+    if (value == null || value.isEmpty) {
+      return CafeString.senhaObrigatoria;
+    } else if (value.length < 6) {
+      return CafeString.senhaDeveTerPeloMenos6Caracteres;
+    }
+    return null;
+  }
+
+
+  void validarLogin() async{
     if (_formKey.currentState!.validate()) {
-      final email = _emailController.text.trim();
-      final senha = _senhaController.text.trim();
-      await _authRepository.logInWithEmailAndPassword(email, senha);
+
+        final email = _emailController.text.trim();
+        final senha = _senhaController.text.trim();
+        await _credential.logInWithEmailAndPassword(email: email, password: senha);
+        FirebaseAuth.instance
+            .userChanges()
+            .listen((User? user) {
+          if (user == null) {
+            print('User is currently signed in!');
+          } else {
+            print('User is signed out!');
+          }
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(CafeString.acessoAutorizado),
+          ),
+        );
+        context.go(Routes.perfil);
+
     }
   }
 
@@ -55,24 +89,17 @@ class _State extends State<LoginPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(27),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [theme.colorScheme.primary, theme.colorScheme.onSurface],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        decoration: BoxDecoration(color: theme.colorScheme.surface),
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 100),
-              const Icon(Icons.coffee_sharp, size: 150.0),
+              Center(child: const Icon(Icons.coffee_sharp, size: 150.0)),
               const SizedBox(height: 30),
               Text(
                 CafeString.digiteOsDadosDeAcessoNosCamposAbaixo,
-                style: TextStyle(color: theme.colorScheme.onPrimary),
+                style: TextStyle(color: theme.colorScheme.onSurface),
               ),
               const SizedBox(height: 30),
 
@@ -81,10 +108,10 @@ class _State extends State<LoginPage> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: const Color(0x332D1B0B),
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                   hintText: CafeString.digiteSeuEmail,
                   hintStyle: TextStyle(
-                    color: theme.colorScheme.onPrimary,
+                    color: theme.colorScheme.onSurfaceVariant,
                     fontSize: 14,
                   ),
                   border: OutlineInputBorder(
@@ -92,15 +119,7 @@ class _State extends State<LoginPage> {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.emailEObrigatorio;
-                  } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                    return CafeString.digiteUmEmailValido;
-                  }
-                  return null;
-                },
+                validator: (value) => validarEmail(value),
               ),
               const SizedBox(height: 10),
 
@@ -110,10 +129,10 @@ class _State extends State<LoginPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: const Color(0x332D1B0B),
+                  fillColor: theme.colorScheme.surfaceContainerHighest,
                   hintText: CafeString.digiteSuaSenha,
                   hintStyle: TextStyle(
-                    color: theme.colorScheme.onPrimary,
+                    color: theme.colorScheme.onSurfaceVariant,
                     fontSize: 14,
                   ),
                   border: OutlineInputBorder(
@@ -121,15 +140,7 @@ class _State extends State<LoginPage> {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                style: const TextStyle(color: Colors.white),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return CafeString.senhaObrigatoria;
-                  } else if (value.length < 6) {
-                    return CafeString.senhaDeveTerPeloMenos6Caracteres;
-                  }
-                  return null;
-                },
+                validator: (value) => validarSenha(value),
               ),
 
               // Botão Esqueceu a senha
@@ -138,9 +149,9 @@ class _State extends State<LoginPage> {
                 child: TextButton(
                   onPressed: () {},
                   // () => _recoverPassword(_emailController.text.trim()),
-                  child: const Text(
+                  child: Text(
                     CafeString.esqueceuASenha,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: theme.colorScheme.primary),
                   ),
                 ),
               ),
@@ -152,45 +163,16 @@ class _State extends State<LoginPage> {
                 width: double.infinity,
                 child: MaterialButton(
                   padding: const EdgeInsets.all(17),
-                  color: theme.colorScheme.primary,
+                  color: theme.colorScheme.tertiary,
                   child: Text(
                     CafeString.acessar,
                     style: TextStyle(
-                      color: theme.colorScheme.onPrimary,
+                      color: theme.colorScheme.onTertiary,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() => _isLoading = true);
-                      try {
-                        logInWithEmailAndPassword();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(CafeString.acessoAutorizado),
-                          ),
-                        );
-                        context.go(Routes.perfil);
-                      } on FirebaseAuthException catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${CafeString.erro}: ${e.message}'),
-                          ),
-                        );
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '${CafeString.erroInesperado}: ${e.toString()}',
-                            ),
-                          ),
-                        );
-                      } finally {
-                        setState(() => _isLoading = false);
-                      }
-                    }
-                  },
+                  onPressed: () => validarLogin(),
                 ),
               ),
               const SizedBox(height: 7),
@@ -198,20 +180,13 @@ class _State extends State<LoginPage> {
               // Botão de criar conta
               Container(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: theme.colorScheme.onPrimary,
-                    width: 0.8,
-                  ),
-                  borderRadius: BorderRadius.circular(7),
-                ),
+                color: theme.colorScheme.secondary,
                 child: MaterialButton(
                   child: Text(
                     CafeString.crieSuaConta,
                     style: TextStyle(
-                      color: theme.colorScheme.onPrimary,
+                      color: theme.colorScheme.onSecondary,
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   onPressed: () {

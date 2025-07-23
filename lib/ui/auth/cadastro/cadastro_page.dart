@@ -1,7 +1,9 @@
+import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({super.key});
@@ -48,7 +50,7 @@ class _CadastroPageState extends State<CadastroPage> {
           // Adicione outros campos que desejar salvar
         });
 
-
+        context.go(Routes.perfil);
         // Navegar para a tela de perfil, passando os dados do usuário
         // Navigator.pushReplacement(
         //   context,
@@ -186,7 +188,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return CafeString.insiraSuaSenha;
-                      } else if (value.length < 6) {
+                      } else if (value.length < 3) {
                         return CafeString.senhaDeveTerPeloMenos6Caracteres;
                       }
                       return null;
@@ -216,15 +218,15 @@ class _CadastroPageState extends State<CadastroPage> {
                   ),
                   const SizedBox(height: 40),
                   FloatingActionButton.extended(
-                    // heroTag: CafeString.fabCadastro,
+                    heroTag: CafeString.fabCadastro,
                     backgroundColor: theme.primary,
                     elevation: 5,
                     foregroundColor: theme.onPrimary,
                     onPressed: () {
-                      _cadastrarUsuario();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
                       );
+                      _cadastrarUsuario();
                     },
                     label: const Text(CafeString.cadastrar),
                   ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cafe_pra_ja/config/context_extensions.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 // import 'package:cafe_pra_ja/data/repositories/cart_repository.dart';
@@ -223,7 +225,7 @@ class _MyHomePageState extends State<HomePage> {
                             ),
                           ),
                           FloatingActionButton(
-                            // heroTag: '${CafeString.fab}{item.id}',
+                            heroTag: '${CafeString.fab}${Random().nextInt(9999)}',
                             shape: BeveledRectangleBorder(),
                             tooltip: CafeString.comprar,
                             mini: true,

@@ -19,7 +19,7 @@ class _PerfilPageState extends State<PerfilPage> {
   // 1. A variável do utilizador agora é anulável para lidar com o estado de "não autenticado".
   User? _user;
   String _name = '';
-  String _email = '';
+  String? _email = '';
   String? _phone;
   String? _profileImagePath;
 
@@ -41,7 +41,9 @@ class _PerfilPageState extends State<PerfilPage> {
     // 3. Verifica se um utilizador realmente existe.
     if (_user != null) {
       // Se existe, pode obter o email e começar a carregar os dados do Firestore.
-      _email = _user!.email ?? '';
+      _email = _user!.email;
+      print(FirebaseAuth.instance.currentUser?.uid);
+
       _fetchUserData();
     } else {
       // Se não há utilizador, para o carregamento. O método build irá lidar com isto.
@@ -52,29 +54,27 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   Future<void> _fetchUserData() async {
-    // Uma verificação extra para garantir que não prosseguimos sem um utilizador.
-    if (_user == null) return;
-
     try {
-      // Agora é seguro usar _user!.uid
-      DocumentSnapshot userDoc =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(_user!.uid)
-              .get();
 
-      if (mounted && userDoc.exists) {
-        final data = userDoc.data() as Map<String, dynamic>;
-        setState(() {
-          _name = data['name'] ?? '';
-          _email =
-              data['email'] ??
-              _user!.email ??
-              ''; // Fallback para o email do Auth
-          _phone = data['phone'];
-          _profileImagePath = data['profileImagePath'];
-        });
-      }
+      // Agora é seguro usar _user!.uid
+      // DocumentSnapshot userDoc =
+      //     await FirebaseFirestore.instance
+      //         .collection('users')
+      //         .doc(_user!.uid)
+      //         .get();
+      //
+      // if (mounted && userDoc.exists) {
+      //   final data = userDoc.data() as Map<String, dynamic>;
+      //   setState(() {
+      //     _name = data['name'] ?? '';
+      //     _email =
+      //         data['email'] ??
+      //         _user!.email ??
+      //         ''; // Fallback para o email do Auth
+      //     _phone = data['phone'];
+      //     _profileImagePath = data['profileImagePath'];
+      //   });
+      // }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -84,10 +84,6 @@ class _PerfilPageState extends State<PerfilPage> {
             ),
           ),
         );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
       }
     }
   }
@@ -109,7 +105,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
   void _showEditDialog() {
     _nameController.text = _name;
-    _emailController.text = _email;
+    _emailController.text = _email!;
     _phoneController.text = _phone ?? '';
 
     showDialog(
@@ -242,8 +238,8 @@ class _PerfilPageState extends State<PerfilPage> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              context.go(Routes.perfil);
               await FirebaseAuth.instance.signOut();
+              context.go(Routes.perfil);
               // O redirect do GoRouter irá lidar com a navegação para /login
             },
           ),
@@ -295,7 +291,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   _buildInfoRow(
                     icon: Icons.email,
                     label: CafeString.email,
-                    value: _email,
+                    value: _email!,
                   ),
                   if (_phone != null && _phone!.isNotEmpty)
                     _buildInfoRow(
