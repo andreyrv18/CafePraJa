@@ -1,12 +1,20 @@
 import 'package:bloc/bloc.dart';
+import 'package:cafe_pra_ja/data/services/auth_firebase_service.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_event.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitialState()) {
-    on<LoginEvent>((event, emit) {
+    on<LoginSubmittedEvent>((event, emit) async {
       emit(LoginLoadingState());
       try {
+        final authenticationService = AuthFirebaseService();
+
+        await authenticationService.logInWithEmailAndPassword(
+          email: event.email,
+          password: event.password,
+        );
+
         emit(LoginSuccessState());
       } catch (e) {
         emit(LoginErrorState('$e'));
@@ -14,7 +22,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
   }
 }
-
 
 // bool _loggedIn = false;
 //
