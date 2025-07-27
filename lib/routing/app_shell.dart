@@ -1,5 +1,4 @@
 import 'package:cafe_pra_ja/routing/navigation_bottom_bar_widget.dart';
-import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/ui/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,10 +23,7 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          Routes.perfil != ModalRoute.of(context).toString()
-              ? AppBarWidget()
-              : null,
+      appBar: AppBarWidget(),
       bottomNavigationBar: NavigationBottomBarWidget(
         currentIndex: widget.navigationShell.currentIndex,
         onTap: _switchBranchOnTap,

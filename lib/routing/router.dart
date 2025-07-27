@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cafe_pra_ja/data/services/auth_service.dart';
 import 'package:cafe_pra_ja/routing/app_shell.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/cadastro/cadastro_page.dart';
@@ -6,7 +9,7 @@ import 'package:cafe_pra_ja/ui/bemvindo/bemvindo_screeen.dart';
 import 'package:cafe_pra_ja/ui/checkout/checkout_page.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
 import 'package:cafe_pra_ja/ui/cupons/cupons_page.dart';
-import 'package:cafe_pra_ja/ui/error/error_page.dart';
+import 'package:cafe_pra_ja/ui/error/not_found_page.dart';
 import 'package:cafe_pra_ja/ui/home/details/product_detail_page.dart';
 import 'package:cafe_pra_ja/ui/home/home_page.dart';
 import 'package:cafe_pra_ja/ui/perfil/perfil_page.dart';
@@ -24,12 +27,35 @@ GoRouter router() => GoRouter(
 
   initialLocation: Routes.initial,
   debugLogDiagnostics: true,
+  restorationScopeId: 'router',
   onException: (context, state, router) {
     router.go(Routes.notFound, extra: state.uri.toString());
   },
-  // errorBuilder: (context, state) => ErrorScreen(),
-  // redirect: (_, __) => Routes.home,
-  // refreshListenable: authRepository,
+  refreshListenable: GoRouterRefreshStream(AuthService.authStateChanges),
+  redirect: (context, state) {
+    final isLoggedIn = AuthService.currentUser != null;
+    final location = state.matchedLocation;
+
+    // Rotas que exigem autenticação
+    final List<String> protectedRoutes = [Routes.perfil, Routes.checkout];
+
+    // Rotas de autenticação
+    final List<String> authRoutes = [Routes.login, Routes.cadastro];
+
+    // Se tentar acessar rota protegida sem estar logado
+    if (!isLoggedIn && protectedRoutes.contains(location)) {
+      return Routes.login;
+    }
+
+    // Se tentar acessar rotas de auth estando logado
+    if (isLoggedIn && authRoutes.contains(location)) {
+      return Routes.initial;
+    }
+
+    // Em outros casos, permite a navegação normal
+    return null;
+  },
+
   routes: [
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -107,18 +133,35 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.bemVindo,
       builder: (context, state) {
-        return BemvindoScreen(title: CafeString.bemVindo,);
+        return BemvindoScreen(title: CafeString.bemVindo);
       },
     ),
 
     GoRoute(
       path: Routes.notFound,
       builder: (BuildContext context, GoRouterState state) {
-        return NotFoundPage(uri: state.extra as String? ?? '');
+        return NotFoundPage();
       },
     ),
   ],
 );
+
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen(
+      (dynamic _) => notifyListeners(),
+    );
+  }
+
+  late final StreamSubscription<dynamic> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
 
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
 // Future<String?> _redirect(BuildContext context, GoRouterState state) async {
