@@ -41,12 +41,12 @@ class NavigationBottomBarWidget extends StatelessWidget {
         NavigationDestination(
           icon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('quantidade'),
+            label: Text('11'),
             child: Icon(Icons.shopping_bag_outlined, color: theme.onSurface),
           ),
           selectedIcon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('quantidade'),
+            label: Text('11'),
             child: Icon(Icons.shopping_bag_sharp),
           ),
           label: CafeString.checkout,
@@ -55,12 +55,12 @@ class NavigationBottomBarWidget extends StatelessWidget {
         NavigationDestination(
           icon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('quantidadeDeCupons'),
+            label: Text('20'),
             child: Icon(Icons.local_activity_outlined),
           ),
           selectedIcon: Badge(
             padding: EdgeInsets.all(2),
-            label: Text('quantidadeDeCupons'),
+            label: Text('20'),
             child: Icon(Icons.local_activity),
           ),
           label: CafeString.cuponsPorcentagem,

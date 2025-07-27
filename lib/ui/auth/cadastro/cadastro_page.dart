@@ -50,7 +50,6 @@ class _CadastroPageState extends State<CadastroPage> {
           // Adicione outros campos que desejar salvar
         });
 
-        context.go(Routes.perfil);
         // Navegar para a tela de perfil, passando os dados do usuário
         // Navigator.pushReplacement(
         //   context,
@@ -166,7 +165,9 @@ class _CadastroPageState extends State<CadastroPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return CafeString.insiraSeuEmail;
-                      } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                      } else if (!RegExp(
+                        r'^[^@]+@[^@]+\.[^@]+',
+                      ).hasMatch(value)) {
                         return CafeString.insiraUmEmailValido;
                       }
                       return null;
@@ -224,9 +225,12 @@ class _CadastroPageState extends State<CadastroPage> {
                     foregroundColor: theme.onPrimary,
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text(CafeString.cadastroRealizadoComSucesso)),
+                        const SnackBar(
+                          content: Text(CafeString.cadastroRealizadoComSucesso),
+                        ),
                       );
                       _cadastrarUsuario();
+                      context.go(Routes.perfil);
                     },
                     label: const Text(CafeString.cadastrar),
                   ),

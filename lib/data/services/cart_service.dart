@@ -8,7 +8,12 @@ class CartService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final String? uid; // UID do usuário logado
 
-  Future createCart(idDoProduto, nomeProduto, precoUnitario, imagemUrl) async {
+  Future createCart(
+    String idDoProduto,
+    nomeProduto,
+    precoUnitario,
+    imagemUrl,
+  ) async {
     DocumentReference itemRef = _db
         .collection('usuarios')
         .doc(uid)

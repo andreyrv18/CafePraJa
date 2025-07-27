@@ -2,9 +2,15 @@ import 'package:cafe_pra_ja/data/services/cart_service.dart';
 
 class CartRepository {
   final CartService _cartService;
+
   CartRepository(this._cartService);
 
-  Future createCart(idDoProduto, nomeProduto, precoUnitario, imagemUrl) async {
+  Future createCart(
+    String idDoProduto,
+    nomeProduto,
+    precoUnitario,
+    imagemUrl,
+  ) async {
     return _cartService.createCart(
       idDoProduto,
       nomeProduto,
@@ -14,7 +20,7 @@ class CartRepository {
   }
 
   Future addOrUpdateItemNoCarrinho(
-    idProduto,
+    String idProduto,
     nomeProduto,
     precoUnitario,
     categoriaId,
@@ -31,18 +37,17 @@ class CartRepository {
     );
   }
 
-  Future getCartItemsStream()async {
+  Future getCartItemsStream() async {
     return _cartService.getCartItemsStream();
   }
 
-  Future deleteProduto(idDoProduto) async {
-      return _cartService.deleteProduto(idDoProduto);
+  Future deleteProduto(String idDoProduto) async {
+    return _cartService.deleteProduto(idDoProduto);
   }
 
-  Future atualizaQuantidadeNoCarrinho(idProduto, novaQuantidade) async {
+  Future atualizaQuantidadeNoCarrinho(String idProduto, novaQuantidade) async {
     return _cartService.atualizaQuantidadeNoCarrinho(idProduto, novaQuantidade);
   }
-
 }
 
 // Stream<List<CartItemModel>> getItensDoCarrinhoStream() {
