@@ -13,8 +13,17 @@ bloc:
 linter:
 
   rules:
+    #    - sort_constructors_first
+    #    - sort_unnamed_constructors_first
+    #    - sort_pub_dependencies
+    #    - sort_child_properties_last
     - prefer_single_quotes
     - always_use_package_imports
+    - always_declare_return_types
+
 analyzer:
-  errors:
-    strict_top_level_inference: ignore
+
+
+
+
+
