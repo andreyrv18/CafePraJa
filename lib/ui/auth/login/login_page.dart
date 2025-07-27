@@ -1,9 +1,13 @@
-import 'package:cafe_pra_ja/data/services/auth_firebase_service.dart';
 import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_bloc.dart';
+import 'package:cafe_pra_ja/ui/auth/login/login_event.dart';
 import 'package:cafe_pra_ja/ui/auth/login/login_state.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
+import 'package:cafe_pra_ja/ui/perfil/perfil_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,283 +15,328 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _State();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _State extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   /// bloc
   final loginBloc = LoginBloc();
 
   /// variaveis
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _senhaController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  final _credential = AuthFirebaseService();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _loginButonFocusNode = FocusNode();
 
   /// init state
   @override
   void initState() {
     super.initState();
+    loginBloc.add(LoginInitialEvent());
   }
 
   /// Metodos
 
   void onChange(LoginState state) {
-    if (state is LoginSubmittedState) {
-      print("object");
+    if (state is LoginSuccessState) {
+      if (kDebugMode) {
+        print('LoginSuccessState');
+      }
+    }
+
+    if (state is LoginSuccessState) {
+      context.go(Routes.perfil);
+    }
+  }
+
+  void _tryLogin() {
+    if (_formKey.currentState?.validate() ?? false) {
+      loginBloc.add(
+        LoginSuccessEvent(
+          email: _emailController.text,
+          password: _passwordController.text,
+        ),
+      );
+    }
+  }
+
+  void _handleKeyEvent(KeyEvent event) {
+    if (event is KeyDownEvent) {
+      if (event.logicalKey == LogicalKeyboardKey.enter) {
+        _tryLogin();
+      }
     }
   }
 
   /// Widget
-  Widget _EmailInput() {
-    return TextField(
-      key: const Key('loginForm_emailInput_textField'),
-      onChanged: (value) {
+  Widget _inputEmail() {
+    final ThemeData theme = Theme.of(context);
 
-      },
+    return TextFormField(
+      autofocus: true,
       keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        labelText: 'email',
-        helperText: '',
-        errorText:'invalid email',
-      ),
-    );
-  }
-
-  Widget _PasswordInput() {
-    return TextField(
-      key: const Key('loginForm_passwordInput_textField'),
-      onChanged: (value) {
-
+      textInputAction: TextInputAction.next,
+      controller: _emailController,
+      focusNode: _emailFocusNode,
+      onFieldSubmitted: (_) {
+        FocusScope.of(context).requestFocus(_passwordFocusNode);
       },
-      obscureText: true,
       decoration: InputDecoration(
-        labelText: 'password',
-        helperText: '',
-        errorText: 'invalid password',
-      ),
-    );
-  }
-
-  Widget _LoginButton(state) {
-    if (state is LoginLoadingState) return const CircularProgressIndicator();
-
-    return ElevatedButton(
-      key: const Key('loginForm_continue_raisedButton'),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        backgroundColor: const Color(0xFFFFD600),
-      ),
-      onPressed: () {},
-
-      child: const Text('LOGIN'),
-    );
-  }
-
-  Widget _GoogleLoginButton() {
-    final theme = Theme.of(context);
-    return ElevatedButton.icon(
-      key: const Key('loginForm_googleLogin_raisedButton'),
-      label: const Text(
-        'SIGN IN WITH GOOGLE',
-        style: TextStyle(color: Colors.white),
-      ),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+        filled: true,
+        fillColor: theme.colorScheme.surfaceContainerHighest,
+        hintText: CafeString.digiteSeuEmail,
+        prefixIcon: Icon(
+          Icons.email_outlined,
+          color: theme.colorScheme.onSurfaceVariant,
         ),
-        backgroundColor: theme.colorScheme.secondary,
+        hintStyle: TextStyle(
+          color: theme.colorScheme.onSurfaceVariant,
+          fontSize: 14,
+        ),
+        labelText: CafeString.email,
+        labelStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide(color: theme.colorScheme.primary, width: 1),
+        ),
       ),
-      icon: const Icon(Icons.add, color: Colors.white),
-      onPressed: () {
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return CafeString.digiteSeuEmail;
+        }
+        final emailRegex = RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+        );
+        if (!emailRegex.hasMatch(value)) {
+          return CafeString.emailInvalido;
+        }
 
+        return null;
       },
     );
   }
-  Widget _SignUpButton() {
-    final theme = Theme.of(context);
-    return TextButton(
-      key: const Key('loginForm_createAccount_flatButton'),
-      onPressed: () => context.push(Routes.cadastro),
-      child: Text(
-        'CREATE ACCOUNT',
-        style: TextStyle(color: theme.primaryColor),
+
+  Widget _inputPassWord(LoginState state) {
+    final ThemeData theme = Theme.of(context);
+
+    return TextFormField(
+      keyboardType: TextInputType.visiblePassword,
+
+      controller: _passwordController,
+      focusNode: _passwordFocusNode,
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      onFieldSubmitted: (_) {
+        _tryLogin();
+      },
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: theme.colorScheme.surfaceContainerHighest,
+        hintText: CafeString.digiteSuaSenha,
+        prefixIcon: Icon(
+          Icons.lock_outline,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        hintStyle: TextStyle(
+          color: theme.colorScheme.onSurfaceVariant,
+          fontSize: 14,
+        ),
+        labelText: CafeString.senha,
+        labelStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(7),
+          borderSide: BorderSide(color: theme.colorScheme.primary, width: 1),
+        ),
       ),
+      validator: (value) {
+        if (state is LoginErrorState) {
+          return state.message;
+        }
+
+        if (value == null || value.isEmpty || value.length < 6) {
+          return CafeString.digiteSuaSenha;
+        }
+        return null;
+      },
     );
   }
 
-  Widget _page(LoginState state) {
-    if (state is LoginErrorState) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text('Authentication Failure')));
+  Widget _buttonLogin(LoginState state) {
+    final ThemeData theme = Theme.of(context);
+    if (state is LoginLoadingState) {
+      return const CircularProgressIndicator();
     }
-    return Scaffold(
-      body: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset('assets/bloc_logo_small.png', height: 120),
-              const SizedBox(height: 16),
-              _EmailInput(),
-              const SizedBox(height: 8),
-              _PasswordInput(),
-              const SizedBox(height: 8),
-              _LoginButton(state),
-              const SizedBox(height: 8),
-              _GoogleLoginButton(),
-              const SizedBox(height: 4),
-              _SignUpButton(),
-            ],
+
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        focusNode: _loginButonFocusNode,
+        onPressed: _tryLogin,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: theme.colorScheme.tertiary,
+          padding: const EdgeInsets.all(18),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        child: Text(
+          CafeString.acessar,
+          style: TextStyle(
+            color: theme.colorScheme.onTertiary,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
     );
   }
 
-  // Widget _page2(state) {
-  //   final ThemeData theme = Theme.of(context);
-  //
-  //   return Scaffold(
-  //     extendBodyBehindAppBar: true,
-  //     appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
-  //     body: Container(
-  //       width: MediaQuery.of(context).size.width,
-  //       padding: const EdgeInsets.all(27),
-  //       decoration: BoxDecoration(color: theme.colorScheme.surface),
-  //       child: Form(
-  //         key: _formKey,
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             Center(child: const Icon(Icons.coffee_sharp, size: 150.0)),
-  //             const SizedBox(height: 30),
-  //             Text(
-  //               CafeString.digiteOsDadosDeAcessoNosCamposAbaixo,
-  //               style: TextStyle(color: theme.colorScheme.onSurface),
-  //             ),
-  //             const SizedBox(height: 30),
-  //
-  //             // Campo de e-mail
-  //             TextFormField(
-  //               controller: _emailController,
-  //               decoration: InputDecoration(
-  //                 filled: true,
-  //                 fillColor: theme.colorScheme.surfaceContainerHighest,
-  //                 hintText: CafeString.digiteSeuEmail,
-  //                 hintStyle: TextStyle(
-  //                   color: theme.colorScheme.onSurfaceVariant,
-  //                   fontSize: 14,
-  //                 ),
-  //                 border: OutlineInputBorder(
-  //                   borderRadius: BorderRadius.circular(7),
-  //                   borderSide: BorderSide.none,
-  //                 ),
-  //               ),
-  //               validator: (value) => validarEmail(value),
-  //             ),
-  //             const SizedBox(height: 10),
-  //
-  //             // Campo de senha
-  //             TextFormField(
-  //               controller: _senhaController,
-  //               obscureText: true,
-  //               decoration: InputDecoration(
-  //                 filled: true,
-  //                 fillColor: theme.colorScheme.surfaceContainerHighest,
-  //                 hintText: CafeString.digiteSuaSenha,
-  //                 hintStyle: TextStyle(
-  //                   color: theme.colorScheme.onSurfaceVariant,
-  //                   fontSize: 14,
-  //                 ),
-  //                 border: OutlineInputBorder(
-  //                   borderRadius: BorderRadius.circular(7),
-  //                   borderSide: BorderSide.none,
-  //                 ),
-  //               ),
-  //               validator: (value) => validarSenha(value),
-  //             ),
-  //
-  //             // Botão Esqueceu a senha
-  //             Align(
-  //               alignment: Alignment.centerRight,
-  //               child: TextButton(
-  //                 onPressed: () {},
-  //                 // () => _recoverPassword(_emailController.text.trim()),
-  //                 child: Text(
-  //                   CafeString.esqueceuASenha,
-  //                   style: TextStyle(color: theme.colorScheme.primary),
-  //                 ),
-  //               ),
-  //             ),
-  //
-  //             const SizedBox(height: 10),
-  //
-  //             // Botão de acessar
-  //             SizedBox(
-  //               width: double.infinity,
-  //               child: MaterialButton(
-  //                 padding: const EdgeInsets.all(17),
-  //                 color: theme.colorScheme.tertiary,
-  //                 child: Text(
-  //                   CafeString.acessar,
-  //                   style: TextStyle(
-  //                     color: theme.colorScheme.onTertiary,
-  //                     fontSize: 14,
-  //                     fontWeight: FontWeight.w600,
-  //                   ),
-  //                 ),
-  //                 onPressed: () => validarLogin(),
-  //               ),
-  //             ),
-  //             const SizedBox(height: 7),
-  //
-  //             // Botão de criar conta
-  //             Container(
-  //               width: double.infinity,
-  //               color: theme.colorScheme.secondary,
-  //               child: MaterialButton(
-  //                 child: Text(
-  //                   CafeString.crieSuaConta,
-  //                   style: TextStyle(
-  //                     color: theme.colorScheme.onSecondary,
-  //                     fontSize: 14,
-  //                   ),
-  //                 ),
-  //                 onPressed: () {
-  //                   // Navegar para tela de cadastro, se houver
-  //                   context.push(Routes.cadastro);
-  //                 },
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buttonSignUp() {
+    final theme = Theme.of(context);
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onPressed: () => context.push(Routes.cadastro),
+        child: Text(
+          CafeString.crieSuaConta,
+          style: TextStyle(color: theme.colorScheme.secondary, fontSize: 14),
+        ),
+      ),
+    );
+  }
+
+  Widget _icons() {
+    final ThemeData theme = Theme.of(context);
+
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.coffee_maker_sharp,
+              color: theme.colorScheme.primary,
+              size: 180.0,
+            ),
+            Icon(
+              Icons.coffee_sharp,
+              color: theme.colorScheme.secondary,
+              size: 140.0,
+            ),
+          ],
+        ),
+        Text(
+          CafeString.bemVindo,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 56,
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buttonEsqueceuSenha() {
+    final ThemeData theme = Theme.of(context);
+
+    return TextButton(
+      onPressed: () async {
+        _emailController.text.isNotEmpty
+            ? await FirebaseAuth.instance.sendPasswordResetEmail(
+              email: _emailController.text,
+            )
+            : '';
+      },
+      child: Text(
+        CafeString.esqueceuASenha,
+        style: TextStyle(color: theme.colorScheme.primary),
+      ),
+    );
+  }
+
+  Widget _form(LoginState state) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _icons(),
+          const SizedBox(height: 30),
+          _inputEmail(),
+          const SizedBox(height: 16),
+          _inputPassWord(state),
+          Align(
+            alignment: Alignment.centerRight,
+            child: _buttonEsqueceuSenha(),
+          ),
+          const SizedBox(height: 24),
+          _buttonLogin(state),
+          const SizedBox(height: 16),
+          _buttonSignUp(),
+        ],
+      ),
+    );
+  }
+
+  Widget _page(BuildContext context, LoginState state) {
+    final ThemeData theme = Theme.of(context);
+
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => context.go(Routes.initial),
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
+      body: KeyboardListener(
+        focusNode: FocusNode(),
+        autofocus: true,
+        onKeyEvent: _handleKeyEvent,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(56),
+          decoration: BoxDecoration(color: theme.colorScheme.surface),
+          child: _form(state),
+        ),
+      ),
+    );
+  }
 
   /// bloc
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      lazy: false,
-      create: (_) => LoginBloc(),
+      create: (_) => loginBloc,
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) => onChange(state),
         builder: (BuildContext context, LoginState state) {
           switch (state) {
+            case LoginInitialState():
+              return _page(context, state);
             case LoginLoadingState():
-              return const Center(child: CircularProgressIndicator());
+              return _page(context, state);
             case LoginSuccessState():
-              return _page(state);
+              return _page(context, state);
             case LoginErrorState():
-              return const Center(child: Text(CafeString.erro));
-            default:
-              return _page(state);
+              return _page(context, state);
+
+            case LoginLogoutRequestedState():
+              return PerfilPage();
           }
         },
       ),
@@ -298,6 +347,27 @@ class _State extends State<LoginPage> {
   void dispose() {
     super.dispose();
     _emailController.dispose();
-    _senhaController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _loginButonFocusNode.dispose();
   }
 }
+
+//
+// Widget _googleLoginButton() {
+//   final theme = Theme.of(context);
+//   return ElevatedButton.icon(
+//     key: const Key('loginForm_googleLogin_raisedButton'),
+//     label: const Text(
+//       'SIGN IN WITH GOOGLE',
+//       style: TextStyle(color: Colors.white),
+//     ),
+//     style: ElevatedButton.styleFrom(
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+//       backgroundColor: theme.colorScheme.secondary,
+//     ),
+//     icon: const Icon(Icons.add, color: Colors.white),
+//     onPressed: () {},
+//   );
+// }

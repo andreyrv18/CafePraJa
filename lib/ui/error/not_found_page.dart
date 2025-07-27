@@ -1,0 +1,24 @@
+import 'package:cafe_pra_ja/routing/routes.dart';
+import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class NotFoundPage extends StatelessWidget {
+  const NotFoundPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text(CafeString.paginaNaoEncontrada)),
+      body: Column(
+        children: [
+          Center(child: Text('${CafeString.naoEncontreiUmaPaginaPara}: ')),
+          ElevatedButton(
+            onPressed: () => context.go(Routes.initial),
+            child: const Text(CafeString.paginaInicial),
+          ),
+        ],
+      ),
+    );
+  }
+}

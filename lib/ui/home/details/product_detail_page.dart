@@ -10,10 +10,12 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-      appBar: AppBar(title: Text('item!.nome'), backgroundColor: context.theme.surfaceContainerHigh, elevation: 1),
+      appBar: AppBar(
+        title: Text('item!.nome'),
+        backgroundColor: context.theme.surfaceContainerHigh,
+        elevation: 1,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -26,15 +28,21 @@ class ProductDetailPage extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.0)),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
                   alignment: Alignment.center,
                   child:
                       // item!.imagemUrl.isEmpty
-                    true
+                      item != null
                           ? Hero(tag: 'item!.id', child: const Placeholder())
                           : Hero(
                             tag: 'item!.id',
-                            child: Image.asset('{item!.imagemUrl}.jpg', fit: BoxFit.cover, width: double.infinity),
+                            child: Image.asset(
+                              '{item!.imagemUrl}.jpg',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
                           ),
                 ),
               ),
@@ -45,7 +53,9 @@ class ProductDetailPage extends StatelessWidget {
             Card(
               elevation: 2,
               color: context.theme.surfaceContainerLow,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
@@ -57,17 +67,21 @@ class ProductDetailPage extends StatelessWidget {
                         children: [
                           Text(
                             'item!.descricao',
-                            style: context.textTheme.bodyLarge?.copyWith(color: context.theme.onSurfaceVariant),
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              color: context.theme.onSurfaceVariant,
+                            ),
                           ),
                           Text(
                             // item!.disponivel
-                            true
-                                ? CafeString.disponivel : CafeString.indisponivel,
+                            item != null
+                                ? CafeString.disponivel
+                                : CafeString.indisponivel,
                             style: context.textTheme.bodyLarge?.copyWith(
                               color:
-                              // item!.disponivel
-                              true
-                                  ? Colors.green.shade700 : context.theme.error,
+                                  // item!.disponivel
+                                  item != null
+                                      ? Colors.green.shade700
+                                      : context.theme.error,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -102,7 +116,7 @@ class ProductDetailPage extends StatelessWidget {
 
             const Spacer(),
             // if (item!.disponivel)
-            if(true)
+            if (true)
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.theme.primary,
@@ -110,10 +124,14 @@ class ProductDetailPage extends StatelessWidget {
                   minimumSize: const Size(double.infinity, 50),
                   // Botão largo
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  textStyle: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  textStyle: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                onPressed: ()  {
+                onPressed: () {
                   //    _cartRepository.addOrUpdateItemNoCarrinho(
                   //   item!.id,
                   //   item!.nome,
@@ -124,10 +142,14 @@ class ProductDetailPage extends StatelessWidget {
                   // );
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('{item!.nome} ${CafeString.adiconadoAoCarrinho}'),
+                      content: Text(
+                        '{item!.nome} ${CafeString.adiconadoAoCarrinho}',
+                      ),
                       backgroundColor: context.theme.tertiary,
                       behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       margin: const EdgeInsets.all(10),
                     ),
                   );

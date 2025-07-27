@@ -29,6 +29,7 @@ class CafeString {
   static const String crieSuaConta ='Crie sua conta';
   static const String cupom ='Cupom';
   static const String comprar = 'Comprar';
+  static const String carrinhoCompras = 'Carrinho Compras';
 
   /// [D]
   static const String digiteSeuEmail = 'Digite seu email';
@@ -38,6 +39,7 @@ class CafeString {
   static const String digiteUmEmailValido = 'Digite um e-mail válido';
   static const String doseDiariaDeCafeSlipsis = 'Sua dose diária de café fresquinho entregue na sua porta. Comece agora a sua jornada no mundo do café!';
   static const String disponivel = 'Disponível';
+
 
   /// [E]
   static const String editarPerfil = 'Editar Perfil';
@@ -60,7 +62,8 @@ class CafeString {
   static const String emailEObrigatorio = 'E-mail é obrigatório';
   static const String esqueceuASenha = 'Esqueceu a senha?';
   static const String encontreSeuCafeFavorito = 'Encontre seu café favorito!';
-
+  static const String escrevaSeuEmail = 'Escreva seu email';
+  static const String emailInvalido = 'Email Invalido';
   /// [F]
   static const String fazerLogin = 'Fazer Login';
   static const String fabCadastro = 'fab_cadastro';
@@ -99,6 +102,7 @@ class CafeString {
   static const String naoEncontreiUmaPaginaPara = 'Não encontrei uma página para';
   static const String nenhumItemEncontradoNoCardapio = 'Nenhum item encontrado no cardápio.';
   static const String nenhumItemEnconradoPara = 'Nenhum item encontrado para';
+  static const String naoTemUmaContaCadastreSe = 'Não tem uma conta? Cadastre-se';
 
   /// [O]
   static const String off = '% OFF';
@@ -130,6 +134,7 @@ class CafeString {
   static const String seuCarrinhoEstaVazio = 'Seu carrinho está vazio.';
   static const String selecionado = 'selecionado!';
   static const String semNome = 'Sem nome';
+  static const String sair = 'Sair';
 
   /// [T]
   static const String telefone = 'Telefone';

@@ -1,8 +1,11 @@
+import 'package:cafe_pra_ja/routing/routes.dart';
 import 'package:cafe_pra_ja/ui/abstract_bloc.dart';
 import 'package:cafe_pra_ja/ui/abstract_state.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AbstractPage extends StatefulWidget {
   const AbstractPage({super.key});
@@ -14,25 +17,33 @@ class AbstractPage extends StatefulWidget {
 class _State extends State<AbstractPage> {
   /// bloc
   final abstractBloc = AbstractBloc();
+
   /// variaveis
   final abstractcController = TextEditingController();
+
   /// init state
   @override
   void initState() {
     super.initState();
   }
+
   /// Metodos
-  void abstractMetod() {
-    
+  void onChange(AbstractState state) {
+    if (state is AbstractSuccessState) {
+      if (kDebugMode) {
+        print('LoginSuccessState');
+      }
+    }
+
+    if (state is AbstractSuccessState) {
+      context.go(Routes.perfil);
+    }
   }
+
   /// Widget
 
-  Widget _page(state) {
-    return Placeholder();
-  }
-
-  Widget abstractLoading() {
-    return Center(child: CircularProgressIndicator());
+  Widget _page(AbstractState state) {
+    return Scaffold();
   }
 
   Widget abstractError() {
@@ -48,7 +59,7 @@ class _State extends State<AbstractPage> {
         builder: (BuildContext context, AbstractState state) {
           switch (state) {
             case AbstractLoadingState():
-              return abstractLoading();
+              return Center(child: CircularProgressIndicator());
             case AbstractSuccessState():
               return _page(state);
             case AbstractErrorState():

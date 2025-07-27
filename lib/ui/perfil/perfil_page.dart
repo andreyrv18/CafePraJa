@@ -1,11 +1,11 @@
-import 'dart:io';
-
-import 'package:cafe_pra_ja/routing/routes.dart';
+import 'package:cafe_pra_ja/data/services/auth_service.dart';
 import 'package:cafe_pra_ja/ui/core/localization/cafe_string.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cafe_pra_ja/ui/error/not_found_page.dart';
+import 'package:cafe_pra_ja/ui/perfil/perfil_bloc.dart';
+import 'package:cafe_pra_ja/ui/perfil/perfil_event.dart';
+import 'package:cafe_pra_ja/ui/perfil/perfil_state.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({super.key});
@@ -15,97 +15,65 @@ class PerfilPage extends StatefulWidget {
 }
 
 class _PerfilPageState extends State<PerfilPage> {
-  // 1. A variável do utilizador agora é anulável para lidar com o estado de "não autenticado".
-  User? _user;
-  String _name = '';
-  String? _email = '';
-  String? _phone;
-  String? _profileImagePath;
+  /// bloc
+  final perfilBloc = PerfilBloc();
 
-  File? _imageFile;
+  /// variaveis
+  final user = AuthService.currentUser;
 
-  final _editFormKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  /// init state
   @override
   void initState() {
     super.initState();
+    perfilBloc.add(LoadProfileEvent());
   }
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-        _profileImagePath = pickedFile.path;
-        // Aqui você adicionaria a lógica para fazer o upload da imagem para o Firebase Storage
-        // e salvar o URL no Firestore.
-      });
-    }
-  }
+  /// Metodo
 
-  void _showEditDialog() {
-    _nameController.text = _name;
-    _emailController.text = _email!;
-    _phoneController.text = _phone ?? '';
+  /// Widget
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(CafeString.editarPerfil),
-          content: Form(
-            key: _editFormKey,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: CafeString.nome,
-                    ),
-                    validator:
-                        (value) =>
-                            value == null || value.isEmpty
-                                ? CafeString.nomeNaoPodeEstarEmBranco
-                                : null,
-                  ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: CafeString.email,
-                    ),
-                    enabled:
-                        false, // Não é recomendado permitir a edição do email de login aqui
-                  ),
-                  TextFormField(
-                    controller: _phoneController,
-                    decoration: const InputDecoration(
-                      labelText: CafeString.telefone,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+  Widget _buildAuthenticatedProfile(PerfilSuccessState state) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [Text('${CafeString.bemVindo} ${state.user.email}')],
           ),
-          actions: [
-            TextButton(
-              child: const Text(CafeString.cancelar),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            ElevatedButton(
-              child: const Text(CafeString.salvar),
-              onPressed: () async {},
-            ),
-          ],
-        );
-      },
+        ),
+      ),
+    );
+  }
+
+  Widget _page(PerfilState state) {
+    return state is PerfilSuccessState
+        ? _buildAuthenticatedProfile(state)
+        : NotFoundPage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => perfilBloc..add(LoadProfileEvent()),
+      child: BlocBuilder<PerfilBloc, PerfilState>(
+        builder: (BuildContext context, PerfilState state) {
+          switch (state) {
+            case PerfilLoadingState():
+              return Center(child: CircularProgressIndicator());
+            case PerfilSuccessState():
+              return _page(state);
+            case PerfilErrorState():
+              return Text('Error');
+            default:
+              return _page(state);
+          }
+        },
+      ),
     );
   }
 
@@ -116,26 +84,6 @@ class _PerfilPageState extends State<PerfilPage> {
     _phoneController.dispose();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(title: const Text(CafeString.perfil)),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(CafeString.voceNaoEstaAutenticado),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => context.push(Routes.login),
-                child: const Text(CafeString.fazerLogin),
-              ),
-            ],
-          ),
-        ),
-      );
-
 
   //  return Scaffold(
   //     appBar: AppBar(
@@ -225,7 +173,7 @@ class _PerfilPageState extends State<PerfilPage> {
   //       ),
   //     ),
   //   );
-  }
+
   //
   // Widget _buildInfoCard({
   //   required String title,

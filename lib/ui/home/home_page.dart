@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   final myController = TextEditingController();
+
   // late HomeViewModel _menuProviderInstance;
   // late final CartRepository _cartRepository;
   @override
@@ -43,88 +44,84 @@ class _MyHomePageState extends State<HomePage> {
   Widget _categoriasList(HomeState state) {
     // final menuProvider = context.watch<HomeViewModel>();
 
-    if(state is HomeLoadingState) {
+    if (state is HomeLoadingState) {
       return const SizedBox(
         height: 50,
         child: Center(child: CircularProgressIndicator()),
       );
-
     }
 
+    return ListView.builder(
+      // itemCount: listaDeCategorias.length,
+      itemCount: 10,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        // final item = listaDeCategorias[index];
+        // final String categoriaId = item['id'];
+        // final String nome = item['nome']?.toString() ?? CafeString.semNome;
+        // final isSelected = menuProvider.categoriaSelecionadaId == categoriaId;
+        return InkWell(
+          onTap: () {
+            // menuProvider.selecionarCategoria(categoriaId);
+          },
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
 
-      return ListView.builder(
-        // itemCount: listaDeCategorias.length,
-        itemCount: 10,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          // final item = listaDeCategorias[index];
-          // final String categoriaId = item['id'];
-          // final String nome = item['nome']?.toString() ?? CafeString.semNome;
-          // final isSelected = menuProvider.categoriaSelecionadaId == categoriaId;
-          return InkWell(
-            onTap: () {
-              // menuProvider.selecionarCategoria(categoriaId);
-            },
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          child: Container(
+            width: 160,
+            // decoration: BoxDecoration(
+            //   color:
+            //   isSelected ? context.theme.primary : context.theme.surfaceDim,
+            //   border: Border.all(
+            //     color:
+            //     isSelected
+            //         ? Colors.transparent
+            //         : context.theme.outlineVariant,
+            //   ),
+            //   borderRadius: BorderRadius.all(Radius.circular(10)),
+            // ),
+            margin: EdgeInsets.symmetric(horizontal: 8),
+            child: Center(
+              child: Text(
+                'nome',
+                textAlign: TextAlign.center,
 
-            child: Container(
-              width: 160,
-              // decoration: BoxDecoration(
-              //   color:
-              //   isSelected ? context.theme.primary : context.theme.surfaceDim,
-              //   border: Border.all(
-              //     color:
-              //     isSelected
-              //         ? Colors.transparent
-              //         : context.theme.outlineVariant,
-              //   ),
-              //   borderRadius: BorderRadius.all(Radius.circular(10)),
-              // ),
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              child: Center(
-                child: Text(
-                  'nome',
-                  textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
 
-                  overflow: TextOverflow.ellipsis,
-
-                  // style:
-                  // isSelected
-                  //     ? TextStyle(
-                  //   color: context.theme.onPrimary,
-                  //   fontSize: context.textTheme.titleMedium?.fontSize,
-                  //   fontWeight: context.textTheme.titleMedium?.fontWeight,
-                  // )
-                  //     : TextStyle(
-                  //   color: context.theme.onSurface,
-                  //   fontSize: context.textTheme.titleMedium?.fontSize,
-                  //   fontWeight: context.textTheme.titleMedium?.fontWeight,
-                  // ),
-                ),
+                // style:
+                // isSelected
+                //     ? TextStyle(
+                //   color: context.theme.onPrimary,
+                //   fontSize: context.textTheme.titleMedium?.fontSize,
+                //   fontWeight: context.textTheme.titleMedium?.fontWeight,
+                // )
+                //     : TextStyle(
+                //   color: context.theme.onSurface,
+                //   fontSize: context.textTheme.titleMedium?.fontSize,
+                //   fontWeight: context.textTheme.titleMedium?.fontWeight,
+                // ),
               ),
             ),
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
 
     // final List<Map<String, dynamic>> listaDeCategorias =
     //     menuProvider.categorias;
-
-
   }
 
-  Widget _cardapioGrid(state) {
+  Widget _cardapioGrid(HomeState state) {
     // final menuProvider = context.watch<HomeViewModel>();
 
-    if(state is HomeErrorState) {
-      return Center(child: Text('${CafeString.erro}: {menuProvider.errorMessage}'));
+    if (state is HomeErrorState) {
+      return Center(
+        child: Text('${CafeString.erro}: {menuProvider.errorMessage}'),
+      );
     }
 
-    if(state is HomeLoadingState) {
+    if (state is HomeLoadingState) {
       return const Center(child: CircularProgressIndicator());
-
     }
-    
 
     // if (menuProvider.errorMessage != null) {
     // return Center(child: Text('${CafeString.erro}: ${menuProvider.errorMessage}'));
@@ -182,25 +179,25 @@ class _MyHomePageState extends State<HomePage> {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: Text(' item.imagemUrl.isEmpty')
-                            // item.imagemUrl.isEmpty
-                            //     ? Hero(tag: item.id, child: const Placeholder())
-                            //     : Hero(
-                            //       tag: item.id,
-                            //       child: Material(
-                            //         color: Colors.transparent,
-                            //         child: Image.asset(
-                            //           '${item.imagemUrl}.jpg',
-                            //           fit: BoxFit.cover,
-                            //         ),
-                            //       ),
-                            //     ),
+                        child: Text(' item.imagemUrl.isEmpty'),
+                        // item.imagemUrl.isEmpty
+                        //     ? Hero(tag: item.id, child: const Placeholder())
+                        //     : Hero(
+                        //       tag: item.id,
+                        //       child: Material(
+                        //         color: Colors.transparent,
+                        //         child: Image.asset(
+                        //           '${item.imagemUrl}.jpg',
+                        //           fit: BoxFit.cover,
+                        //         ),
+                        //       ),
+                        //     ),
                       ),
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text(
-                           ' item.nome',
+                            ' item.nome',
                             textAlign: TextAlign.center,
                             style: context.textTheme.titleLarge?.copyWith(
                               color: context.theme.onSurface,
@@ -216,16 +213,18 @@ class _MyHomePageState extends State<HomePage> {
                         children: [
                           Expanded(
                             child: Text(
-                              overflow:TextOverflow.ellipsis ,
+                              overflow: TextOverflow.ellipsis,
                               'R\$ {item.preco.toStringAsFixed(2)}',
                               style: TextStyle(
                                 color: context.theme.onSurfaceVariant,
-                                fontSize: context.textTheme.titleLarge?.fontSize,
+                                fontSize:
+                                    context.textTheme.titleLarge?.fontSize,
                               ),
                             ),
                           ),
                           FloatingActionButton(
-                            heroTag: '${CafeString.fab}${Random().nextInt(9999)}',
+                            heroTag:
+                                '${CafeString.fab}${Random().nextInt(9999)}',
                             shape: BeveledRectangleBorder(),
                             tooltip: CafeString.comprar,
                             mini: true,
@@ -233,7 +232,6 @@ class _MyHomePageState extends State<HomePage> {
                             foregroundColor: context.theme.onTertiary,
                             child: Icon(Icons.add_shopping_cart_outlined),
                             onPressed: () {
-
                               // _cartRepository.addOrUpdateItemNoCarrinho(
                               //   item.id,
                               //   item.nome,
